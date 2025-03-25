@@ -1,0 +1,579 @@
+name: Payments
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/payments/promotion
+    metadata:
+      groupName: Payments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List payments'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      embed:
+        name: embed
+        description: 'Comma-separated list of the payment relationships for Eager Loading - Possible values: payable,paymentMethod,package,currency.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      valid:
+        name: valid
+        description: 'Allow getting the valid payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      active:
+        name: active
+        description: 'Allow getting the active payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      sort:
+        name: sort
+        description: 'The sorting parameter (Order by DESC with the given column. Use "-" as prefix to order by ASC). Possible values: created_at.'
+        required: false
+        example: created_at
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      perPage:
+        name: perPage
+        description: 'Items per page. Can be defined globally from the admin settings. Cannot be exceeded 100.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      embed: null
+      valid: false
+      active: false
+      sort: created_at
+      perPage: 2
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":"No payments found","result":{"data":[],"links":{"first":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion?page=1","last":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion","per_page":2,"to":null,"total":0}}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer hfe8Pk4aEZ16daV5D3vbg6c'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/payments/promotion/posts/{postId}/payments'
+    metadata:
+      groupName: Payments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List payments'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      postId:
+        name: postId
+        description: ''
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      postId: 1
+    queryParameters:
+      embed:
+        name: embed
+        description: 'Comma-separated list of the payment relationships for Eager Loading - Possible values: payable,paymentMethod,package,currency.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      valid:
+        name: valid
+        description: 'Allow getting the valid payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      active:
+        name: active
+        description: 'Allow getting the active payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      sort:
+        name: sort
+        description: 'The sorting parameter (Order by DESC with the given column. Use "-" as prefix to order by ASC). Possible values: created_at.'
+        required: false
+        example: created_at
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      perPage:
+        name: perPage
+        description: 'Items per page. Can be defined globally from the admin settings. Cannot be exceeded 100.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      embed: null
+      valid: false
+      active: false
+      sort: created_at
+      perPage: 2
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":"No payments found","result":{"data":[],"links":{"first":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion\/posts\/1\/payments?page=1","last":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion\/posts\/1\/payments?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion\/posts\/1\/payments?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/promotion\/posts\/1\/payments","per_page":2,"to":null,"total":0}}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 34PhckE8Ve1g65a6dbDvfZa'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/payments/subscription
+    metadata:
+      groupName: Payments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List payments'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      embed:
+        name: embed
+        description: 'Comma-separated list of the payment relationships for Eager Loading - Possible values: payable,paymentMethod,package,currency.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      valid:
+        name: valid
+        description: 'Allow getting the valid payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      active:
+        name: active
+        description: 'Allow getting the active payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      sort:
+        name: sort
+        description: 'The sorting parameter (Order by DESC with the given column. Use "-" as prefix to order by ASC). Possible values: created_at.'
+        required: false
+        example: created_at
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      perPage:
+        name: perPage
+        description: 'Items per page. Can be defined globally from the admin settings. Cannot be exceeded 100.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      embed: null
+      valid: false
+      active: false
+      sort: created_at
+      perPage: 2
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":"global.no_subscriptions_found","result":{"data":[],"links":{"first":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription?page=1","last":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription","per_page":2,"to":null,"total":0}}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer hZ6DbkEgdaa4Pc1fe3V56v8'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/payments/subscription/users/{userId}/payments'
+    metadata:
+      groupName: Payments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List payments'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      userId:
+        name: userId
+        description: ''
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      userId: 1
+    queryParameters:
+      embed:
+        name: embed
+        description: 'Comma-separated list of the payment relationships for Eager Loading - Possible values: payable,paymentMethod,package,currency.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      valid:
+        name: valid
+        description: 'Allow getting the valid payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      active:
+        name: active
+        description: 'Allow getting the active payment list. Possible value: 0 or 1.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      sort:
+        name: sort
+        description: 'The sorting parameter (Order by DESC with the given column. Use "-" as prefix to order by ASC). Possible values: created_at.'
+        required: false
+        example: created_at
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      perPage:
+        name: perPage
+        description: 'Items per page. Can be defined globally from the admin settings. Cannot be exceeded 100.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      embed: null
+      valid: false
+      active: false
+      sort: created_at
+      perPage: 2
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":"global.no_subscriptions_found","result":{"data":[],"links":{"first":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription\/users\/1\/payments?page=1","last":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription\/users\/1\/payments?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription\/users\/1\/payments?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\/\/jobclass.laraclassifier.local\/api\/payments\/subscription\/users\/1\/payments","per_page":2,"to":null,"total":0}}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer b568PhefcVZdk34D1vgEa6a'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/payments/{id}'
+    metadata:
+      groupName: Payments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get payment'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: "The payment's ID."
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 2
+    queryParameters:
+      embed:
+        name: embed
+        description: 'Comma-separated list of the payment relationships for Eager Loading - Possible values: payable,paymentMethod,package,currency.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      embed: null
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"id":2,"payable_id":1619,"payable_type":"App\\Models\\Post","package_id":2,"payment_method_id":1,"transaction_id":null,"amount":"99.00","currency_code":null,"period_start":"2024-06-08T00:00:00.000000Z","period_end":"2024-06-15T23:59:59.000000Z","canceled_at":null,"refunded_at":null,"active":1,"interval":7.999988425925926,"started":1,"expired":0,"status":"valid","period_start_formatted":"Jun 8th, 2024","period_end_formatted":"Jun 15th, 2024","created_at_formatted":"Jun 8th, 2024 at 10:44","status_info":"Valid","starting_info":"Started on Jun 8th, 2024","expiry_info":"Will expire on Jun 15th, 2024","css_class_variant":"success"}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer v665kZDahd4V8beg31EPcaf'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/payments
+    metadata:
+      groupName: Payments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Store payment'
+      description: 'Note: This endpoint is only available for the multi steps form edition.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      package:
+        name: package
+        description: 'Selected package ID.'
+        required: false
+        example: 15
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanQueryParameters:
+      package: 15
+    bodyParameters:
+      country_code:
+        name: country_code
+        description: "The code of the user's country."
+        required: true
+        example: US
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      payable_id:
+        name: payable_id
+        description: "The payable's ID (ID of the listing or user)."
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      payable_type:
+        name: payable_type
+        description: "The payable model's name - Possible values: Post,User."
+        required: true
+        example: Post
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      package_id:
+        name: package_id
+        description: "The package's ID (Auto filled when the query parameter 'package' is set)."
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      payment_method_id:
+        name: payment_method_id
+        description: "The payment method's ID (required when the selected package's price is > 0)."
+        required: false
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      country_code: US
+      payable_id: 2
+      payable_type: Post
+      package_id: 1
+      payment_method_id: 5
+    fileParameters: []
+    responses:
+      -
+        status: 404
+        content: '{"success":false,"message":"Listing not found","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6ZabkdVah4gcDf6ev8E35P1'
+    controller: null
+    method: null
+    route: null
+    custom: []

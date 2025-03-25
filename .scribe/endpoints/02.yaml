@@ -1,0 +1,1329 @@
+name: Users
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/genders
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List genders'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"2":{"id":2,"name":"FEMALE","label":"Female","title":"Mrs"},"1":{"id":1,"name":"MALE","label":"Male","title":"Mr."},"3":{"id":3,"name":"OTHER","label":"Other","title":"Mx."}}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/genders/{id}'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get gender'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: "The gender's ID."
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"id":1,"name":"MALE","label":"Male","title":"Mr."}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/userTypes
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List user types'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":"No user types found","result":{"1":{"id":1,"name":"EMPLOYER","label":"Employer"},"2":{"id":2,"name":"JOB_SEEKER","label":"Job seeker"}}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/userTypes/{id}'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get user type'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: "The user type's ID."
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"id":1,"name":"EMPLOYER","label":"Employer"}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/users
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List users'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 403
+        content: '{"success":false,"message":"Forbidden","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/{id}'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get user'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: "The user's ID."
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 3
+    queryParameters:
+      embed:
+        name: embed
+        description: 'Comma-separated list of the post relationships for Eager Loading - Possible values: country,userType,gender,countPostsViews,countPosts,countSavedPosts.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      embed: null
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"id":3,"name":"Company Demo","username":"democompany","updated_at":"2022-02-26T04:57:00.000000Z","original_updated_at":"2022-02-26 04:57:00","original_last_activity":null,"created_at_formatted":"Feb 26th, 2022 at 04:57","photo_url":"https:\/\/jobclass.laraclassifier.local\/storage\/app\/default\/user.png","p_is_online":false,"country_flag_url":"https:\/\/jobclass.laraclassifier.local\/images\/flags\/rectangle\/16\/us.png","country_code":"US","language_code":"en","user_type_id":1,"gender_id":1,"photo":null,"about":"Company Demo","auth_field":"email","email":"company@demosite.com","phone":"001980877677","phone_national":"001980877677","phone_country":"US","phone_hidden":0,"disable_comments":1,"create_from_ip":"68.166.218.123","latest_update_ip":null,"provider":null,"provider_id":null,"email_verified_at":"2022-08-09T13:04:34.000000Z","phone_verified_at":"2022-08-09T13:04:34.000000Z","accept_terms":1,"accept_marketing_offers":0,"dark_mode":0,"time_zone":null,"featured":0,"blocked":0,"closed":0,"last_activity":"2024-06-08T17:42:52.400398Z","phone_intl":"001980877677"}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3b18ha645DevVEcZdP6fkga'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Store user'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'The name of the user.'
+        required: true
+        example: 'John Doe'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      user_type_id:
+        name: user_type_id
+        description: 'The ID of user type.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      country_code:
+        name: country_code
+        description: "The code of the user's country."
+        required: true
+        example: US
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      auth_field:
+        name: auth_field
+        description: "The user's auth field ('email' or 'phone')."
+        required: true
+        example: email
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone:
+        name: phone
+        description: "The mobile phone number of the user (Required when 'auth_field' value is 'phone')."
+        required: false
+        example: '+17656766467'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone_country:
+        name: phone_country
+        description: "The user's phone number's country code (Required when the 'phone' field is filled)."
+        required: true
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password:
+        name: password
+        description: "The user's password."
+        required: true
+        example: js!X07$z61hLA
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      accept_terms:
+        name: accept_terms
+        description: 'Field to allow user to accept or not the website terms.'
+        required: true
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      email:
+        name: email
+        description: "The user's email address (Required when 'auth_field' value is 'email')."
+        required: false
+        example: john.doe@domain.tld
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      language_code:
+        name: language_code
+        description: "The code of the user's spoken language."
+        required: false
+        example: en
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      gender_id:
+        name: gender_id
+        description: 'The ID of gender.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      photo:
+        name: photo
+        description: 'The file of user photo.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      phone_hidden:
+        name: phone_hidden
+        description: 'Field to hide or show the user phone number in public.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      username:
+        name: username
+        description: "The user's username."
+        required: false
+        example: john_doe
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: "The confirmation of the user's password."
+        required: true
+        example: js!X07$z61hLA
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      disable_comments:
+        name: disable_comments
+        description: "Field to disable or enable comments on the user's posts."
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      create_from_ip:
+        name: create_from_ip
+        description: "The user's IP address."
+        required: true
+        example: 127.0.0.1
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      accept_marketing_offers:
+        name: accept_marketing_offers
+        description: 'Field to allow user to accept or not marketing offers sending.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      time_zone:
+        name: time_zone
+        description: "The user's time zone."
+        required: false
+        example: America/New_York
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      captcha_key:
+        name: captcha_key
+        description: 'Key generated by the CAPTCHA endpoint calling (Required when the CAPTCHA verification is enabled from the Admin panel).'
+        required: false
+        example: dolorem
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      name: 'John Doe'
+      user_type_id: 1
+      country_code: US
+      auth_field: email
+      phone: '+17656766467'
+      phone_country: null
+      password: js!X07$z61hLA
+      accept_terms: true
+      email: john.doe@domain.tld
+      language_code: en
+      gender_id: 1
+      phone_hidden: false
+      username: john_doe
+      password_confirmation: js!X07$z61hLA
+      disable_comments: true
+      create_from_ip: 127.0.0.1
+      accept_marketing_offers: false
+      time_zone: America/New_York
+      captcha_key: dolorem
+    fileParameters:
+      photo: null
+    responses:
+      -
+        status: 422
+        content: '{"success":false,"message":"\u27a4 The phone field contains an invalid number.\n\u27a4 The phone country field is required when phone is present.\n\u27a4 The company name field is required.\n\u27a4 The company description field is required.","errors":{"phone":["The phone field contains an invalid number."],"phone_country":["The phone country field is required when phone is present."],"company.name":["The company name field is required."],"company.description":["The company description field is required."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/{id}/stats'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "User's mini stats"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: "The user's ID."
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"posts":{"published":59,"pendingApproval":7,"archived":4,"visits":"828114","favourite":0},"savedSearch":5,"threads":{"all":59,"withNewMessage":59},"transactions":{"promotion":10,"subscription":-1},"companies":32,"resumes":0}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f6VceEgdkbD18v34ZaPa5h6'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/{id}/photo/delete'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Delete user's photo"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      userId:
+        name: userId
+        description: "The user's ID."
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      userId: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"success":false,"message":"Unauthorized","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer gZ3kv4PD6cab16fdVa85ehE'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/users/{id}/photo'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Update user's photo"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: multipart/form-data
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      userId:
+        name: userId
+        description: "The user's ID."
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      userId: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      photo:
+        name: photo
+        description: 'Must be an image. Must be at least 0 kilobytes. Must not be greater than 1500 kilobytes.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      latest_update_ip:
+        name: latest_update_ip
+        description: "The user's IP address."
+        required: true
+        example: 127.0.0.1
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      latest_update_ip: 127.0.0.1
+    fileParameters:
+      photo: null
+    responses:
+      -
+        status: 401
+        content: '{"success":false,"message":"Unauthorized","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer kgDfVcPavbE16Z5h84ea63d'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/users/{id}/dark-mode'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Remove the User's photo"
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"success":false,"message":"Unauthorized","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/users/{id}'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update user'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: multipart/form-data
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'The name of the user.'
+        required: true
+        example: 'John Doe'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      auth_field:
+        name: auth_field
+        description: "The user's auth field ('email' or 'phone')."
+        required: true
+        example: email
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone:
+        name: phone
+        description: "The mobile phone number of the user (Required when 'auth_field' value is 'phone')."
+        required: false
+        example: '+17656766467'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone_country:
+        name: phone_country
+        description: "The user's phone number's country code (Required when the 'phone' field is filled)."
+        required: true
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      username:
+        name: username
+        description: "The user's username."
+        required: false
+        example: john_doe
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      email:
+        name: email
+        description: "The user's email address (Required when 'auth_field' value is 'email')."
+        required: true
+        example: john.doe@domain.tld
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      country_code:
+        name: country_code
+        description: "The code of the user's country."
+        required: true
+        example: US
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      language_code:
+        name: language_code
+        description: "The code of the user's spoken language."
+        required: false
+        example: en
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      user_type_id:
+        name: user_type_id
+        description: 'The ID of user type.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      gender_id:
+        name: gender_id
+        description: 'The ID of gender.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      photo:
+        name: photo
+        description: 'The file of user photo.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      remove_photo:
+        name: remove_photo
+        description: "Enable the user photo removal ('0' or '1'). When its value is '1' the user's photo file will be removed and the 'photo' column will be empty."
+        required: false
+        example: 0
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone_hidden:
+        name: phone_hidden
+        description: 'Field to hide or show the user phone number in public.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password:
+        name: password
+        description: "The user's password."
+        required: true
+        example: js!X07$z61hLA
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: "The confirmation of the user's password."
+        required: true
+        example: js!X07$z61hLA
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      disable_comments:
+        name: disable_comments
+        description: "Field to disable or enable comments on the user's posts."
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      latest_update_ip:
+        name: latest_update_ip
+        description: "The user's IP address."
+        required: true
+        example: 127.0.0.1
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      accept_terms:
+        name: accept_terms
+        description: 'Field to allow user to accept or not the website terms.'
+        required: true
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      accept_marketing_offers:
+        name: accept_marketing_offers
+        description: 'Field to allow user to accept or not marketing offers sending.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      time_zone:
+        name: time_zone
+        description: "The user's time zone."
+        required: false
+        example: America/New_York
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      name: 'John Doe'
+      auth_field: email
+      phone: '+17656766467'
+      phone_country: null
+      username: john_doe
+      email: john.doe@domain.tld
+      country_code: US
+      language_code: en
+      user_type_id: 1
+      gender_id: 1
+      remove_photo: 0
+      phone_hidden: false
+      password: js!X07$z61hLA
+      password_confirmation: js!X07$z61hLA
+      disable_comments: true
+      latest_update_ip: 127.0.0.1
+      accept_terms: true
+      accept_marketing_offers: false
+      time_zone: America/New_York
+    fileParameters:
+      photo: null
+    responses:
+      -
+        status: 422
+        content: '{"success":false,"message":"\u27a4 The phone field contains an invalid number.\n\u27a4 The phone country field is required when phone is present.\n\u27a4 The username field must be an alphanumeric string.","errors":{"phone":["The phone field contains an invalid number."],"phone_country":["The phone country field is required when phone is present."],"username":["The username field must be an alphanumeric string."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3cPvfe6Z61kdEhg4a85DaVb'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/users/{id}'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete user'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"success":false,"message":"Unauthorized","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer Dca546gdfeh3bVPZ8kE61av'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/{id}/verify/resend/email'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Email: Re-send link'
+      description: 'Re-send email verification link to the user'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      entityId:
+        name: entityId
+        description: 'The entity/model identifier (ID).'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      entityId: null
+    queryParameters:
+      entitySlug:
+        name: entitySlug
+        description: "The slug of the entity to verify ('users' or 'posts')."
+        required: false
+        example: users
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      entitySlug: users
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":false,"message":"Your Email Address is already verified.","result":null,"extra":{"emailVerificationSent":false},"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/{id}/verify/resend/sms'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'SMS: Re-send code'
+      description: 'Re-send mobile phone verification token by SMS'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      entityId:
+        name: entityId
+        description: 'The entity/model identifier (ID).'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      entityId: null
+    queryParameters:
+      entitySlug:
+        name: entitySlug
+        description: "The slug of the entity to verify ('users' or 'posts')."
+        required: false
+        example: users
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      entitySlug: users
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":false,"message":"Your Phone Number is already verified.","result":null,"extra":{"phoneVerificationSent":false},"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/verify/{field}/{token?}'
+    metadata:
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: Verification
+      description: "Verify the user's email address or mobile phone number"
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: a25ydDlKdDRwT2wzYjAxV1hvc0hSUmQxYklTTE1pRHU=
+      X-AppType: docs
+    urlParameters:
+      field:
+        name: field
+        description: 'The field to verify.'
+        required: true
+        example: email
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      token:
+        name: token
+        description: 'The verification token.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      field: email
+      token: null
+    queryParameters:
+      entitySlug:
+        name: entitySlug
+        description: "The slug of the entity to verify ('users' or 'posts')."
+        required: false
+        example: users
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      entitySlug: users
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 400
+        content: '{"success":false,"message":"The token or code to verify is empty.","result":null,"error_code":1}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
