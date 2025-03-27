@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Providers\AppService;
 
@@ -153,48 +140,34 @@ trait ConfigTrait
 		$currentBaseUrl = request()->root();
 		
 		// Facebook
-		$facebookClientId = env('FACEBOOK_CLIENT_ID', config('settings.social_auth.facebook_client_id'));
-		$facebookClientSecret = env('FACEBOOK_CLIENT_SECRET', config('settings.social_auth.facebook_client_secret'));
-		$facebookCallbackUrl = $currentBaseUrl . '/auth/facebook/callback';
-		config()->set('services.facebook.client_id', $facebookClientId);
-		config()->set('services.facebook.client_secret', $facebookClientSecret);
-		config()->set('services.facebook.redirect', $facebookCallbackUrl);
-		
+		config()->set('services.facebook.client_id', env('FACEBOOK_CLIENT_ID', config('settings.social_auth.facebook_client_id')));
+		config()->set('services.facebook.client_secret', env('FACEBOOK_CLIENT_SECRET', config('settings.social_auth.facebook_client_secret')));
+		config()->set('services.facebook.redirect', $currentBaseUrl . '/auth/facebook/callback');
 		// LinkedIn
-		$linkedinClientId = env('LINKEDIN_CLIENT_ID', config('settings.social_auth.linkedin_client_id'));
-		$linkedinClientSecret = env('LINKEDIN_CLIENT_SECRET', config('settings.social_auth.linkedin_client_secret'));
-		$linkedinCallbackUrl = $currentBaseUrl . '/auth/linkedin/callback';
-		config()->set('services.linkedin-openid.client_id', $linkedinClientId);
-		config()->set('services.linkedin-openid.client_secret', $linkedinClientSecret);
-		config()->set('services.linkedin-openid.redirect', $linkedinCallbackUrl);
-		
+		config()->set('services.linkedin-openid.client_id', env('LINKEDIN_CLIENT_ID', config('settings.social_auth.linkedin_client_id')));
+		config()->set('services.linkedin-openid.client_secret', env('LINKEDIN_CLIENT_SECRET', config('settings.social_auth.linkedin_client_secret')));
+		config()->set('services.linkedin-openid.redirect', $currentBaseUrl . '/auth/linkedin/callback');
 		// Twitter (OAuth 2.0)
-		$twitterOauth2ClientId = env('TWITTER_OAUTH_2_CLIENT_ID', config('settings.social_auth.twitter_oauth_2_client_id'));
-		$twitterOauth2ClientSecret = env('TWITTER_OAUTH_2_CLIENT_SECRET', config('settings.social_auth.twitter_oauth_2_client_secret'));
-		$twitterOauth2CallbackUrl = $currentBaseUrl . '/auth/twitter_oauth_2/callback';
-		config()->set('services.twitter-oauth-2.client_id', $twitterOauth2ClientId);
-		config()->set('services.twitter-oauth-2.client_secret', $twitterOauth2ClientSecret);
-		config()->set('services.twitter-oauth-2.redirect', $twitterOauth2CallbackUrl);
-		
+		config()->set(
+			'services.twitter-oauth-2.client_id',
+			env('TWITTER_OAUTH_2_CLIENT_ID', config('settings.social_auth.twitter_oauth_2_client_id'))
+		);
+		config()->set(
+			'services.twitter-oauth-2.client_secret',
+			env('TWITTER_OAUTH_2_CLIENT_SECRET', config('settings.social_auth.twitter_oauth_2_client_secret'))
+		);
+		config()->set('services.twitter-oauth-2.redirect', $currentBaseUrl . '/auth/twitter_oauth_2/callback');
 		// Twitter (OAuth 1.0)
-		$twitterClientId = env('TWITTER_CLIENT_ID', config('settings.social_auth.twitter_client_id'));
-		$twitterClientSecret = env('TWITTER_CLIENT_SECRET', config('settings.social_auth.twitter_client_secret'));
-		$twitterCallbackUrl = $currentBaseUrl . '/auth/twitter/callback';
-		config()->set('services.twitter.client_id', $twitterClientId);
-		config()->set('services.twitter.client_secret', $twitterClientSecret);
-		config()->set('services.twitter.redirect', $twitterCallbackUrl);
-		
+		config()->set('services.twitter.client_id', env('TWITTER_CLIENT_ID', config('settings.social_auth.twitter_client_id')));
+		config()->set('services.twitter.client_secret', env('TWITTER_CLIENT_SECRET', config('settings.social_auth.twitter_client_secret')));
+		config()->set('services.twitter.redirect', $currentBaseUrl . '/auth/twitter/callback');
 		// Google
-		$googleClientId = env('GOOGLE_CLIENT_ID', config('settings.social_auth.google_client_id'));
-		$googleClientSecret = env('GOOGLE_CLIENT_SECRET', config('settings.social_auth.google_client_secret'));
-		$googleCallbackUrl = $currentBaseUrl . '/auth/google/callback';
-		config()->set('services.google.client_id', $googleClientId);
-		config()->set('services.google.client_secret', $googleClientSecret);
-		config()->set('services.google.redirect', $googleCallbackUrl);
+		config()->set('services.google.client_id', env('GOOGLE_CLIENT_ID', config('settings.social_auth.google_client_id')));
+		config()->set('services.google.client_secret', env('GOOGLE_CLIENT_SECRET', config('settings.social_auth.google_client_secret')));
+		config()->set('services.google.redirect', $currentBaseUrl . '/auth/google/callback');
 		
 		// Google Maps
-		$googleMapsKey = env('GOOGLE_MAPS_API_KEY', config('settings.other.googlemaps_key'));
-		config()->set('services.googlemaps.key', $googleMapsKey);
+		config()->set('services.googlemaps.key', env('GOOGLE_MAPS_API_KEY', config('settings.other.googlemaps_key')));
 		
 		// Meta-tags
 		config()->set('meta-tags.title', config('settings.app.slogan'));
@@ -203,16 +176,15 @@ trait ConfigTrait
 		config()->set('meta-tags.twitter.site', config('settings.seo.twitter_username'));
 		
 		// Cookie Consent
-		$cookieConsentEnabled = env('COOKIE_CONSENT_ENABLED', config('settings.other.cookie_consent_enabled'));
-		config()->set('cookie-consent.enabled', $cookieConsentEnabled);
+		config()->set('cookie-consent.enabled', env('COOKIE_CONSENT_ENABLED', config('settings.other.cookie_consent_enabled')));
 		
 		// Admin panel
-		$showPoweredBy = config('settings.footer.show_powered_by', '');
-		$showPoweredBy = str_contains($showPoweredBy, 'fa')
-			? (str_contains($showPoweredBy, 'fa-check-square-o') ? 1 : 0)
-			: $showPoweredBy;
-		config()->set('larapen.admin.show_powered_by', $showPoweredBy);
 		config()->set('larapen.admin.skin', config('settings.style.admin_skin'));
+		if (str_contains(config('settings.footer.show_powered_by'), 'fa')) {
+			config()->set('larapen.admin.show_powered_by', str_contains(config('settings.footer.show_powered_by'), 'fa-check-square-o') ? 1 : 0);
+		} else {
+			config()->set('larapen.admin.show_powered_by', config('settings.footer.show_powered_by'));
+		}
 		
 		// Is Guest can submit listings or contact Authors?
 		if (!is_null(env('GUEST_CAN_SUBMIT_LISTINGS'))) {

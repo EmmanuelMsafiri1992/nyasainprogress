@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 use App\Helpers\Arr;
 use App\Helpers\DBTool;
@@ -23,7 +10,6 @@ use App\Models\Package;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Permission;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
 
@@ -35,12 +21,12 @@ use Illuminate\Support\Number;
  * @param array $mergeData
  * @return \Illuminate\Contracts\View\View
  */
-function appView(string $view, array $data = [], array $mergeData = []): View
+function appView(string $view, array $data = [], array $mergeData = [])
 {
-	$customizedViewBasePath = getAsString(config('larapen.core.customizedViewPath'));
-	$customizedView = $customizedViewBasePath . $view;
-	
-	return view()->first([$customizedView, $view,], $data, $mergeData);
+	return view()->first([
+		config('larapen.core.customizedViewPath') . $view,
+		$view,
+	], $data, $mergeData);
 }
 
 /**
@@ -53,62 +39,13 @@ function appView(string $view, array $data = [], array $mergeData = []): View
  */
 function getViewContent(string $view, array $data = [], array $mergeData = []): ?string
 {
-	$customizedViewBasePath = getAsString(config('larapen.core.customizedViewPath'));
-	$customizedView = $customizedViewBasePath . $view;
-	
-	if (view()->exists($customizedView)) {
-		$view = view($customizedView, $data, $mergeData);
+	if (view()->exists(config('larapen.core.customizedViewPath') . $view)) {
+		$view = view(config('larapen.core.customizedViewPath') . $view, $data, $mergeData);
 	} else {
 		$view = view($view, $data, $mergeData);
 	}
 	
 	return $view->render();
-}
-
-/**
- * Get View Content If Exists
- *
- * @param string $view
- * @param array $data
- * @param array $mergeData
- * @return string
- */
-function getViewContentIfExists(string $view, array $data = [], array $mergeData = []): string
-{
-	if (!view()->exists($view)) return '';
-	
-	return view($view, $data, $mergeData)->render();
-}
-
-/**
- * Add options' group's JavaScript Code
- * (for settings models in the Admin Panel)
- *
- * @param string $settingNamespace
- * @param string $groupClassName
- * @param array $fields
- * @param array $data
- * @return array
- */
-function addOptionsGroupJavaScript(
-	string $settingNamespace,
-	string $groupClassName,
-	array  $fields,
-	array  $data = []
-): array
-{
-	$modelName = str($settingNamespace)->classBasename()->toString();
-	$optionsGroupKey = str($groupClassName)->classBasename()->remove($modelName)->kebab()->toString();
-	$modelJsDirName = str($modelName)->kebab()->toString();
-	$js = getViewContentIfExists('admin.js.' . $modelJsDirName . '.' . $optionsGroupKey, $data);
-	
-	return array_merge($fields, [
-		[
-			'name'  => 'javascript',
-			'type'  => 'custom_html',
-			'value' => $js,
-		],
-	]);
 }
 
 /**
@@ -1884,8 +1821,6 @@ function genPhoneNumberBtn($post, bool $btnBlock = false): string
 		return $out;
 	}
 	
-	$dataPostId = ' data-post-id="' . $post->id . '"';
-	
 	$btnLink = 'tel:' . $post->phone;
 	$btnAttr = '';
 	$btnClass = ' phoneBlock'; /* for the JS showPhone() function */
@@ -1930,8 +1865,7 @@ function genPhoneNumberBtn($post, bool $btnBlock = false): string
 	}
 	
 	// Generate the Phone Number button
-	$class = 'btn btn-success' . $btnClass;
-	$out .= '<a href="' . $btnLink . '"' . $dataPostId . ' ' . $btnAttr . ' class="' . $class . '">';
+	$out .= '<a href="' . $btnLink . '" ' . $btnAttr . ' class="btn btn-success' . $btnClass . '">';
 	$out .= '<i class="fa-solid fa-mobile-screen-button"></i> ';
 	$out .= $phone;
 	$out .= '</a>';
@@ -2280,174 +2214,19 @@ function getFilterClearBtn(?string $url): ?string
 }
 
 /**
- * @param string|null $socialNetwork
- * @param array $settings
  * @return bool
  */
-function isSocialAuthEnabled(?string $socialNetwork = null, array $settings = []): bool
+function socialLoginIsEnabled(): bool
 {
-	if (empty($settings)) {
-		$settings = config('settings.social_auth');
-		if (!is_array($settings)) return false;
-	}
-	
-	$isFacebookOauthEnabled = (
-		data_get($settings, 'facebook_enabled')
-		&& data_get($settings, 'facebook_client_id')
-		&& data_get($settings, 'facebook_client_secret')
-	);
-	
-	$isLinkedInOauthEnabled = (
-		data_get($settings, 'linkedin_enabled')
-		&& data_get($settings, 'linkedin_client_id')
-		&& data_get($settings, 'linkedin_client_secret')
-	);
-	
-	$isTwitterOauth2Enabled = (
-		data_get($settings, 'twitter_oauth_2_enabled')
-		&& data_get($settings, 'twitter_oauth_2_client_id')
-		&& data_get($settings, 'twitter_oauth_2_client_secret')
-	);
-	
-	$isTwitterOauth1Enabled = (
-		data_get($settings, 'twitter_oauth_1_enabled')
-		&& data_get($settings, 'twitter_client_id')
-		&& data_get($settings, 'twitter_client_secret')
-	);
-	
-	// Twitter API versions selection
-	$isTwitterOauth1Enabled = !($isTwitterOauth2Enabled && $isTwitterOauth1Enabled) && $isTwitterOauth1Enabled;
-	
-	$isGoogleOauthEnabled = (
-		data_get($settings, 'google_enabled')
-		&& data_get($settings, 'google_client_id')
-		&& data_get($settings, 'google_client_secret')
-	);
-	
-	$isSocialAuthEnabled = (
-		data_get($settings, 'social_auth_enabled')
+	return (
+		config('settings.social_auth.social_login_activation')
 		&& (
-			$isFacebookOauthEnabled
-			|| $isLinkedInOauthEnabled
-			|| $isTwitterOauth2Enabled
-			|| $isTwitterOauth1Enabled
-			|| $isGoogleOauthEnabled
+			(config('settings.social_auth.facebook_client_id') && config('settings.social_auth.facebook_client_secret'))
+			|| (config('settings.social_auth.linkedin_client_id') && config('settings.social_auth.linkedin_client_secret'))
+			|| (config('settings.social_auth.twitter_client_id') && config('settings.social_auth.twitter_client_secret'))
+			|| (config('settings.social_auth.google_client_id') && config('settings.social_auth.google_client_secret'))
 		)
 	);
-	
-	$socialNetworkList = [
-		'facebook'      => $isFacebookOauthEnabled,
-		'linkedin'      => $isLinkedInOauthEnabled,
-		'twitterOauth2' => $isTwitterOauth2Enabled,
-		'twitterOauth1' => $isTwitterOauth1Enabled,
-		'google'        => $isGoogleOauthEnabled,
-	];
-	
-	if (!empty($socialNetwork)) {
-		return (array_key_exists($socialNetwork, $socialNetworkList) && $socialNetworkList[$socialNetwork]);
-	}
-	
-	return $isSocialAuthEnabled;
-}
-
-/**
- * @param string|null $socialNetwork
- * @param array $settings
- * @return bool
- */
-function isOldSocialAuthEnabled(?string $socialNetwork = null, array $settings = []): bool
-{
-	if (empty($settings)) {
-		$settings = config('settings.social_auth');
-		if (!is_array($settings)) return false;
-	}
-	
-	$isFacebookOauthEnabled = (data_get($settings, 'facebook_client_id') && data_get($settings, 'facebook_client_secret'));
-	$isLinkedInOauthEnabled = (data_get($settings, 'linkedin_client_id') && data_get($settings, 'linkedin_client_secret'));
-	$isTwitterOauth2Enabled = (data_get($settings, 'twitter_oauth_2_client_id') && data_get($settings, 'twitter_oauth_2_client_secret'));
-	$isTwitterOauth1Enabled = (data_get($settings, 'twitter_client_id') && data_get($settings, 'twitter_client_secret'));
-	$isGoogleOauthEnabled = (data_get($settings, 'google_client_id') && data_get($settings, 'google_client_secret'));
-	
-	$isSocialAuthEnabled = (
-		data_get($settings, 'social_login_activation')
-		&& (
-			$isFacebookOauthEnabled
-			|| $isLinkedInOauthEnabled
-			|| $isTwitterOauth2Enabled
-			|| $isTwitterOauth1Enabled
-			|| $isGoogleOauthEnabled
-		)
-	);
-	
-	$socialNetworkList = [
-		'facebook'      => $isFacebookOauthEnabled,
-		'linkedin'      => $isLinkedInOauthEnabled,
-		'twitterOauth2' => $isTwitterOauth2Enabled,
-		'twitterOauth1' => $isTwitterOauth1Enabled,
-		'google'        => $isGoogleOauthEnabled,
-	];
-	
-	if (!empty($socialNetwork)) {
-		return (array_key_exists($socialNetwork, $socialNetworkList) && $socialNetworkList[$socialNetwork]);
-	}
-	
-	return $isSocialAuthEnabled;
-}
-
-/**
- * @param string|null $socialNetwork
- * @param array $settings
- * @return bool
- */
-function isSocialSharesEnabled(?string $socialNetwork = null, array $settings = []): bool
-{
-	if (empty($settings)) {
-		$settings = config('settings.social_share');
-		if (!is_array($settings)) return false;
-	}
-	
-	$isFacebookEnabled = (data_get($settings, 'facebook'));
-	$isTwitterEnabled = (data_get($settings, 'twitter'));
-	$isLinkedInEnabled = (data_get($settings, 'linkedin'));
-	$isWhatsappEnabled = (data_get($settings, 'whatsapp'));
-	$isTelegramEnabled = (data_get($settings, 'telegram'));
-	$isSnapchatEnabled = (data_get($settings, 'snapchat'));
-	$isMessengerEnabled = (data_get($settings, 'messenger') && data_get($settings, 'facebook_app_id'));
-	$isPinterestEnabled = (data_get($settings, 'pinterest'));
-	$isVkEnabled = (data_get($settings, 'vk'));
-	$isTumblrEnabled = (data_get($settings, 'tumblr'));
-	
-	$isSocialSharesEnabled = (
-		$isFacebookEnabled
-		|| $isTwitterEnabled
-		|| $isLinkedInEnabled
-		|| $isWhatsappEnabled
-		|| $isTelegramEnabled
-		|| $isSnapchatEnabled
-		|| $isMessengerEnabled
-		|| $isPinterestEnabled
-		|| $isVkEnabled
-		|| $isTumblrEnabled
-	);
-	
-	$socialNetworkList = [
-		'facebook'  => $isFacebookEnabled,
-		'twitter'   => $isTwitterEnabled,
-		'linkedin'  => $isLinkedInEnabled,
-		'whatsapp'  => $isWhatsappEnabled,
-		'telegram'  => $isTelegramEnabled,
-		'snapchat'  => $isSnapchatEnabled,
-		'messenger' => $isMessengerEnabled,
-		'pinterest' => $isPinterestEnabled,
-		'vk'        => $isVkEnabled,
-		'tumblr'    => $isTumblrEnabled,
-	];
-	
-	if (!empty($socialNetwork)) {
-		return (array_key_exists($socialNetwork, $socialNetworkList) && $socialNetworkList[$socialNetwork]);
-	}
-	
-	return $isSocialSharesEnabled;
 }
 
 /**

@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 /**
  * Email address prefix (local-part) mask
@@ -1107,29 +1094,16 @@ function lineCount(string $path): int
 }
 
 /**
- * Escape string for JS
- * Escape characters with slashes like in C and white spaces like \r\n, \r, \n, etc.
+ * Escape characters with slashes like in C & Remove the double white spaces
  *
- * @param string|null $string $string
- * @param string $charsToEscape
- * @param array $additionalEscapes
+ * @param string|null $string
+ * @param string $quote
  * @return string
  */
-function escapeStringForJs(?string $string, string $charsToEscape = '"', array $additionalEscapes = []): string
+function addcslashesLite(?string $string, string $quote = '"'): string
 {
-	// Use addcslashes to escape the specified characters
-	$string = addcslashes(strval($string), $charsToEscape);
-	
-	// Replace newline characters with \n
-	// $string = str_replace(["\r\n", "\r", "\n"], '\\n', $string);
+	$string = addcslashes(strval($string), $quote);
 	$string = preg_replace('/\s+/ui', ' ', $string);
-	
-	// Escape additional characters
-	if (!empty($additionalEscapes)) {
-		foreach ($additionalEscapes as $char => $escapeWith) {
-			$string = str_replace($char, $escapeWith, $string);
-		}
-	}
 	
 	return getAsString($string);
 }
@@ -1627,22 +1601,6 @@ function getAsStringOrNull($value): ?string
 function getAsString($value, ?string $default = ''): string
 {
 	return getAsStringOrNull($value) ?? strval($default);
-}
-
-/**
- * @param $value
- * @param int $default
- * @return int
- */
-function getAsInt($value, int $default = 0): int
-{
-	if (is_int($value)) return $value;
-	
-	if (is_string($value)) {
-		$value = ctype_digit($value) ? (int)$value : $value;
-	}
-	
-	return is_int($value) ? $value : $default;
 }
 
 /**

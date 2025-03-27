@@ -1,7 +1,7 @@
 {{-- Bootstrap Notifications using Prologue Alerts --}}
 {{-- PNotify: https://github.com/sciactive/pnotify --}}
 <script type="text/javascript">
-	onDocumentReady((event) => {
+	jQuery(document).ready(function ($) {
 		
 		/* Load Modules */
 		PNotify.defaultModules.set(PNotifyFontAwesome5Fix, {});
@@ -16,7 +16,7 @@
 			@foreach ($messages as $message)
 				
 				@php
-					$message = escapeStringForJs($message);
+					$message = addcslashesLite($message);
 				@endphp
 				
 				$(function () {

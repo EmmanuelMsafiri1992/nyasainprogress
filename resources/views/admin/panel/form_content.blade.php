@@ -5,7 +5,7 @@
 			<h4 class="alert-heading">{{ trans('admin.please_fix') }}</h4>
 			<ul>
 				@foreach($errors->all() as $error)
-					<li>{!! $error !!}</li>
+					<li>{{ $error }}</li>
 				@endforeach
 			</ul>
 		</div>
@@ -55,7 +55,8 @@
     @stack('crud_fields_scripts')
 
     <script>
-	    onDocumentReady((event) => {
+        jQuery('document').ready(function($){
+	
 			// Save button has multiple actions: save and exit, save and edit, save and new
 			var saveActions = $('#saveActions'),
 				crudForm = saveActions.parents('form'),
@@ -79,10 +80,10 @@
                 return true;
             });
 
-            @if($xPanel->autoFocusOnFirstField)
-                // Focus on first field
+            @if( $xPanel->autoFocusOnFirstField )
+            // Focus on first field
             @php
-                $focusField = \Illuminate\Support\Arr::first($fields, function($field) {
+                $focusField = \Illuminate\Support\Arr::first($fields, function($field){
                     return isset($field['auto_focus']) && $field['auto_focus'] == true;
                 })
             @endphp

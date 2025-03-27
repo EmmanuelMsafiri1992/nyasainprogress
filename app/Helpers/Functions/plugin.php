@@ -1,22 +1,10 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 use App\Helpers\Arr;
 use App\Models\Setting;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @param string|null $category
@@ -205,6 +193,26 @@ function plugin_exists(string $pluginFolderName, string $path = null): bool
 	}
 	
 	return File::exists($fullPath);
+}
+
+/**
+ * IMPORTANT: Do not change this part of the code to prevent any data-losing issue.
+ *
+ * @param $plugin
+ * @param string|null $purchaseCode
+ * @return mixed
+ */
+function plugin_purchase_code_data($plugin, ?string $purchaseCode)
+{
+	if (is_array($plugin)) {
+		$plugin = Arr::toObject($plugin);
+	}
+	
+	$data = [];
+	$pluginFile = storage_path('framework/plugins/' . $plugin->name);
+	file_put_contents($pluginFile, $purchaseCode);
+	
+	return $data;
 }
 
 /**

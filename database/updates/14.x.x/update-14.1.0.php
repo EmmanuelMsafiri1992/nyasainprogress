@@ -1,9 +1,12 @@
 <?php
 
 use App\Exceptions\Custom\CustomException;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use App\Helpers\DotenvEditor;
 
 // Get the current migration list
 $currentMigrationsNames = [
@@ -125,11 +128,6 @@ try {
 
 // ===| DATABASE |===
 try {
-	
-	// Drop backed enums tables if exists
-	Schema::dropIfExists('continents');
-	Schema::dropIfExists('gender');
-	Schema::dropIfExists('user_types');
 	
 	// Get the 'single' setting value
 	$singleSetting = \App\Models\Setting::where('key', 'single')->first();

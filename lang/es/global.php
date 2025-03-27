@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 return [
     'no_categories_found' => 'No se encontraron categorías',
@@ -222,6 +222,7 @@ return [
     'my_account_on' => 'My account on :appName',
     'message_has_sent_successfully_to' => 'Your message has sent successfully to :contact_name.',
     'message_has_sent_successfully_to_us' => 'Your report has sent successfully to us. Thank you!',
+    'posting_listings_is_disabled' => 'Posting jobs was disabled for this time. Please try later. Thank you.',
     'your_listing_is_created' => 'Your ad has been created.',
     'update_my_ad' => 'Update My Ad',
     'your_listing_is_updated' => 'Your ad has been updated.',
@@ -260,8 +261,7 @@ return [
     'count_views' => '{0} vista|{1} vista|[2,*] vista',
     'count_mails' => '{0} correo|{1} correo|[2,*] correos',
     'count_messages' => '{0} mensaje|{1} mensaje|[2,*] mensajes',
-    'validation_errors_title' => '¡Ups! Hubo algunos problemas con tu envío.',
-    'errors_occurred_title' => '¡Ups! Se produjeron algunos errores durante su solicitud.',
+    'oops_an_error_has_occurred' => 'Oops ! An error has occurred. Please correct the red fields in the form',
     'visits' => 'visitas',
     'Favorites' => 'Favoritos',
     'Hello' => 'Hello',
@@ -350,8 +350,8 @@ return [
     'Save' => 'Save',
     'All Ads' => 'Todos los Anuncios',
     'Sort by' => 'Ordenar por',
-    'salary_low_to_high' => 'Salario: de menor a mayor',
-    'salary_high_to_low' => 'Salario: de mayor a menor',
+    'price_low_to_high' => 'Precio: de menor a mayor',
+    'price_high_to_low' => 'Precio: de mayor a menor',
     'Relevance' => 'Pertinencia',
     'Date' => 'Fecha',
     'around_x_distance' => 'Cerca :distance :unit',
@@ -1030,23 +1030,4 @@ return [
     'enter_minimum_chars' => 'Enter at least ${threshold} characters to find cities',
     'no_results_for' => 'No results found for: ${query}',
     'unknown_error' => 'Unknown Error.',
-    'formValidation' => [
-        'formErrorMessage' => 'This form contains invalid data.',
-        'defaultErrors' => [
-            'required' => 'This field is required',
-            'validator' => 'This field is not valid',
-        ],
-        'errors' => [
-            'alphanumeric' => 'Enter an alphanumeric value',
-            'numeric' => 'Enter a positive numeric value',
-            'email' => 'Enter a valid email address',
-            'url' => 'Enter a valid URL',
-            'username' => 'Enter an alphanumeric with underscores, 3-16 characters',
-            'password' => 'Enter a strong password requirements',
-            'date' => 'Enter a valid date (YYYY-MM-DD) format',
-            'time' => 'Enter a valid time (HH 24-hour) format',
-            'cardExpiry' => 'Enter a valid card expiry',
-            'cardCvc' => 'Enter a valid card CVC',
-        ],
-    ],
 ];

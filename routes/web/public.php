@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 use App\Http\Controllers\Web\Public\Account\CloseController;
 use App\Http\Controllers\Web\Public\Account\CompanyController as AccountCompanyController;
@@ -35,7 +22,9 @@ use App\Http\Controllers\Web\Public\Auth\RegisterController;
 use App\Http\Controllers\Web\Public\Auth\ResetPasswordController;
 use App\Http\Controllers\Web\Public\Auth\SocialController;
 use App\Http\Controllers\Web\Public\CountriesController;
+use App\Http\Controllers\Web\Public\CourseController;
 use App\Http\Controllers\Web\Public\FileController;
+use App\Http\Controllers\Web\Public\InterviewTipsController;
 use App\Http\Controllers\Web\Public\HomeController;
 use App\Http\Controllers\Web\Public\Locale\LocaleController;
 use App\Http\Controllers\Web\Public\Page\ContactController;
@@ -505,3 +494,6 @@ Route::group(['namespace' => 'Search'], function ($router) {
 	Route::get(dynamicRoute('routes.searchPostsBySubCat'), [CategoryController::class, 'index']);
 	Route::get(dynamicRoute('routes.searchPostsByCat'), [CategoryController::class, 'index']);
 });
+
+Route::get('/courses', [CourseController::class, 'index'])->middleware('auth');
+Route::get('/interview-tips', [InterviewTipsController::class, 'index'])->middleware('auth');

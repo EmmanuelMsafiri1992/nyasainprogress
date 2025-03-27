@@ -73,7 +73,7 @@ try {
 			$authField = (!empty($user->phone) && empty($user->email)) ? 'phone' : 'email';
 			$phoneNational = (
 				!empty($user->phone) && !empty($user->country_code)
-				&& isPossiblePhoneNumber($user->phone, $user->country_code)
+				&& isValidPhoneNumber($user->phone, $user->country_code)
 			)
 				? phoneNational($user->phone, $user->country_code)
 				: null;
@@ -172,7 +172,7 @@ try {
 			$authField = (!empty($post->phone) && empty($post->email)) ? 'phone' : 'email';
 			$phoneNational = (
 				!empty($post->phone) && !empty($post->country_code)
-				&& isPossiblePhoneNumber($post->phone, $post->country_code)
+				&& isValidPhoneNumber($post->phone, $post->country_code)
 			)
 				? phoneNational($post->phone, $post->country_code)
 				: null;

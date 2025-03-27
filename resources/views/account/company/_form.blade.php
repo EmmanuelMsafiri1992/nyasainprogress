@@ -25,15 +25,14 @@
 		$companyNameError = (isset($errors) && $errors->has('company.name')) ? ' is-invalid' : '';
 		$companyName = data_get($postInput, 'company.name') ?? data_get($company, 'name');
 	@endphp
-	<div class="row mb-3">
+	<div class="row mb-3 required">
 		<label class="{{ $classLeftCol }} col-form-label" for="company.name">{{ t('company_name') }} <sup>*</sup></label>
 		<div class="{{ $classRightCol }}">
 			<input name="company[name]"
 				   placeholder="{{ t('company_name') }}"
 				   class="form-control input-md{{ $companyNameError }}"
 				   type="text"
-				   value="{{ old('company.name', $companyName) }}"
-			>
+				   value="{{ old('company.name', $companyName) }}">
 		</div>
 	</div>
 	
@@ -59,7 +58,7 @@
 		$companyDescriptionError = (isset($errors) && $errors->has('company.description')) ? ' is-invalid' : '';
 		$companyDescription = data_get($postInput, 'company.description') ?? data_get($company, 'description');
 	@endphp
-	<div class="row mb-3">
+	<div class="row mb-3 required">
 		<label class="{{ $classLeftCol }} col-form-label" for="company.description">{{ t('Company Description') }} <sup>*</sup></label>
 		<div class="{{ $classRightCol }}">
 			<textarea class="form-control{{ $companyDescriptionError }}"
@@ -139,9 +138,7 @@
 		@endif
 		
 		{{-- city_id --}}
-		@php
-			$companyCityIdError = (isset($errors) && $errors->has('company.city_id')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyCityIdError = (isset($errors) && $errors->has('company.city_id')) ? ' is-invalid' : ''; ?>
 		<div id="cityBox" class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label{{ $companyCityIdError }}" for="company.city_id">{{ t('city') }}</label>
 			<div class="{{ $classRightCol }}">
@@ -154,13 +151,11 @@
 		</div>
 		
 		{{-- address --}}
-		@php
-			$companyAddressError = (isset($errors) && $errors->has('company.address')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyAddressError = (isset($errors) && $errors->has('company.address')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.address">{{ t('Address') }}</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyAddressError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
 					<input name="company[address]"
 						   type="text"
@@ -173,155 +168,113 @@
 		</div>
 		
 		{{-- phone --}}
-		@php
-			$companyPhoneError = (isset($errors) && $errors->has('company.phone')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyPhoneError = (isset($errors) && $errors->has('company.phone')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.phone">{{ t('phone') }}</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyPhoneError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-solid fa-phone-flip"></i></span>
-					<input name="company[phone]"
-					       type="text"
-						   class="form-control{{ $companyPhoneError }}"
-						   placeholder=""
-						   value="{{ old('company.phone', data_get($company, 'phone')) }}"
-					>
+					<input name="company[phone]" type="text"
+						   class="form-control{{ $companyPhoneError }}" placeholder=""
+						   value="{{ old('company.phone', data_get($company, 'phone')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- fax --}}
-		@php
-			$companyFaxError = (isset($errors) && $errors->has('company.fax')) ? ' is-invalid' : '';
-		@endphp
+		<?php echo (isset($errors) && $errors->has('company.fax')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.fax">{{ t('Fax') }}</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyFaxError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-solid fa-print"></i></span>
-					<input name="company[fax]"
-					       type="text"
-						   class="form-control{{ $companyFaxError }}"
-						   placeholder=""
-						   value="{{ old('company.fax', data_get($company, 'fax')) }}"
-					>
+					<input name="company[fax]" type="text"
+						   class="form-control" placeholder=""
+						   value="{{ old('company.fax', data_get($company, 'fax')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- email --}}
-		@php
-			$companyEmailError = (isset($errors) && $errors->has('company.email')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyEmailError = (isset($errors) && $errors->has('company.email')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.email">{{ t('email') }}</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyEmailError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-					<input name="company[email]"
-					       type="text"
-					       data-valid-type="email"
-						   class="form-control{{ $companyEmailError }}"
-						   placeholder=""
-						   value="{{ old('company.email', data_get($company, 'email')) }}"
-					>
+					<input name="company[email]" type="text"
+						   class="form-control{{ $companyEmailError }}" placeholder=""
+						   value="{{ old('company.email', data_get($company, 'email')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- website --}}
-		@php
-			$companyWebsiteError = (isset($errors) && $errors->has('company.website')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyWebsiteError = (isset($errors) && $errors->has('company.website')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.website">{{ t('Website') }}</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyWebsiteError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-solid fa-globe"></i></span>
-					<input name="company[website]"
-					       type="text"
-					       data-valid-type="url"
-						   class="form-control{{ $companyWebsiteError }}"
-						   placeholder=""
-						   value="{{ old('company.website', data_get($company, 'website')) }}"
-					>
+					<input name="company[website]" type="text"
+						   class="form-control{{ $companyWebsiteError }}" placeholder=""
+						   value="{{ old('company.website', data_get($company, 'website')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- facebook --}}
-		@php
-			$companyFacebookError = (isset($errors) && $errors->has('company.facebook')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyFacebookError = (isset($errors) && $errors->has('company.facebook')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.facebook">Facebook</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyFacebookError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-brands fa-facebook"></i></span>
-					<input name="company[facebook]"
-					       type="text"
-						   class="form-control{{ $companyFacebookError }}"
-						   placeholder=""
-						   value="{{ old('company.facebook', data_get($company, 'facebook')) }}"
-					>
+					<input name="company[facebook]" type="text"
+						   class="form-control{{ $companyFacebookError }}" placeholder=""
+						   value="{{ old('company.facebook', data_get($company, 'facebook')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- twitter --}}
-		@php
-			$companyTwitterError = (isset($errors) && $errors->has('company.twitter')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyTwitterError = (isset($errors) && $errors->has('company.twitter')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.twitter">Twitter</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyTwitterError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-brands fa-x-twitter"></i></span>
-					<input name="company[twitter]"
-					       type="text"
-						   class="form-control{{ $companyTwitterError }}"
-						   placeholder=""
-						   value="{{ old('company.twitter', data_get($company, 'twitter')) }}"
-					>
+					<input name="company[twitter]" type="text"
+						   class="form-control{{ $companyTwitterError }}" placeholder=""
+						   value="{{ old('company.twitter', data_get($company, 'twitter')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- linkedin --}}
-		@php
-			$companyLinkedinError = (isset($errors) && $errors->has('company.linkedin')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyLinkedinError = (isset($errors) && $errors->has('company.linkedin')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.linkedin">Linkedin</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyLinkedinError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-brands fa-linkedin"></i></span>
-					<input name="company[linkedin]"
-					       type="text"
-						   class="form-control{{ $companyLinkedinError }}"
-						   placeholder=""
-						   value="{{ old('company.linkedin', data_get($company, 'linkedin')) }}"
-					>
+					<input name="company[linkedin]" type="text"
+						   class="form-control{{ $companyLinkedinError }}" placeholder=""
+						   value="{{ old('company.linkedin', data_get($company, 'linkedin')) }}">
 				</div>
 			</div>
 		</div>
 		
 		{{-- pinterest --}}
-		@php
-			$companyPinterestError = (isset($errors) && $errors->has('company.pinterest')) ? ' is-invalid' : '';
-		@endphp
+		<?php $companyPinterestError = (isset($errors) && $errors->has('company.pinterest')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label" for="company.pinterest">Pinterest</label>
 			<div class="{{ $classRightCol }}">
-				<div class="input-group{{ $companyPinterestError }}">
+				<div class="input-group">
 					<span class="input-group-text"><i class="fa-solid fa-bullhorn"></i></span>
-					<input name="company[pinterest]"
-					       type="text"
-						   class="form-control{{ $companyPinterestError }}"
-						   placeholder=""
-						   value="{{ old('company.pinterest', data_get($company, 'pinterest')) }}"
-					>
+					<input name="company[pinterest]" type="text"
+						   class="form-control{{ $companyPinterestError }}" placeholder=""
+						   value="{{ old('company.pinterest', data_get($company, 'pinterest')) }}">
 				</div>
 			</div>
 		</div>
@@ -346,35 +299,33 @@
 @section('after_scripts')
 	@parent
 	<script>
-		let coOptions = {};
-		coOptions.theme = '{{ $fiTheme }}';
-		coOptions.language = '{{ config('app.locale') }}';
-		coOptions.rtl = {{ (config('lang.direction') == 'rtl') ? 'true' : 'false' }};
-		coOptions.dropZoneEnabled = false;
-		coOptions.showPreview = true;
-		coOptions.previewFileType = 'image';
-		coOptions.allowedFileExtensions = {!! getUploadFileTypes('image', true) !!};
-		coOptions.showUpload = false;
-		coOptions.showRemove = false;
-		coOptions.minFileSize = {{ (int)config('settings.upload.min_image_size', 0) }};
-		coOptions.maxFileSize = {{ (int)config('settings.upload.max_image_size', 1000) }};
-		coOptions.initialPreview = [];
-		coOptions.fileActionSettings = {
+		let options = {};
+		options.theme = '{{ $fiTheme }}';
+		options.language = '{{ config('app.locale') }}';
+		options.rtl = {{ (config('lang.direction') == 'rtl') ? 'true' : 'false' }};
+		options.dropZoneEnabled = false;
+		options.showPreview = true;
+		options.previewFileType = 'image';
+		options.allowedFileExtensions = {!! getUploadFileTypes('image', true) !!};
+		options.showUpload = false;
+		options.showRemove = false;
+		options.minFileSize = {{ (int)config('settings.upload.min_image_size', 0) }};
+		options.maxFileSize = {{ (int)config('settings.upload.max_image_size', 1000) }};
+		options.initialPreview = [];
+		options.fileActionSettings = {
 			showDrag: false
 		};
-		coOptions.layoutTemplates = {
+		options.layoutTemplates = {
 			footer: '<div class="file-thumbnail-footer pt-2">{actions}</div>',
 			actionDelete: ''
 		};
 		
 		@if (!empty($companyLogo) && isset($disk) && $disk->exists($companyLogo))
-			coOptions.initialPreview[0] =  '<img src="{{ imgUrl($companyLogo, 'medium') }}" class="file-preview-image">';
+			options.initialPreview[0] =  '<img src="{{ imgUrl($companyLogo, 'medium') }}" class="file-preview-image">';
 		@endif
 		
-		onDocumentReady((event) => {
-			{{-- fileinput --}}
-			$('#logo').fileinput(coOptions);
-		});
+		{{-- fileinput --}}
+		$('#logo').fileinput(options);
 	</script>
 	@if (!empty($company))
 		@php

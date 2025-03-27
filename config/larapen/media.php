@@ -1,35 +1,21 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 return [
 	
 	// MEDIA PATH
 	// Default Logos
-	'logo-factory' => '/images/logo.png',
-	'logo'         => 'app/default/logo.png',
-	'logo-dark'    => 'app/default/logo-dark.png',
-	'logo-light'   => 'app/default/logo-light.png',
+	'logo'           => 'app/default/logo.png',
+	'logo-dark'      => 'app/default/logo-dark.png',
+	'logo-light'     => 'app/default/logo-light.png',
 	
 	// Default Icons
-	'favicon'      => 'app/default/ico/favicon.png',
+	'favicon'        => 'app/default/ico/favicon.png',
 	
 	// Default Pictures
-	'picture'      => 'app/default/picture.jpg',
-	'avatar'       => 'app/default/user.png',
-	'company-logo' => 'app/default/picture.jpg',
+	'picture'        => 'app/default/picture.jpg',
+	'avatar'         => 'app/default/user.png',
+	'company-logo'   => 'app/default/picture.jpg',
 	
 	// MEDIA RESIZE
 	/*
@@ -42,15 +28,15 @@ return [
 	 * - bg-header, bg-body,
 	 * - avatar, company-logo,
 	 */
-	'resize'       => [
-		'methods'      => [
+	'resize'         => [
+		'methods'   => [
 			'resize',
 			'fit',
 			'resizeCanvas',
 		],
-		'positions'    => ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'],
-		'namedOptions' => [
-			'default'      => [
+		'positions' => ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'],
+		'namedOptions'     => [
+			'default'        => [
 				'method'   => 'resize',
 				'width'    => 1500,
 				'height'   => 1500,
@@ -62,7 +48,7 @@ return [
 			],
 			
 			// logo
-			'logo'         => [
+			'logo'           => [
 				'method'   => 'resize',
 				'width'    => 485, // 216|485,
 				'height'   => 90,  // 40|90,
@@ -72,7 +58,7 @@ return [
 				'relative' => false,
 				'bgColor'  => 'rgba(0, 0, 0, 0)',
 			],
-			'logo-max'     => [ // Used in CSS styles
+			'logo-max'       => [ // Used in CSS styles
 				'method'   => 'resize',
 				'width'    => 430,
 				'height'   => 80,
@@ -84,7 +70,7 @@ return [
 			],
 			
 			// icon
-			'favicon'      => [
+			'favicon'   => [
 				'method'   => 'resize',
 				'width'    => 32,
 				'height'   => 32,
@@ -96,7 +82,7 @@ return [
 			],
 			
 			// asset
-			'cat'          => [
+			'cat'            => [
 				'method'   => 'resize',
 				'width'    => 70,
 				'height'   => 70,
@@ -106,7 +92,7 @@ return [
 				'relative' => false,
 				'bgColor'  => 'rgba(0, 0, 0, 0)',
 			],
-			'bg-header'    => [
+			'bg-header'      => [
 				'method'   => 'resize',
 				'width'    => 2000,
 				'height'   => 1000,
@@ -116,7 +102,7 @@ return [
 				'relative' => false,
 				'bgColor'  => 'ffffff',
 			],
-			'bg-body'      => [
+			'bg-body'        => [
 				'method'   => 'resize',
 				'width'    => 2500,
 				'height'   => 2500,
@@ -128,7 +114,7 @@ return [
 			],
 			
 			// picture
-			'picture-sm'   => [
+			'picture-sm'     => [
 				'label'    => 'small', // Local key or label
 				'method'   => 'resizeCanvas',
 				'width'    => 120,
@@ -139,7 +125,7 @@ return [
 				'relative' => false,
 				'bgColor'  => 'ffffff',
 			],
-			'picture-md'   => [
+			'picture-md'     => [
 				'label'    => 'medium',
 				'method'   => 'fit',
 				'width'    => 320,
@@ -150,7 +136,7 @@ return [
 				'relative' => false,
 				'bgColor'  => 'ffffff',
 			],
-			'picture-lg'   => [
+			'picture-lg'     => [
 				'label'    => 'large',
 				'method'   => 'resize',
 				'width'    => 816,
@@ -163,7 +149,7 @@ return [
 			],
 			
 			// avatar
-			'avatar'       => [
+			'avatar'         => [
 				'method'   => 'resize',
 				'width'    => 800,
 				'height'   => 800,
@@ -175,7 +161,7 @@ return [
 			],
 			
 			// company
-			'company-logo' => [
+			'company-logo'   => [
 				'method'   => 'resize',
 				'width'    => 800,
 				'height'   => 800,

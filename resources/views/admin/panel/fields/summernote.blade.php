@@ -1,11 +1,6 @@
 {{-- summernote editor --}}
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder">
-        {!! $field['label'] !!}
-        @if (isset($field['required']) && $field['required'])
-            <span class="text-danger">*</span>
-        @endif
-    </label>
+    <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
     <textarea
         name="{{ $field['name'] }}"
@@ -57,7 +52,7 @@
             <script src="{{ url('assets/plugins/summernote/lang/summernote-' . $editorLocale . '.js') }}" type="text/javascript"></script>
         @endif
         <script>
-            onDocumentReady((event) => {
+            jQuery(document).ready(function($) {
                 $('.summernote').summernote({
                     lang: '{{ $editorLocale }}',
                     tabsize: 2,

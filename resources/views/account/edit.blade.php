@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @php
@@ -43,7 +30,7 @@
 					@if (isset($errors) && $errors->any())
 						<div class="alert alert-danger alert-dismissible">
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ t('Close') }}"></button>
-							<h5><strong>{{ t('validation_errors_title') }}</strong></h5>
+							<h5><strong>{{ t('oops_an_error_has_occurred') }}</strong></h5>
 							<ul class="list list-check">
 								@foreach ($errors->all() as $error)
 									<li>{!! $error !!}</li>
@@ -303,7 +290,7 @@
 												<div class="row mb-3 required">
 													<label class="col-md-3 col-form-label{{ $usernameError }}" for="username">{{ t('Username') }}</label>
 													<div class="col-md-9 col-lg-8 col-xl-6">
-														<div class="input-group{{ $usernameError }}">
+														<div class="input-group">
 															<span class="input-group-text"><i class="fa-regular fa-user"></i></span>
 															<input id="username" name="username"
 															       type="text"
@@ -365,11 +352,10 @@
 														@endif
 													</label>
 													<div class="col-md-9 col-lg-8 col-xl-6">
-														<div class="input-group{{ $emailError }}">
+														<div class="input-group">
 															<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
 															<input id="email" name="email"
 															       type="email"
-															       data-valid-type="email"
 															       class="form-control{{ $emailError }}"
 															       placeholder="{{ t('email_address') }}"
 															       value="{{ old('email', $authUser->email) }}"
@@ -393,7 +379,7 @@
 														@endif
 													</label>
 													<div class="col-md-9 col-lg-8 col-xl-6">
-														<div class="input-group{{ $phoneError }}">
+														<div class="input-group">
 															<input id="phone" name="phone"
 															       type="tel"
 															       class="form-control{{ $phoneError }}"
@@ -741,73 +727,71 @@
 		};
 		
 		@if (!empty($authUser->photo) && !empty($authUser->photo_url))
-			@php
-				try {
-					$fileSize = (isset($disk) && $disk->exists($authUser->photo)) ? (int)$disk->size($authUser->photo) : 0;
-				} catch (\Throwable $e) {
-					$fileSize = 0;
-				}
-			@endphp
+				@php
+					try {
+						$fileSize = (isset($disk) && $disk->exists($authUser->photo)) ? (int)$disk->size($authUser->photo) : 0;
+					} catch (\Throwable $e) {
+						$fileSize = 0;
+					}
+				@endphp
 			options.initialPreview[0] = '{{ $authUser->photo_url }}';
-			options.initialPreviewConfig[0] = {};
-			options.initialPreviewConfig[0].key = {{ (int)$authUser->id }};
-			options.initialPreviewConfig[0].caption = '{{ basename($authUser->photo) }}';
-			options.initialPreviewConfig[0].size = {{ $fileSize }};
-			options.initialPreviewConfig[0].url = '{{ url('account/photo/delete') }}';
-			options.initialPreviewConfig[0].extra = options.uploadExtraData;
+		options.initialPreviewConfig[0] = {};
+		options.initialPreviewConfig[0].key = {{ (int)$authUser->id }};
+		options.initialPreviewConfig[0].caption = '{{ basename($authUser->photo) }}';
+		options.initialPreviewConfig[0].size = {{ $fileSize }};
+		options.initialPreviewConfig[0].url = '{{ url('account/photo/delete') }}';
+		options.initialPreviewConfig[0].extra = options.uploadExtraData;
 		@endif
 		
-		onDocumentReady((event) => {
-			{{-- fileinput --}}
-			let photoFieldEl = $('#photoField');
-			photoFieldEl.fileinput(options);
-			
-			/* Auto-upload added file */
-			photoFieldEl.on('filebatchselected', function (event, files) {
-				$(this).fileinput('upload');
-			});
-			
-			/* Show the upload status message */
-			photoFieldEl.on('filebatchpreupload', function (event, data) {
-				$('#avatarUploadSuccess').html('<ul></ul>').hide();
-			});
-			
-			/* Show the success upload message */
-			photoFieldEl.on('filebatchuploadsuccess', function (event, data) {
-				/* Show uploads success messages */
-				let out = '';
-				$.each(data.files, function (key, file) {
-					if (typeof file !== 'undefined') {
-						let fname = file.name;
-						out = out + {!! t('fileinput_file_uploaded_successfully') !!};
-					}
-				});
-				let avatarUploadSuccessEl = $('#avatarUploadSuccess');
-				avatarUploadSuccessEl.find('ul').append(out);
-				avatarUploadSuccessEl.fadeIn('slow');
-				
-				$('#userImg').attr({'src': $('.photo-field .kv-file-content .file-preview-image').attr('src')});
-			});
-			
-			/* Delete picture */
-			photoFieldEl.on('filepredelete', function (event, key, jqXHR, data) {
-				let abort = true;
-				if (confirm("{{ t('Are you sure you want to delete this picture') }}")) {
-					abort = false;
+		{{-- fileinput --}}
+		let photoFieldEl = $('#photoField');
+		photoFieldEl.fileinput(options);
+		
+		/* Auto-upload added file */
+		photoFieldEl.on('filebatchselected', function (event, files) {
+			$(this).fileinput('upload');
+		});
+		
+		/* Show the upload status message */
+		photoFieldEl.on('filebatchpreupload', function (event, data) {
+			$('#avatarUploadSuccess').html('<ul></ul>').hide();
+		});
+		
+		/* Show the success upload message */
+		photoFieldEl.on('filebatchuploadsuccess', function (event, data) {
+			/* Show uploads success messages */
+			let out = '';
+			$.each(data.files, function (key, file) {
+				if (typeof file !== 'undefined') {
+					let fname = file.name;
+					out = out + {!! t('fileinput_file_uploaded_successfully') !!};
 				}
-				
-				return abort;
 			});
+			let avatarUploadSuccessEl = $('#avatarUploadSuccess');
+			avatarUploadSuccessEl.find('ul').append(out);
+			avatarUploadSuccessEl.fadeIn('slow');
 			
-			photoFieldEl.on('filedeleted', function (event, key, jqXHR, data) {
-				$('#userImg').attr({'src': defaultAvatarUrl});
-				
-				let out = "{{ t('Your photo or avatar has been deleted') }}";
-				let avatarUploadSuccessEl = $('#avatarUploadSuccess');
-				avatarUploadSuccessEl.html('<ul><li></li></ul>').hide();
-				avatarUploadSuccessEl.find('ul li').append(out);
-				avatarUploadSuccessEl.fadeIn('slow');
-			});
+			$('#userImg').attr({'src': $('.photo-field .kv-file-content .file-preview-image').attr('src')});
+		});
+		
+		/* Delete picture */
+		photoFieldEl.on('filepredelete', function (event, key, jqXHR, data) {
+			let abort = true;
+			if (confirm("{{ t('Are you sure you want to delete this picture') }}")) {
+				abort = false;
+			}
+			
+			return abort;
+		});
+		
+		photoFieldEl.on('filedeleted', function (event, key, jqXHR, data) {
+			$('#userImg').attr({'src': defaultAvatarUrl});
+			
+			let out = "{{ t('Your photo or avatar has been deleted') }}";
+			let avatarUploadSuccessEl = $('#avatarUploadSuccess');
+			avatarUploadSuccessEl.html('<ul><li></li></ul>').hide();
+			avatarUploadSuccessEl.find('ul li').append(out);
+			avatarUploadSuccessEl.fadeIn('slow');
 		});
 	</script>
 @endsection

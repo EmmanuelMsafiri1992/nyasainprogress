@@ -140,7 +140,7 @@ return [
 	'captcha'               => 'The :attribute field is not correct.',
 	'recaptcha'             => 'The :attribute field is not correct.',
 	'phone'                 => 'The :attribute field contains an invalid number.',
-	'phone_number'          => 'The phone number is not valid.',
+	'phone_number'          => 'Your phone number is not valid.',
 	
 	
 	// Custom Rules
@@ -167,10 +167,6 @@ return [
 	'sluggable_rule'                     => 'The :attribute field contains invalid characters only.',
 	'uniqueness_of_post_rule'            => 'You\'ve already posted this ad. It cannot be duplicated.',
 	'uniqueness_of_unverified_post_rule' => 'You\'ve already posted this ad. Please check your email address or SMS to follow the instructions for validation.',
-	'purchase_code_rule'                 => 'The :attribute field is not valid.',
-	'no_spaces_rule'                     => 'The :attribute must not contain any spaces.',
-	'alphabetic_plus_rule' => 'The :attribute field may only contain letters and the following additional characters: :additionalChars',
-	'alphabetic_only_rule' => 'The :attribute field may only contain letters.',
 	
 	
 	/*
@@ -186,14 +182,20 @@ return [
 	
 	'custom' => [
 		
+		'database_connection'      => [
+			'required' => 'Can\'t connect to MySQL server',
+		],
+		'database_not_empty'       => [
+			'required' => 'The database is not empty. Please empty the database or specify <a href="./database">another database</a>.',
+		],
 		'promo_code_not_valid'     => [
 			'required' => 'The promo code is not valid',
 		],
 		'smtp_valid'               => [
-			'required' => 'Can not connect to SMTP server',
+			'required' => 'Can\'t connect to SMTP server',
 		],
 		'yaml_parse_error'         => [
-			'required' => 'Can not parse yaml. Please check the syntax',
+			'required' => 'Can\'t parse yaml. Please check the syntax',
 		],
 		'file_not_found'           => [
 			'required' => 'File not found.',
@@ -202,13 +204,22 @@ return [
 			'required' => 'The file is not a zip package.',
 		],
 		'zip_archive_unvalid'      => [
-			'required' => 'Can not read the package.',
+			'required' => 'Cannot read the package.',
 		],
 		'custom_criteria_empty'    => [
 			'required' => 'Custom criteria cannot be empty',
 		],
 		'php_bin_path_invalid'     => [
 			'required' => 'Invalid PHP executable. Please check again.',
+		],
+		'can_not_empty_database'   => [
+			'required' => 'Cannot DROP certain tables. Please cleanup your database manually and try again.',
+		],
+		'can_not_create_database_tables'   => [
+			'required' => 'Cannot create certain tables. Please make sure you have full privileges on the database and try again.',
+		],
+		'can_not_import_database_data'   => [
+			'required' => 'Cannot import all the app required data. Please try again.',
 		],
 		'recaptcha_invalid'        => [
 			'required' => 'Invalid reCAPTCHA check.',
@@ -218,9 +229,6 @@ return [
 		],
 		'listings_limit' => [
 			'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Listing Form → Listings Limit per User".',
-		],
-		'pictures_limit' => [
-			'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Listing Form → Pictures Limit per Listing".',
 		],
 		'expiration_time' => [
 			'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Cron → Activated Listings Expiration".',

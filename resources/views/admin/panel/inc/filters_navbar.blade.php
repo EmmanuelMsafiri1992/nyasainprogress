@@ -108,7 +108,7 @@
 		}
 		
 		// button to remove all filters
-		onDocumentReady((event) => {
+		jQuery(document).ready(function ($) {
 			$("#remove_filters_button").click(function (e) {
 				e.preventDefault();
 				

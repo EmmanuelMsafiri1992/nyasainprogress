@@ -134,7 +134,7 @@
     <script src="{{ url('assets/plugins/nestedSortable/jquery.mjs.nestedSortable2.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
-        onDocumentReady((event) => {
+        jQuery(document).ready(function($) {
 
             // initialize the nested sortable plugin
             $('.sortable').nestedSortable({

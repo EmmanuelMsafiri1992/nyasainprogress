@@ -187,30 +187,19 @@
 			loginToSaveSearch: "{!! t('Please log in to save your search') !!}"
 		};
 		
-		onDocumentReady((event) => {
+		$(document).ready(function ()
+		{
 			/* Get Post ID */
-			const emailJobEls = document.querySelectorAll('.email-job');
-			emailJobEls.forEach((element) => {
-				element.addEventListener('click', (e) => {
-					const hiddenPostIdEl = document.querySelector('input[type=hidden][name=post_id]');
-					if (hiddenPostIdEl) {
-						let clickedEl = (e.target.tagName.toLowerCase() === 'i')
-							? e.target.parentElement
-							: e.target;
-						
-						hiddenPostIdEl.value = clickedEl.dataset.id;
-					}
-				});
+			$('.email-job').click(function(){
+				let postId = $(this).attr("data-id");
+				$('input[type=hidden][name=post_id]').val(postId);
 			});
 			
 			@if (isset($errors) && $errors->any())
 				@if (old('sendByEmailForm')=='1')
 					{{-- Re-open the modal if error occured --}}
-					const sendByEmailEl = document.getElementById('sendByEmail');
-					if (sendByEmailEl) {
-						let sendByEmail = new bootstrap.Modal(sendByEmailEl, {});
-						sendByEmail.show();
-					}
+					let sendByEmail = new bootstrap.Modal(document.getElementById('sendByEmail'), {});
+					sendByEmail.show();
 				@endif
 			@endif
 		})

@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models;
 
@@ -168,7 +155,9 @@ class HomeSection extends BaseModel
 				
 				// Handle 'field' field value
 				// Get the right Setting
-				$settingClass = $this->getSettingClass();
+				$settingClassName = str($this->method)->camel()->ucfirst();
+				$settingNamespace = '\App\Models\HomeSection\\';
+				$settingClass = $settingNamespace . $settingClassName;
 				if (class_exists($settingClass)) {
 					if (method_exists($settingClass, 'getFields')) {
 						$value = $settingClass::getFields($diskName);
@@ -189,7 +178,9 @@ class HomeSection extends BaseModel
 				
 				// Handle 'value' field value
 				// Get the right Setting
-				$settingClass = $this->getSettingClass();
+				$settingClassName = str($this->method)->camel()->ucfirst();
+				$settingNamespace = '\App\Models\HomeSection\\';
+				$settingClass = $settingNamespace . $settingClassName;
 				if (class_exists($settingClass)) {
 					if (method_exists($settingClass, 'getValues')) {
 						$value = $settingClass::getValues($value);
@@ -203,7 +194,9 @@ class HomeSection extends BaseModel
 				
 				// Handle 'value' field value
 				// Get the right Setting
-				$settingClass = $this->getSettingClass();
+				$settingClassName = str($this->method)->camel()->ucfirst();
+				$settingNamespace = '\App\Models\HomeSection\\';
+				$settingClass = $settingNamespace . $settingClassName;
 				if (class_exists($settingClass)) {
 					if (method_exists($settingClass, 'setValues')) {
 						$value = $settingClass::setValues($value, $this);
@@ -223,21 +216,4 @@ class HomeSection extends BaseModel
 	| OTHER PRIVATE METHODS
 	|--------------------------------------------------------------------------
 	*/
-	/**
-	 * Get the right Setting class
-	 *
-	 * @return string
-	 */
-	private function getSettingClass(): string
-	{
-		$classKey = $this->method ?? '';
-		
-		// Get class name
-		$className = str($classKey)->camel()->ucfirst();
-		
-		// Get class full qualified name (i.e. with namespace)
-		$namespace = '\App\Models\HomeSection\\';
-		
-		return $className->prepend($namespace)->toString();
-	}
 }

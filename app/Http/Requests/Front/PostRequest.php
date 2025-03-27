@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Requests\Front;
 
@@ -186,8 +173,8 @@ class PostRequest extends Request
 		
 		$rules = [];
 		
-		$rules['category_id'] = ['required', 'not_in:0', 'exists:categories,id'];
-		$rules['post_type_id'] = ['required', 'not_in:0', 'exists:post_types,id'];
+		$rules['category_id'] = ['required', 'not_in:0'];
+		$rules['post_type_id'] = ['required', 'not_in:0'];
 		$rules['title'] = [
 			'required',
 			new BetweenRule(
@@ -210,14 +197,14 @@ class PostRequest extends Request
 			new MbAlphanumericRule(),
 			new BlacklistWordRule(),
 		];
-		$rules['salary_type_id'] = ['required', 'not_in:0', 'exists:salary_types,id'];
+		$rules['salary_type_id'] = ['required', 'not_in:0'];
 		$rules['salary_min'] = ['required_with:salary_max'];
 		$rules['salary_max'] = ['required_with:salary_min', 'gte:salary_min'];
 		$rules['contact_name'] = ['required', new BetweenRule(2, 200)];
 		$rules['auth_field'] = ['required', Rule::in($authFields)];
 		$rules['phone'] = ['max:30'];
 		$rules['phone_country'] = ['required_with:phone'];
-		$rules['city_id'] = ['required', 'not_in:0', 'exists:cities,id'];
+		$rules['city_id'] = ['required', 'not_in:0'];
 		
 		if (!auth($guard)->check()) {
 			$rules['accept_terms'] = ['accepted'];
@@ -270,11 +257,7 @@ class PostRequest extends Request
 		if (config('settings.listing_form.city_selection') == 'select') {
 			$adminType = config('country.admin_type', 0);
 			if (in_array($adminType, ['1', '2'])) {
-				$cityId = $this->integer('city_id');
-				$isCityIdFilled = (!empty($cityId) && $cityId > 0);
-				if (!$isCityIdFilled) {
-					$rules['admin_code'] = ['required', 'not_in:0'];
-				}
+				$rules['admin_code'] = ['required', 'not_in:0'];
 			}
 		}
 		
@@ -310,7 +293,7 @@ class PostRequest extends Request
 				];
 			}
 		} else {
-			$rules['company_id'] = ['required', 'not_in:0', 'exists:companies,id'];
+			$rules['company_id'] = ['required', 'not_in:0'];
 		}
 		
 		// Application URL

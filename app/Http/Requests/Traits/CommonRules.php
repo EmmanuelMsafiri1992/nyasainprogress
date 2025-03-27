@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Requests\Traits;
 
@@ -20,7 +7,7 @@ use App\Rules\BlacklistDomainRule;
 use App\Rules\BlacklistEmailRule;
 use App\Rules\BlacklistPhoneRule;
 use App\Rules\EmailRule;
-use App\Rules\PhoneRule;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 trait CommonRules
@@ -77,7 +64,13 @@ trait CommonRules
 	{
 		if ($this->filled($field)) {
 			$rules[$field][] = new BlacklistPhoneRule();
-			$rules[$field][] = new PhoneRule(getPhoneCountry());
+			
+			$smsSendingIsRequired = (config('settings.sms.phone_verification') == 1);
+			
+			$phoneCountry = getPhoneCountry();
+			$rules[$field][] = $smsSendingIsRequired
+				? Rule::phone()->country([$phoneCountry])->type('mobile')
+				: Rule::phone()->country([$phoneCountry]);
 		}
 		
 		return $rules;

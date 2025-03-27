@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Public\Account\Traits;
 
@@ -32,24 +19,19 @@ trait MessagesTrait
 			return;
 		}
 		
-		$guard = isFromApi() ? 'sanctum' : null;
-		$authUser = auth($guard)->check() ? auth($guard)->user() : null;
-		$authUserId = !empty($authUser) ? $authUser->getAuthIdentifier() : 0;
-		
 		$countLimit = 20;
 		$countThreadsWithNewMessages = 0;
 		$oldValue = request()->input('oldValue');
 		$languageCode = request()->input('languageCode');
 		
-		if (!empty($authUserId)) {
-			$countThreadsWithNewMessages = Thread::query()
-				->whereHas('post', fn ($query) => $query->inCountry()->unarchived())
-				->forUserWithNewMessages($authUserId)
-				->count();
+		if (auth()->check()) {
+			$countThreadsWithNewMessages = Thread::whereHas('post', function ($query) {
+				$query->inCountry()->unarchived();
+			})->forUserWithNewMessages(auth()->id())->count();
 		}
 		
 		$result = [
-			'logged'                      => $authUserId,
+			'logged'                      => auth()->check() ? auth()->user()->getAuthIdentifier() : 0,
 			'countLimit'                  => (int)$countLimit,
 			'countThreadsWithNewMessages' => (int)$countThreadsWithNewMessages,
 			'oldValue'                    => (int)$oldValue,

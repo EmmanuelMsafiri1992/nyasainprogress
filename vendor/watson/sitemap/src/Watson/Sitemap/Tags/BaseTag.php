@@ -1,8 +1,10 @@
-<?php namespace Watson\Sitemap\Tags;
+<?php
+
+namespace Watson\Sitemap\Tags;
 
 use DateTime;
 use ArrayAccess;
-use Watson\Sitemap\Tags\ImageTag;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Sitemap\Tags\Video\VideoTag;
 
@@ -18,21 +20,21 @@ abstract class BaseTag implements ArrayAccess
     /**
      * The last modified timestamp.
      *
-     * @var \DateTime
+     * @var \DateTimeInterface|null
      */
     protected $lastModified;
 
     /**
      * Image tags belonging to this tag.
      *
-     * @var array
+     * @var ImageTag[]
      */
     protected $images = [];
 
     /**
      * Videos tags belonging to this tag.
      *
-     * @var array
+     * @var VideoTag[]
      */
     protected $videos = [];
 
@@ -50,7 +52,7 @@ abstract class BaseTag implements ArrayAccess
      * Construct the tag.
      *
      * @param  string  $location
-     * @param  \DateTime|string  $lastModified
+     * @param  \DateTimeInterface|string|null  $lastModified
      * @return void
      */
     public function __construct($location, $lastModified = null)
@@ -86,7 +88,7 @@ abstract class BaseTag implements ArrayAccess
     /**
      * Get the last modified timestamp.
      *
-     * @return \DateTime
+     * @return \DateTimeInterface|null
      */
     public function getLastModified()
     {
@@ -96,12 +98,12 @@ abstract class BaseTag implements ArrayAccess
     /**
      * Set the last modified timestamp.
      *
-     * @param  \DateTime|string  $lastModified
+     * @param  \DateTimeInterface|\Illuminate\Database\Eloquent\Model|string  $lastModified
      * @return void
      */
     public function setLastModified($lastModified)
     {
-        if ($lastModified instanceof DateTime) {
+        if ($lastModified instanceof DateTimeInterface) {
             $this->lastModified = $lastModified;
             return;
         } elseif ($lastModified instanceof Model) {
@@ -115,11 +117,11 @@ abstract class BaseTag implements ArrayAccess
     /**
      * Add an image tag to the tag.
      *
-     * @param  string  $location
-     * @param  string  $caption
-     * @param  string  $geo_location
-     * @param  string  $title
-     * @param  string  $license
+     * @param  string|ImageTag  $location
+     * @param  string|null  $caption
+     * @param  string|null  $geoLocation
+     * @param  string|null  $title
+     * @param  string|null  $license
      * @return void
      */
     public function addImage($location, $caption = null, $geoLocation = null, $title = null, $license = null)
@@ -132,10 +134,10 @@ abstract class BaseTag implements ArrayAccess
     /**
      * Add a video tag to the tag.
      *
-     * @param  string  $location
-     * @param  string  $title
-     * @param  string  $description
-     * @param  string  $thumbnailLocation
+     * @param  string|VideoTag  $location
+     * @param  string|null  $title
+     * @param  string|null  $description
+     * @param  string|null  $thumbnailLocation
      * @return void
      */
     public function addVideo($location, $title = null, $description = null, $thumbnailLocation = null)
@@ -226,7 +228,7 @@ abstract class BaseTag implements ArrayAccess
         return null;
     }
 
-    protected function getXmlTagAttribute($tag)
+    protected function getXmlTagAttribute($offset)
     {
         if (array_key_exists($offset, $this->xmlTags)) {
             return $this->xmlTags[$offset];

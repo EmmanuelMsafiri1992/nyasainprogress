@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Install\Traits\Install;
 
@@ -423,25 +410,6 @@ trait CheckerTrait
 				'success'           => $rMessage,
 			],
 		];
-		
-		// Check and load Watermark plugin
-		if (plugin_exists('watermark')) {
-			$watermarkPath = plugin_path('watermark');
-			$permissions[] = [
-				'type'              => 'permission',
-				'name'              => $watermarkPath,
-				'required'          => false,
-				'isOk'              => (
-					file_exists($watermarkPath)
-					&& is_dir($watermarkPath)
-					&& is_writable($watermarkPath)
-					&& getPerms($watermarkPath) >= 755
-				),
-				'permanentChecking' => false,
-				'warning'           => $warning,
-				'success'           => $message,
-			];
-		}
 		
 		return $permissions;
 	}

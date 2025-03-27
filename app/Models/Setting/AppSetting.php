@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -230,10 +217,9 @@ class AppSetting
 	
 	public static function getFields($diskName)
 	{
-		$fields = [];
+		$dateFormatHint = (config('settings.app.php_specific_date_format')) ? 'php_date_format_hint' : 'iso_date_format_hint';
 		
-		// App's Info
-		$fields = array_merge($fields, [
+		$fields = [
 			[
 				'name'  => 'separator_1',
 				'type'  => 'custom_html',
@@ -263,10 +249,6 @@ class AppSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// App's Logo
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'dark_mode',
 				'label'             => trans('admin.dark_mode_label'),
@@ -307,7 +289,7 @@ class AppSetting
 				'default'           => config('larapen.media.logo-dark'),
 				'hint'              => trans('admin.logo_dark_hint'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 dark-mode-field',
+					'class' => 'col-md-6',
 				],
 			],
 			[
@@ -319,14 +301,11 @@ class AppSetting
 				'default'           => config('larapen.media.logo-light'),
 				'hint'              => trans('admin.logo_light_hint'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 dark-mode-field',
+					'class' => 'col-md-6',
 				],
 				'newline'           => true,
 			],
-		]);
-		
-		// App's Contact Info
-		$fields = array_merge($fields, [
+			
 			[
 				'name'              => 'email',
 				'label'             => trans('admin.Email'),
@@ -344,28 +323,7 @@ class AppSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// Date Parameters
-		$phpDateFormat = config('larapen.core.dateFormat.php');
-		$phpDatetimeFormat = config('larapen.core.datetimeFormat.php');
-		$phpDateFormatHint = trans('admin.php_date_format_hint', ['year' => date('Y')]);
-		
-		$isoDateFormat = config('larapen.core.dateFormat.default');
-		$isoDatetimeFormat = config('larapen.core.datetimeFormat.default');
-		$isoDateFormatHint = trans('admin.iso_date_format_hint', ['year' => date('Y')]);
-		
-		if (config('settings.app.php_specific_date_format')) {
-			$dateFormat = $phpDateFormat;
-			$datetimeFormat = $phpDatetimeFormat;
-			$dateFormatHint = $phpDateFormatHint;
-		} else {
-			$dateFormat = $isoDateFormat;
-			$datetimeFormat = $isoDatetimeFormat;
-			$dateFormatHint = $isoDateFormatHint;
-		}
-		
-		$fields = array_merge($fields, [
+			
 			[
 				'name'  => 'dates_sep',
 				'type'  => 'custom_html',
@@ -389,8 +347,9 @@ class AppSetting
 				'name'              => 'date_format',
 				'label'             => trans('admin.date_format_label'),
 				'type'              => 'text',
-				'default'           => $dateFormat,
-				'hint'              => $dateFormatHint . ' ' . trans('admin.app_date_format_hint_help'),
+				'default'           => config('larapen.core.dateFormat.default'),
+				'hint'              => trans('admin.' . $dateFormatHint, ['year' => date('Y')])
+					. ' ' . trans('admin.app_date_format_hint_help'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
@@ -399,8 +358,9 @@ class AppSetting
 				'name'              => 'datetime_format',
 				'label'             => trans('admin.datetime_format_label'),
 				'type'              => 'text',
-				'default'           => $datetimeFormat,
-				'hint'              => $dateFormatHint . ' ' . trans('admin.app_date_format_hint_help'),
+				'default'           => config('larapen.core.datetimeFormat.default'),
+				'hint'              => trans('admin.' . $dateFormatHint, ['year' => date('Y')])
+					. ' ' . trans('admin.app_date_format_hint_help'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
@@ -442,10 +402,7 @@ class AppSetting
 					'class' => 'col-md-6 mt-4',
 				],
 			],
-		]);
-		
-		// Admin Panel Dashboard
-		$fields = array_merge($fields, [
+			
 			[
 				'name'  => 'backend_title_separator',
 				'type'  => 'custom_html',
@@ -491,9 +448,8 @@ class AppSetting
 				'type'              => 'select2_from_array',
 				'options'           => collect(generateNumberRange(2, 10, 1))->mapWithKeys(fn ($i) => [$i => $i])->toArray(),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 countries-charts-field',
+					'class' => 'col-md-6',
 				],
-				'newline'           => true,
 			],
 			[
 				'name'              => 'latest_entries_limit',
@@ -512,16 +468,9 @@ class AppSetting
 					'class' => 'col-md-6 mt-4',
 				],
 			],
-		]);
+		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields, [
-			'phpDateFormatHint' => $phpDateFormatHint,
-			'phpDateFormat'     => $phpDateFormat,
-			'phpDatetimeFormat' => $phpDatetimeFormat,
-			'isoDateFormatHint' => $isoDateFormatHint,
-			'isoDateFormat'     => $isoDateFormat,
-			'isoDatetimeFormat' => $isoDatetimeFormat,
-		]);
+		return $fields;
 	}
 	
 	/**

@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Api\Post\Update;
 
@@ -58,7 +45,7 @@ trait MultiStepsForm
 		// Get the Post's City
 		$city = City::find($request->input('city_id', 0));
 		if (empty($city)) {
-			return apiResponse()->error(t('city_not_found'));
+			return apiResponse()->error(t('posting_listings_is_disabled'));
 		}
 		
 		// Get or Create a Company

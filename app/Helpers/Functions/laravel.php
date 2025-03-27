@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 use App\Helpers\Arr;
 use App\Helpers\Cookie;
@@ -28,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ViewErrorBag;
 use Prologue\Alerts\Facades\Alert;
 
 /**
@@ -518,6 +504,156 @@ function vTime(): string
 	}
 	
 	return $timeStamp;
+}
+
+/**
+ * @param string|null $phone
+ * @param string|null $provider
+ * @return string|null
+ */
+function setPhoneSign(?string $phone, ?string $provider = null): ?string
+{
+	if ($provider == 'vonage') {
+		// Vonage doesn't support the sign '+'
+		if (str_starts_with($phone, '+')) {
+			$phone = str($phone)->replaceStart('+', '')->toString();
+		}
+	}
+	
+	if ($provider == 'twilio') {
+		// Twilio requires the sign '+'
+		if (!str_starts_with($phone, '+')) {
+			$phone = '+' . $phone;
+		}
+	}
+	
+	if (!in_array($provider, ['vonage', 'twilio'])) {
+		if (!str_starts_with($phone, '+')) {
+			$phone = '+' . $phone;
+		}
+	}
+	
+	return ($phone == '+') ? '' : $phone;
+}
+
+/**
+ * Get phone's normal format (i.e. With numbers only)
+ *
+ * Example:
+ * - BE: 012/34.56.78 => 012345678
+ * - DE: +49 15510 686794 => 004915510686794
+ *
+ * @param string|null $phone
+ * @return string
+ */
+function normalizePhoneNumber(?string $phone): string
+{
+	if (str_starts_with($phone, '+')) {
+		$phone = str($phone)->replaceStart('+', '00')->toString();
+	}
+	
+	$phone = preg_replace('/\D+/', '', strval($phone));
+	
+	return getAsString($phone);
+}
+
+/**
+ * Check if a phone number is valid (for a given country)
+ *
+ * @param string|null $phone
+ * @param string|null $countryCode
+ * @param string|null $type
+ * @return bool
+ */
+function isValidPhoneNumber(?string $phone, ?string $countryCode = null, ?string $type = null): bool
+{
+	if (empty($phone) || empty($countryCode)) {
+		return false;
+	}
+	
+	$phone = normalizePhoneNumber($phone);
+	
+	try {
+		$validator = phone($phone, $countryCode);
+		$isValid = $validator->isOfCountry($countryCode);
+		if (!empty($type)) {
+			$isValid = $validator->isOfType($type);
+		}
+	} catch (\Throwable $e) {
+		$isValid = false;
+	}
+	
+	return $isValid;
+}
+
+/**
+ * Get Phone's National Format
+ *
+ * Example: BE: 012/34.56.78 => 012 34 56 78
+ *
+ * @param string|null $phone
+ * @param string|null $countryCode
+ * @return string|null
+ */
+function phoneNational(?string $phone, ?string $countryCode = null): ?string
+{
+	$phone = normalizePhoneNumber($phone);
+	
+	try {
+		$phone = phone($phone, $countryCode)->formatNational();
+	} catch (\Throwable $e) {
+		// Keep the default value
+	}
+	
+	return $phone;
+}
+
+/**
+ * Get Phone's E164 Format
+ *
+ * https://en.wikipedia.org/wiki/E.164
+ * https://www.twilio.com/docs/glossary/what-e164
+ *
+ * Example: BE: 012 34 56 78 => +3212345678
+ *
+ * @param string|null $phone
+ * @param string|null $countryCode
+ * @return string|null
+ */
+function phoneE164(?string $phone, ?string $countryCode = null): ?string
+{
+	$phone = normalizePhoneNumber($phone);
+	
+	try {
+		$phone = phone($phone, $countryCode)->formatE164();
+	} catch (\Throwable $e) {
+		// Keep the default value
+	}
+	
+	return $phone;
+}
+
+/**
+ * Get Phone's International Format
+ * Don't need to be saved in database
+ *
+ * Example: BE: 012 34 56 78 => +32 12 34 56 78
+ *
+ * @param string|null $phone
+ * @param string|null $countryCode
+ * @return string|null
+ */
+function phoneIntl(?string $phone, ?string $countryCode = null): ?string
+{
+	$phone = normalizePhoneNumber($phone);
+	
+	try {
+		$phone = phone($phone, $countryCode)->formatInternational();
+	} catch (\Throwable $e) {
+		// Keep the default value
+	}
+	
+	return $phone;
 }
 
 /**
@@ -1030,68 +1166,28 @@ function parseHttpRequestError($exceptionOrResponse): string
 }
 
 /**
- * @return array
- */
-function getHttpStatusCodes(): array
-{
-	$statusTexts = \Illuminate\Http\Response::$statusTexts;
-	$statusTexts[419] = getHttp419ExceptionMessage();
-	
-	return $statusTexts;
-}
-
-/**
- * @param $status
- * @return bool
- */
-function isValidHttpStatus(&$status): bool
-{
-	$requestedStatus = $status;
-	
-	if (empty($requestedStatus)) return false;
-	
-	$requestedStatus = getAsInt($requestedStatus);
-	$isValid = array_key_exists($requestedStatus, getHttpStatusCodes());
-	
-	if ($isValid) {
-		$status = $requestedStatus;
-	}
-	
-	return $isValid;
-}
-
-/**
- * @param $status
+ * Deprecated
+ *
+ * @param $response
  * @return string
  */
-function getHttpStatusMessage($status): string
+function getCurlHttpError($response): string
 {
-	$default = 'Unknown status text';
-	
-	if (!isValidHttpStatus($status)) {
-		return $default;
-	}
-	
-	$message = getHttpStatusCodes()[$status];
-	
-	return getAsString($message, $default);
+	return parseHttpRequestError($response);
 }
 
-/**
- * @param \Illuminate\Http\Request|null $request
- * @return string
- */
-function getHttp419ExceptionMessage(?Request $request = null): string
+function isValidHttpStatus($code): bool
 {
-	if (is_null($request)) {
-		$request = request();
-	}
+	$code = is_numeric($code) ? $code : 500;
 	
-	$message = (isFromApi($request) || isFromAjax($request))
-		? t('page_expired_reload_needed')
-		: t('page_expired');
+	return array_key_exists($code, \Illuminate\Http\Response::$statusTexts);
+}
+
+function getHttpErrorMessage($code)
+{
+	$code = is_numeric($code) ? $code : 500;
 	
-	return getAsString($message);
+	return \Illuminate\Http\Response::$statusTexts[$code] ?? 'Internal Server Error';
 }
 
 /**
@@ -1377,14 +1473,4 @@ function isMacroable($class): bool
 	}
 	
 	return ($isMacroable || $macroableCanBeBypassed);
-}
-
-/**
- * Get empty Laravel view errors collection
- *
- * @return \Illuminate\Support\ViewErrorBag
- */
-function getEmptyViewErrors(): ViewErrorBag
-{
-	return new ViewErrorBag;
 }

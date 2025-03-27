@@ -18,9 +18,7 @@
 	@if ($originForm != 'message')
 		@if (!empty($resume))
 			{{-- name --}}
-			@php
-				$resumeNameError = (isset($errors) && $errors->has('resume.name')) ? ' is-invalid' : '';
-			@endphp
+			<?php $resumeNameError = (isset($errors) && $errors->has('resume.name')) ? ' is-invalid' : ''; ?>
 			<div class="row mb-3">
 				<label class="{{ $classLeftCol }} col-form-label" for="resume.name">{{ t('Name') }}</label>
 				<div class="{{ $classRightCol }}">
@@ -35,9 +33,7 @@
 		@endif
 		
 		{{-- filename --}}
-		@php
-			$resumeFilenameError = (isset($errors) && $errors->has('resume.filename')) ? ' is-invalid' : '';
-		@endphp
+		<?php $resumeFilenameError = (isset($errors) && $errors->has('resume.filename')) ? ' is-invalid' : ''; ?>
 		<div class="row mb-3">
 			<label class="{{ $classLeftCol }} col-form-label{{ $resumeFilenameError }}" for="resume.filename"> {{ t('your_resume') }} </label>
 			<div class="{{ $classRightCol }}">
@@ -58,9 +54,7 @@
 		</div>
 	@else
 		{{-- filename --}}
-		@php
-			$resumeFilenameError = (isset($errors) && $errors->has('resume.filename')) ? ' is-invalid' : '';
-		@endphp
+		<?php $resumeFilenameError = (isset($errors) && $errors->has('resume.filename')) ? ' is-invalid' : ''; ?>
 		<div class="form-group required" {!! (config('lang.direction')=='rtl') ? 'dir="rtl"' : '' !!}>
 			<label for="resume.filename" class="col-form-label{{ $resumeFilenameError }}">{{ t('Resume File') }} </label>
 			<input id="resumeFilename" name="resume[filename]" type="file" class="file{{ $resumeFilenameError }}">
@@ -91,20 +85,18 @@
 @section('after_scripts')
 	@parent
 	<script>
-		let cvOptions = {};
-		cvOptions.theme = '{{ $fiTheme }}';
-		cvOptions.language = '{{ config('app.locale') }}';
-		cvOptions.rtl = {{ (config('lang.direction') == 'rtl') ? 'true' : 'false' }};
-		cvOptions.allowedFileExtensions = {!! getUploadFileTypes('file', true) !!};
-		cvOptions.minFileSize = {{ (int)config('settings.upload.min_file_size', 0) }};
-		cvOptions.maxFileSize = {{ (int)config('settings.upload.max_file_size', 1000) }};
-		cvOptions.showPreview = false;
-		cvOptions.showUpload = false;
-		cvOptions.showRemove = false;
+		let options = {};
+		options.theme = '{{ $fiTheme }}';
+		options.language = '{{ config('app.locale') }}';
+		options.rtl = {{ (config('lang.direction') == 'rtl') ? 'true' : 'false' }};
+		options.allowedFileExtensions = {!! getUploadFileTypes('file', true) !!};
+		options.minFileSize = {{ (int)config('settings.upload.min_file_size', 0) }};
+		options.maxFileSize = {{ (int)config('settings.upload.max_file_size', 1000) }};
+		options.showPreview = false;
+		options.showUpload = false;
+		options.showRemove = false;
 		
-		onDocumentReady((event) => {
-			{{-- fileinput (resume) --}}
-			$('#resumeFilename').fileinput(cvOptions);
-		});
+		{{-- fileinput (resume) --}}
+		$('#resumeFilename').fileinput(options);
 	</script>
 @endsection

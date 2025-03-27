@@ -8,7 +8,7 @@
 						&copy; {{ date('Y') }} <a href="{{ url('/') }}">{{ strtolower(getDomain()) }}</a>
 					</div>
 				</div>
-
+			
 			</div>
 		</div>
 	</div>

@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @section('content')
@@ -39,9 +26,7 @@
 							<fieldset>
 								<div class="row">
 									{{-- report_type_id --}}
-									@php
-										$reportTypeIdError = (isset($errors) && $errors->has('report_type_id')) ? ' is-invalid' : '';
-									@endphp
+									<?php $reportTypeIdError = (isset($errors) && $errors->has('report_type_id')) ? ' is-invalid' : ''; ?>
 									<div class="col-md-6 col-12 mb-3 required">
 										<label for="report_type_id" class="control-label{{ $reportTypeIdError }}">
 											{{ t('Reason') }} <sup>*</sup>
@@ -62,16 +47,13 @@
 									@if (auth()->check() && isset(auth()->user()->email))
 										<input type="hidden" name="email" value="{{ auth()->user()->email }}">
 									@else
-										@php
-											$emailError = (isset($errors) && $errors->has('email')) ? ' is-invalid' : '';
-										@endphp
+										<?php $emailError = (isset($errors) && $errors->has('email')) ? ' is-invalid' : ''; ?>
 										<div class="col-md-6 col-12 mb-3 required">
 											<label for="email" class="control-label">{{ t('Your Email') }} <sup>*</sup></label>
-											<div class="input-group{{ $emailError }}">
+											<div class="input-group">
 												<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
 												<input id="email"
 												       name="email"
-												       data-valid-type="email"
 												       type="text"
 												       maxlength="60"
 												       class="form-control{{ $emailError }}"
@@ -80,11 +62,9 @@
 											</div>
 										</div>
 									@endif
-									
+								
 									{{-- message --}}
-									@php
-										$messageError = (isset($errors) && $errors->has('message')) ? ' is-invalid' : '';
-									@endphp
+									<?php $messageError = (isset($errors) && $errors->has('message')) ? ' is-invalid' : ''; ?>
 									<div class="col-md-12 col-12 mb-3 required">
 										<label for="message" class="control-label">
 											{{ t('Message') }} <sup>*</sup> <span class="text-count"></span>
@@ -118,9 +98,5 @@
 @endsection
 
 @section('after_scripts')
-	<script>
-		onDocumentReady((event) => {
-			formValidate("form", formValidateOptions);
-		});
-	</script>
+	<script src="{{ url('assets/js/form-validation.js') }}"></script>
 @endsection

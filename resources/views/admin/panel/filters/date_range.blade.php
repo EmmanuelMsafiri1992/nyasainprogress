@@ -97,7 +97,7 @@
 			}
 		}
 		
-		onDocumentReady((event) => {
+		jQuery(document).ready(function ($) {
 			var dateRangeInput = $('#daterangepicker-{{ $filterSlug }}').daterangepicker({
 					timePicker: false,
 					ranges: {

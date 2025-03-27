@@ -602,39 +602,11 @@
 	.skin .select2-container--default .select2-selection--multiple {
 		border-color: #ddd;
 	}
-	.skin div:not(.input-group) > .form-control:focus,
+	.skin .form-control:focus,
 	.skin .select2-container--default.select2-container--focus .select2-selection--multiple {
 		border-color: {{ $primaryBgColor }};
 		box-shadow: 0 1px 0 {{ $primaryBgColor }}, 0 -1px 0 {{ $primaryBgColor }}, -1px 0 0 {{ $primaryBgColor }}, 1px 0 0 {{ $primaryBgColor }};
 		outline: 0 none;
-	}
-	.skin .input-group:focus-within {
-		border: 1px solid {{ $primaryBgColor }};
-		box-shadow: 0 1px 0 {{ $primaryBgColor }}, 0 -1px 0 {{ $primaryBgColor }}, -1px 0 0 {{ $primaryBgColor }}, 1px 0 0 {{ $primaryBgColor }};
-		outline: 0 none;
-	}
-	
-	.skin div:not(.input-group) > .form-control.is-invalid,
-	.skin div:not(.input-group) > .form-control.was-validated,
-	.skin .select2-container--default.is-invalid .select2-selection--multiple.is-invalid {
-		border-color: #dc3545;
-	}
-	
-	.skin div:not(.input-group) > .form-control.is-invalid:focus,
-	.skin div:not(.input-group) > .form-control.was-validated:focus,
-	.skin .select2-container--default.is-invalid.select2-container--focus {
-		border-color: #dc3545;
-		box-shadow: 0 1px 0 #dc3545, 0 -1px 0 #dc3545, -1px 0 0 #dc3545, 1px 0 0 #dc3545;
-	}
-	
-	.skin .input-group.is-invalid,
-	.skin .input-group.was-validated {
-		border: 1px solid #dc3545;
-		border-radius: 6px;
-	}
-	.skin .input-group.is-invalid:focus-within,
-	.skin .input-group.was-validated:focus-within {
-		box-shadow: 0 1px 0 #dc3545, 0 -1px 0 #dc3545, -1px 0 0 #dc3545, 1px 0 0 #dc3545;
 	}
 	
 	.skin .logo,

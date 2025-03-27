@@ -13,6 +13,7 @@ use const PHP_EOL;
 use function assert;
 use function extension_loaded;
 use function sprintf;
+use function xdebug_is_debugger_active;
 use AssertionError;
 use PHPUnit\Event\Facade;
 use PHPUnit\Metadata\Api\CodeCoverage as CodeCoverageMetadataApi;
@@ -213,7 +214,7 @@ final class TestRunner
             Facade::emitter()->testConsideredRisky(
                 $test->valueObjectForEvents(),
                 sprintf(
-                    'This test printed output: %s',
+                    'Test code or tested code printed unexpected output: %s',
                     $test->output(),
                 ),
             );
@@ -228,8 +229,8 @@ final class TestRunner
     }
 
     /**
-     * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
+     * @param class-string     $className
+     * @param non-empty-string $methodName
      */
     private function hasCoverageMetadata(string $className, string $methodName): bool
     {

@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @section('content')
@@ -105,12 +92,10 @@
 											</div>
 										@endif
 									</div>
-									<div class="input-group{{ $emailError }}">
+									<div class="input-group">
 										<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-										<input id="email"
-										       name="email"
+										<input id="email" name="email"
 											   type="text"
-											   data-valid-type="email"
 											   placeholder="{{ t('email_address') }}"
 											   class="form-control{{ $emailError }}"
 											   value="{{ old('email') }}"
@@ -134,8 +119,7 @@
 												<a href="" class="auth-field" data-auth-field="email">{{ t('use_email') }}</a>
 											</div>
 										</div>
-										<input id="phone"
-										       name="phone"
+										<input id="phone" name="phone"
 											   type="tel"
 											   class="form-control{{ $phoneError }}"
 											   value="{{ phoneE164(old('phone'), old('phone_country', $phoneCountryValue)) }}"
@@ -154,7 +138,7 @@
 								
 								{{-- Submit --}}
 								<div class="form-group">
-									<button type="submit" id="pwdBtn" class="btn btn-primary btn-lg btn-block">{{ t('submit') }}</button>
+									<button id="pwdBtn" type="submit" class="btn btn-primary btn-lg btn-block">{{ t('submit') }}</button>
 								</div>
 							</form>
 						</div>
@@ -177,9 +161,11 @@
 
 @section('after_scripts')
 	<script>
-		onDocumentReady((event) => {
-			{{-- Validate & Submit Form --}}
-			formValidate('#pwdForm', formValidateOptions);
+		$(document).ready(function () {
+			$("#pwdBtn").click(function () {
+				$("#pwdForm").submit();
+				return false;
+			});
 		});
 	</script>
 @endsection

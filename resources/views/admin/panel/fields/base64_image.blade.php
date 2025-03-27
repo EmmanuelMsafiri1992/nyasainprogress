@@ -1,11 +1,6 @@
   <div class="mb-3 col-md-12 image" data-preview="#{{ $field['name'] }}" data-aspectRatio="{{ isset($field['aspect_ratio']) ? $field['aspect_ratio'] : 0 }}" data-crop="{{ isset($field['crop']) ? $field['crop'] : false }}" @include('admin.panel.inc.field_wrapper_attributes')>
     <div>
-        <label class="form-label fw-bolder">
-            {!! $field['label'] !!}
-            @if (isset($field['required']) && $field['required'])
-                <span class="text-danger">*</span>
-            @endif
-        </label>
+        <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
         @include('admin.panel.fields.inc.translatable_icon')
     </div>
     {{-- Wrap the image or canvas element with a block element (container) --}}
@@ -107,7 +102,7 @@
         {{-- YOUR JS HERE --}}
         <script src="{{ asset('assets/plugins/cropper/dist/cropper.min.js') }}"></script>
         <script>
-            onDocumentReady((event) => {
+            jQuery(document).ready(function($) {
                 // Loop through all instances of the image field
                 $('.input-group.image').each(function(index){
                     // Find DOM elements under this input-group element

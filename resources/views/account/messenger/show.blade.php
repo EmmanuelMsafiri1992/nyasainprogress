@@ -1,23 +1,7 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @php
-    $authUser = auth()->check() ? auth()->user() : null;
-	$authUserId = !empty($authUser) ? $authUser->getAuthIdentifier() : 0;
-	
     $fiTheme = config('larapen.core.fileinput.theme', 'bs5');
 @endphp
 
@@ -68,7 +52,7 @@
                                                 <a href="{{ url('account/messages') }}">
                                                     <i class="fa-solid fa-inbox"></i>
                                                 </a>&nbsp;
-                                                @if ($authUser != data_get($thread, 'p_creator.id'))
+                                                @if (auth()->id() != data_get($thread, 'p_creator.id'))
                                                     <a href="#user">
                                                         @if (isUserOnline(data_get($thread, 'p_creator')))
                                                             <i class="fa-solid fa-circle color-success"></i>&nbsp;
@@ -248,10 +232,8 @@
             main2: '{browse}',
             btnBrowse: '<div tabindex="500" class="{css}"{status}>{icon}</div>',
         };
-
-        onDocumentReady((event) => {
-            {{-- fileinput (filename) --}}
-            $('#addFile').fileinput(options);
-        });
+        
+        {{-- fileinput (filename) --}}
+        $('#addFile').fileinput(options);
     </script>
 @endsection

@@ -1,6 +1,6 @@
 {
     "name": "paypal",
-    "version": "2.1.2",
+    "version": "2.1.0",
     "display_name": "PayPal",
     "description": "Payment with PayPal",
     "author": "Bedigit",

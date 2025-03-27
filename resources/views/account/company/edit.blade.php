@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @php
@@ -34,7 +21,7 @@
 					
 					@if (isset($errors) && $errors->any())
 						<div class="alert alert-danger">
-							<h5><strong>{{ t('validation_errors_title') }}</strong></h5>
+							<h5><strong>{{ t('oops_an_error_has_occurred') }}</strong></h5>
 							<ul class="list list-check">
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -56,9 +43,7 @@
 							{{-- COMPANY --}}
 							<div class="card card-default">
 								<div class="card-header">
-									<h4 class="card-title">
-										<a href="#companyPanel" data-bs-toggle="collapse" data-parent="#accordion"> {{ t('Company Information') }} </a>
-									</h4>
+									<h4 class="card-title"><a href="#companyPanel" data-bs-toggle="collapse" data-parent="#accordion"> {{ t('Company Information') }} </a></h4>
 								</div>
 								<div class="panel-collapse collapse show" id="companyPanel">
 									<div class="card-body">

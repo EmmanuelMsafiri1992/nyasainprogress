@@ -6,7 +6,7 @@
 	 * @param isFullyLoaded
 	 */
 	if (!window.onDocumentReady) {
-		function onDocumentReady(callback, isFullyLoaded = true) {
+		function onDocumentReady(callback, isFullyLoaded = false) {
 			switch (document.readyState) {
 				case "loading":
 					/* The document is still loading, attach the event listener */

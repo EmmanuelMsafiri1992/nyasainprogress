@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @section('content')
@@ -74,12 +61,10 @@
 											</div>
 										@endif
 									</div>
-									<div class="input-group{{ $emailError }}">
+									<div class="input-group">
 										<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-										<input id="email"
-										       name="email"
+										<input id="email" name="email"
 											   type="text"
-											   data-valid-type="email"
 											   class="form-control{{ $emailError }}"
 											   value="{{ old('email', data_get($passwordReset, 'email')) }}"
 											   placeholder="{{ t('email_address') }}"
@@ -103,8 +88,7 @@
 												<a href="" class="auth-field" data-auth-field="email">{{ t('use_email') }}</a>
 											</div>
 										</div>
-										<input id="phone"
-										       name="phone"
+										<input id="phone" name="phone"
 											   type="tel"
 											   class="form-control{{ $phoneError }}"
 											   value="{{ $phoneValueOld }}"
@@ -117,24 +101,15 @@
 								<input name="auth_field" type="hidden" value="{{ old('auth_field', getAuthField()) }}">
 								
 								{{-- password --}}
-								@php
-									$passwordError = (isset($errors) and $errors->has('password')) ? ' is-invalid' : '';
-								@endphp
-								<div class="mb-3 required">
+								<?php $passwordError = (isset($errors) and $errors->has('password')) ? ' is-invalid' : ''; ?>
+								<div class="mb-3">
 									<label class="control-label" for="password">{{ t('password') }}:</label>
-									<input type="password"
-									       name="password"
-									       placeholder=""
-									       class="form-control email{{ $passwordError }}"
-									       autocomplete="new-password"
-									>
+									<input type="password" name="password" placeholder="" class="form-control email{{ $passwordError }}" autocomplete="new-password">
 								</div>
 								
 								{{-- password_confirmation --}}
-								@php
-									$passwordError = (isset($errors) and $errors->has('password')) ? ' is-invalid' : '';
-								@endphp
-								<div class="mb-3 required">
+								<?php $passwordError = (isset($errors) and $errors->has('password')) ? ' is-invalid' : ''; ?>
+								<div class="mb-3">
 									<label class="col-form-label" for="password_confirmation">{{ t('Password Confirmation') }}:</label>
 									<input type="password" name="password_confirmation" placeholder="" class="form-control email{{ $passwordError }}">
 								</div>
@@ -168,9 +143,15 @@
 	<script>
 		phoneCountry = '{{ old('phone_country', ($phoneCountryValue ?? '')) }}';
 		
-		onDocumentReady((event) => {
-			{{-- Validate & Submit Form --}}
-			formValidate('#pwdForm', formValidateOptions);
+		$(document).ready(function () {
+			
+			$(document).on('click', '#pwdBtn', function (e) {
+				e.preventDefault();
+				$("#pwdForm").submit();
+				
+				return false;
+			});
+			
 		});
 	</script>
 @endsection

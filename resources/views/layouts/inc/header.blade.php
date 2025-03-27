@@ -25,9 +25,8 @@
 	$countryFlag32Url = config('country.flag32_url');
 	
 	// Logo
-	$logoFactoryUrl = config('larapen.media.logo-factory');
-	$logoDarkUrl = config('settings.app.logo_dark_url', $logoFactoryUrl);
-	$logoLightUrl = config('settings.app.logo_light_url', $logoFactoryUrl);
+	$logoDarkUrl = config('settings.app.logo_dark_url');
+	$logoLightUrl = config('settings.app.logo_light_url');
 	$logoAlt = strtolower(config('settings.app.name'));
 	$logoWidth = (int)config('settings.upload.img_resize_logo_width', 454);
 	$logoHeight = (int)config('settings.upload.img_resize_logo_height', 80);
@@ -55,7 +54,7 @@
 						 data-bs-placement="bottom"
 						 data-bs-toggle="tooltip"
 						 title="{!! $logoLabel !!}"
-						 style="max-width: {{ $logoWidth }}px; max-height: {{ $logoHeight }}px; width:auto;"
+						 style="max-width: {{ $logoWidth }}px; max-height: {{ $logoHeight }}px"
 					/>
 					<img src="{{ $logoLightUrl }}"
 					     alt="{{ $logoAlt }}"
@@ -63,7 +62,7 @@
 					     data-bs-placement="bottom"
 					     data-bs-toggle="tooltip"
 					     title="{!! $logoLabel !!}"
-					     style="max-width: {{ $logoWidth }}px; max-height: {{ $logoHeight }}px; width:auto;"
+					     style="max-width: {{ $logoWidth }}px; max-height: {{ $logoHeight }}px"
 					/>
 				</a>
 				{{-- Toggle Nav (Mobile) --}}
@@ -95,7 +94,11 @@
 					@endif
 				@endif
 			</div>
-			
+			{{-- Courses and Interview Tips Buttons --}}
+			<div class="navbar-nav ms-auto">
+			<a href="{{ url('/courses') }}" class="btn btn-primary me-2">Courses</a>
+			<a href="{{ url('/interview-tips') }}" class="btn btn-primary me-2">Interview Tips</a>
+			</div>
 			<div class="navbar-collapse collapse" id="navbarsDefault">
 				<ul class="nav navbar-nav me-md-auto navbar-left">
 					{{-- Country Flag --}}
@@ -236,6 +239,7 @@
 				
 				</ul>
 			</div>
+
 		</div>
 	</nav>
 </div>

@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -62,9 +49,7 @@ class SeoSetting
 	
 	public static function getFields($diskName)
 	{
-		$fields = [];
-		
-		$fields = array_merge($fields, [
+		$fields = [
 			[
 				'name'  => 'verification_tools_sep',
 				'type'  => 'custom_html',
@@ -105,18 +90,16 @@ class SeoSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'  => 'robots_txt_sep',
 				'type'  => 'custom_html',
 				'value' => trans('admin.robots_txt_sep_value'),
 			],
 			[
-				'name'  => 'robots_txt_info',
-				'type'  => 'custom_html',
-				'value' => trans('admin.robots_txt_info_value', ['domain' => url('/')]),
+				'name'         => 'robots_txt_info',
+				'type'         => 'custom_html',
+				'value'        => trans('admin.robots_txt_info_value', ['domain' => url('/')]),
+				'disableTrans' => true,
 			],
 			[
 				'name'       => 'robots_txt',
@@ -136,9 +119,7 @@ class SeoSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
+			
 			[
 				'name'  => 'no_index',
 				'type'  => 'custom_html',
@@ -209,6 +190,7 @@ class SeoSetting
 				],
 				'newline'           => true,
 			],
+			
 			[
 				'name'              => 'no_index_filters_orders',
 				'label'             => trans('admin.no_index_filters_orders_label'),
@@ -224,7 +206,9 @@ class SeoSetting
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
+				'newline'           => true,
 			],
+			
 			[
 				'name'              => 'no_index_listing_report',
 				'label'             => trans('admin.no_index_listing_report_label'),
@@ -241,13 +225,36 @@ class SeoSetting
 					'class' => 'col-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
+			
 			[
-				'name'  => 'listing_id_hashing',
+				'name'  => 'seo_permalink_sep',
 				'type'  => 'custom_html',
-				'value' => trans('admin.listing_id_hashing_title'),
+				'value' => trans('admin.seo_permalink_title'),
+			],
+			[
+				'name'  => 'seo_permalink_warning_sep',
+				'type'  => 'custom_html',
+				'value' => trans('admin.seo_permalink_warning'),
+			],
+			[
+				'name'              => 'listing_permalink',
+				'label'             => trans('admin.listing_permalink_label'),
+				'type'              => 'select2_from_array',
+				'options'           => self::getPermalinks(),
+				'hint'              => trans('admin.listing_permalink_hint'),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6',
+				],
+			],
+			[
+				'name'              => 'listing_permalink_ext',
+				'label'             => trans('admin.permalink_ext_label'),
+				'type'              => 'select2_from_array',
+				'options'           => self::getPermalinkExt(),
+				'hint'              => trans('admin.permalink_ext_hint') . '<br>' . trans('admin.listing_permalink_ext_hint'),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6',
+				],
 			],
 			[
 				'name'              => 'listing_hashed_id_enabled',
@@ -267,48 +274,7 @@ class SeoSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// Get the permalinks patterns list
-		$permalinks = self::getPermalinks();
-		
-		// Get the drivers selectors list as JS objects
-		$permalinksJson = collect($permalinks)->toJson();
-		
-		$fields = array_merge($fields, [
-			[
-				'name'  => 'seo_permalink_sep',
-				'type'  => 'custom_html',
-				'value' => trans('admin.seo_permalink_title'),
-			],
-			[
-				'name'  => 'seo_permalink_warning_sep',
-				'type'  => 'custom_html',
-				'value' => trans('admin.seo_permalink_warning'),
-			],
-			[
-				'name'              => 'listing_permalink',
-				'label'             => trans('admin.listing_permalink_label'),
-				'type'              => 'select2_from_array',
-				'options'           => $permalinks,
-				'hint'              => trans('admin.listing_permalink_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6',
-				],
-			],
-			[
-				'name'              => 'listing_permalink_ext',
-				'label'             => trans('admin.permalink_ext_label'),
-				'type'              => 'select2_from_array',
-				'options'           => self::getPermalinkExt(),
-				'hint'              => trans('admin.permalink_ext_hint') . '<br>' . trans('admin.listing_permalink_ext_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6',
-				],
-			],
-		]);
-		
-		$fields = array_merge($fields, [
+			
 			[
 				'name'  => 'separator_4',
 				'type'  => 'custom_html',
@@ -330,11 +296,9 @@ class SeoSetting
 				'type'  => 'custom_html',
 				'value' => trans('admin.multi_country_urls_optimization_info'),
 			],
-		]);
+		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields, [
-			'permalinksJson' => $permalinksJson,
-		]);
+		return $fields;
 	}
 	
 	/**

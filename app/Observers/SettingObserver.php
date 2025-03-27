@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Observers;
 
@@ -22,7 +9,9 @@ use App\Observers\Traits\Setting\DomainmappingTrait;
 use App\Observers\Traits\Setting\ListingFormTrait;
 use App\Observers\Traits\Setting\ListingsListTrait;
 use App\Observers\Traits\Setting\LocalizationTrait;
+use App\Observers\Traits\Setting\MailTrait;
 use App\Observers\Traits\Setting\OptimizationTrait;
+use App\Observers\Traits\Setting\SecurityTrait;
 use App\Observers\Traits\Setting\SeoTrait;
 use App\Observers\Traits\Setting\SmsTrait;
 use App\Observers\Traits\Setting\SocialShareTrait;
@@ -30,8 +19,8 @@ use App\Observers\Traits\Setting\StyleTrait;
 
 class SettingObserver
 {
-	use AppTrait, DomainmappingTrait, ListingFormTrait, ListingsListTrait, LocalizationTrait;
-	use OptimizationTrait, SeoTrait, SmsTrait, SocialShareTrait, StyleTrait;
+	use AppTrait, DomainmappingTrait, ListingFormTrait, ListingsListTrait, LocalizationTrait, MailTrait;
+	use OptimizationTrait, SeoTrait, SecurityTrait, SmsTrait, SocialShareTrait, StyleTrait;
 	
 	/**
 	 * Listen to the Entry updating event.
@@ -49,7 +38,7 @@ class SettingObserver
 				$original['value'] = jsonToArray($original['value']);
 				
 				// Find & call sub-setting observer's action
-				$settingMethodName = $this->getSettingMethod($setting, __FUNCTION__);
+				$settingMethodName = str($setting->key)->camel() . 'Updating';
 				if (method_exists($this, $settingMethodName)) {
 					return $this->$settingMethodName($setting, $original);
 				}
@@ -66,7 +55,7 @@ class SettingObserver
 	public function updated(Setting $setting)
 	{
 		// Find & call sub-setting observer's action
-		$settingMethodName = $this->getSettingMethod($setting, __FUNCTION__);
+		$settingMethodName = str($setting->key)->camel() . 'Updated';
 		if (method_exists($this, $settingMethodName)) {
 			$this->$settingMethodName($setting);
 		}
@@ -84,7 +73,7 @@ class SettingObserver
 	public function saved(Setting $setting)
 	{
 		// Find & call sub-setting observer's action
-		$settingMethodName = $this->getSettingMethod($setting, __FUNCTION__);
+		$settingMethodName = str($setting->key)->camel() . 'Saved';
 		if (method_exists($this, $settingMethodName)) {
 			$this->$settingMethodName($setting);
 		}
@@ -117,23 +106,5 @@ class SettingObserver
 			cache()->flush();
 		} catch (\Exception $e) {
 		}
-	}
-	
-	/**
-	 * Get Setting class's method name
-	 *
-	 * @param \App\Models\Setting $setting
-	 * @param string $suffix
-	 * @return string
-	 */
-	private function getSettingMethod(Setting $setting, string $suffix = ''): string
-	{
-		$classKey = $setting->key ?? '';
-		$suffix = str($suffix)->ucfirst()->toString();
-		
-		return str($classKey)
-			->camel()
-			->append($suffix)
-			->toString();
 	}
 }

@@ -1,41 +1,39 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Requests\Admin;
 
-use App\Rules\PurchaseCodeRule;
-
 class PluginRequest extends Request
 {
-	protected array|\stdClass|null $plugin = null;
+	protected bool $isValidPurchaseCode = false;
+	protected ?string $invalidPurchaseCodeMessage = null;
 	
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
 	 * @return array
 	 */
-	public function rules(): array
+	public function rules()
 	{
 		$rules = [];
 		
-		$this->plugin = load_plugin($this->segment(3));
-		if (!empty($this->plugin)) {
-			$pluginId = data_get($this->plugin, 'item_id');
-			if (!empty($pluginId)) {
-				$rules['purchase_code'] = ['required', new PurchaseCodeRule($pluginId)];
+		$name = $this->segment(3);
+		$plugin = load_plugin($name);
+		if (empty($plugin)) {
+			return $rules;
+		}
+		
+		if ($this->has('purchase_code')) {
+			$purchaseCodeData = plugin_purchase_code_data($plugin, $this->input('purchase_code'));
+			$this->isValidPurchaseCode = (
+				is_bool(data_get($purchaseCodeData, 'valid'))
+				&& data_get($purchaseCodeData, 'valid')
+			);
+			$defaultMessage = 'Impossible to retrieve error message.';
+			$this->invalidPurchaseCodeMessage = data_get($purchaseCodeData, 'message', $defaultMessage);
+			
+			if (!$this->isValidPurchaseCode) {
+				$rules['purchase_code_valid'] = 'required'; // With customized message bellow
 			}
 		}
 		
@@ -43,20 +41,28 @@ class PluginRequest extends Request
 	}
 	
 	/**
-	 * Handle a passed validation attempt.
+	 * Get custom messages for validator errors.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	protected function passedValidation(): void
+	public function messages()
 	{
-		if (empty($this->plugin)) return;
+		$messages = [];
 		
-		$pluginName = data_get($this->plugin, 'name');
-		$purchaseCode = $this->input('purchase_code');
+		$name = $this->segment(3);
+		$plugin = load_plugin($name);
+		if (empty($plugin)) {
+			return $messages;
+		}
 		
-		if (empty($pluginName)) return;
+		if ($this->has('purchase_code')) {
+			if (!$this->isValidPurchaseCode) {
+				$apiMsg = ' ERROR: <strong>' . $this->invalidPurchaseCodeMessage . '</strong>';
+				$msg = trans('admin.plugin_invalid_code', ['plugin_name' => $plugin->display_name]);
+				$messages = ['purchase_code_valid.required' => $msg . $apiMsg];
+			}
+		}
 		
-		$pluginFile = storage_path('framework/plugins/' . $pluginName);
-		file_put_contents($pluginFile, $purchaseCode);
+		return $messages;
 	}
 }

@@ -45,7 +45,7 @@
 
 @push('crud_list_scripts')
     <script>
-	    onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			$("li.dropdown[filter-name={{ $filter->name }}] .dropdown-menu li a").click(function(e) {
 				e.preventDefault();
 

@@ -24,13 +24,16 @@ final readonly class Generator
     private const TEMPLATE = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/{phpunit_version}/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="{schema_location}"
          bootstrap="{bootstrap_script}"
          cacheDirectory="{cache_directory}"
          executionOrder="depends,defects"
+         shortenArraysForExportThreshold="10"
          requireCoverageMetadata="true"
          beStrictAboutCoverageMetadata="true"
          beStrictAboutOutputDuringTests="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         failOnPhpunitDeprecation="true"
          failOnRisky="true"
          failOnWarning="true">
     <testsuites>
@@ -48,18 +51,18 @@ final readonly class Generator
 
 EOT;
 
-    public function generateDefaultConfiguration(string $phpunitVersion, string $bootstrapScript, string $testsDirectory, string $srcDirectory, string $cacheDirectory): string
+    public function generateDefaultConfiguration(string $schemaLocation, string $bootstrapScript, string $testsDirectory, string $srcDirectory, string $cacheDirectory): string
     {
         return str_replace(
             [
-                '{phpunit_version}',
+                '{schema_location}',
                 '{bootstrap_script}',
                 '{tests_directory}',
                 '{src_directory}',
                 '{cache_directory}',
             ],
             [
-                $phpunitVersion,
+                $schemaLocation,
                 $bootstrapScript,
                 $testsDirectory,
                 $srcDirectory,

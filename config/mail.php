@@ -43,9 +43,8 @@ return [
 			'encryption'   => env('MAIL_ENCRYPTION', 'tls'),
 			'username'     => env('MAIL_USERNAME'),
 			'password'     => env('MAIL_PASSWORD'),
-			'timeout'      => env('MAIL_TIMEOUT'),
-			'verify_peer'  => env('MAIL_VERIFY_PEER', false),
-			'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+			'timeout'      => null,
+			'local_domain' => env('MAIL_EHLO_DOMAIN'),
 		],
 		
 		'ses' => [
@@ -77,10 +76,6 @@ return [
 		
 		'mailersend' => [
 			'transport' => 'mailersend',
-		],
-		
-		'brevo' => [
-			'transport' => 'brevo',
 		],
 		
 		'sendmail' => [

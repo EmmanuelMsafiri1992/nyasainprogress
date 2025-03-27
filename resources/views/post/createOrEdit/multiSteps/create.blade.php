@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @section('wizard')
@@ -73,9 +60,7 @@
 											$postCompanyId = old('company_id', $postCompanyId);
 										@endphp
 										<div class="row mb-3 required">
-											<label class="col-md-3 col-form-label{{ $companyIdError }}">
-												{{ t('Select a Company') }} <sup>*</sup>
-											</label>
+											<label class="col-md-3 col-form-label{{ $companyIdError }}">{{ t('Select a Company') }} <sup>*</sup></label>
 											<div class="col-md-8">
 												<select id="companyId" name="company_id" class="form-control selecter{{ $companyIdError }}">
 													<option value="0" data-logo="" @selected(empty(old('company_id')))>
@@ -121,13 +106,9 @@
 										</div>
 										
 										{{-- category_id --}}
-										@php
-											$categoryIdError = (isset($errors) && $errors->has('category_id')) ? ' is-invalid' : '';
-										@endphp
+										<?php $categoryIdError = (isset($errors) && $errors->has('category_id')) ? ' is-invalid' : ''; ?>
 										<div class="row mb-3 required">
-											<label class="col-md-3 col-form-label{{ $categoryIdError }}">
-												{{ t('category') }} <sup>*</sup>
-											</label>
+											<label class="col-md-3 col-form-label{{ $categoryIdError }}">{{ t('category') }} <sup>*</sup></label>
 											<div class="col-md-8">
 												<div id="catsContainer" class="rounded{{ $categoryIdError }}">
 													<a href="#browseCategories" data-bs-toggle="modal" class="cat-link" data-id="0">
@@ -140,20 +121,12 @@
 										</div>
 										
 										{{-- title --}}
-										@php
-											$titleError = (isset($errors) && $errors->has('title')) ? ' is-invalid' : '';
-										@endphp
+										<?php $titleError = (isset($errors) && $errors->has('title')) ? ' is-invalid' : ''; ?>
 										<div class="row mb-3 required">
-											<label class="col-md-3 col-form-label{{ $titleError }}" for="title">
-												{{ t('Title') }} <sup>*</sup>
-											</label>
+											<label class="col-md-3 col-form-label{{ $titleError }}" for="title">{{ t('Title') }} <sup>*</sup></label>
 											<div class="col-md-8">
-												<input id="title"
-												       name="title"
-												       placeholder="{{ t('Job title') }}"
-												       class="form-control input-md{{ $titleError }}"
-												       type="text" value="{{ old('title', data_get($postInput, 'title')) }}"
-												>
+												<input id="title" name="title" placeholder="{{ t('Job title') }}" class="form-control input-md{{ $titleError }}"
+												       type="text" value="{{ old('title', data_get($postInput, 'title')) }}">
 												<div class="form-text text-muted">{{ t('A great title needs at least 60 characters.') }}</div>
 											</div>
 										</div>
@@ -257,9 +230,7 @@
 											<div class="col-md-4">
 												<select name="salary_type_id" id="salaryTypeId" class="form-control selecter{{ $salaryTypeIdError }}">
 													@foreach ($salaryTypes as $salaryType)
-														<option value="{{ data_get($salaryType, 'id') }}"
-																@selected($salaryTypeId == data_get($salaryType, 'id'))
-														>
+														<option value="{{ data_get($salaryType, 'id') }}" @selected($salaryTypeId == data_get($salaryType, 'id'))>
 															{{ t('per') . ' ' . data_get($salaryType, 'name') }}
 														</option>
 													@endforeach
@@ -277,13 +248,9 @@
 										</div>
 										
 										{{-- start_date --}}
-										@php
-											$startDateError = (isset($errors) && $errors->has('start_date')) ? ' is-invalid' : '';
-										@endphp
+										<?php $startDateError = (isset($errors) && $errors->has('start_date')) ? ' is-invalid' : ''; ?>
 										<div class="row mb-3">
-											<label class="col-md-3 col-form-label{{ $startDateError }}" for="start_date">
-												{{ t('Start Date') }}
-											</label>
+											<label class="col-md-3 col-form-label{{ $startDateError }}" for="start_date">{{ t('Start Date') }} </label>
 											<div class="col-md-9 col-lg-8 col-xl-6">
 												<input id="startDate" name="start_date"
 												       placeholder="{{ t('Start Date') }}"
@@ -304,9 +271,8 @@
 										@endphp
 										@if (empty(config('country.code')))
 											<div class="row mb-3 required">
-												<label class="col-md-3 col-form-label{{ $countryCodeError }}" for="country_code">
-													{{ t('your_country') }} <sup>*</sup>
-												</label>
+												<label class="col-md-3 col-form-label{{ $countryCodeError }}" for="country_code">{{ t('your_country') }}
+													<sup>*</sup></label>
 												<div class="col-md-8">
 													<select id="countryCode" name="country_code"
 													        class="form-control large-data-selecter{{ $countryCodeError }}">
@@ -332,9 +298,7 @@
 										@if (auth()->check())
 											<input id="contactName" name="contact_name" type="hidden" value="{{ auth()->user()->name }}">
 										@else
-											@php
-												$contactNameError = (isset($errors) && $errors->has('contact_name')) ? ' is-invalid' : '';
-											@endphp
+												<?php $contactNameError = (isset($errors) && $errors->has('contact_name')) ? ' is-invalid' : ''; ?>
 											<div class="row mb-3 required">
 												<label class="col-md-3 col-form-label{{ $contactNameError }}" for="contact_name">
 													{{ t('Contact Name') }} <sup>*</sup>
@@ -362,9 +326,7 @@
 										@endphp
 										@if ($usersCanChooseNotifyChannel)
 											<div class="row mb-3 required">
-												<label class="col-md-3 col-form-label" for="auth_field">
-													{{ t('notifications_channel') }} <sup>*</sup>
-												</label>
+												<label class="col-md-3 col-form-label" for="auth_field">{{ t('notifications_channel') }} <sup>*</sup></label>
 												<div class="col-md-9">
 													@foreach ($authFields as $iAuthField => $notificationType)
 														<div class="form-check form-check-inline pt-2">
@@ -450,11 +412,8 @@
 													       value="{{ $phoneValueOld }}"
 													>
 													<span class="input-group-text iti-group-text">
-														<input id="phoneHidden"
-														       name="phone_hidden"
-														       type="checkbox"
-														       value="1" @checked(old('phone_hidden') == '1')
-														>&nbsp;<small>{{ t('Hide') }}</small>
+														<input id="phoneHidden" name="phone_hidden" type="checkbox" value="1" @checked(old('phone_hidden') == '1')>&nbsp;
+														<small>{{ t('Hide') }}</small>
 													</span>
 												</div>
 												<input name="phone_country" type="hidden" value="{{ old('phone_country', $phoneCountryValue) }}">
@@ -467,18 +426,13 @@
 										@if (config('settings.listing_form.city_selection') == 'select')
 											@if (in_array($adminType, ['1', '2']))
 												{{-- admin_code --}}
-												@php
-													$adminCodeError = (isset($errors) && $errors->has('admin_code')) ? ' is-invalid' : '';
-												@endphp
+													<?php $adminCodeError = (isset($errors) && $errors->has('admin_code')) ? ' is-invalid' : ''; ?>
 												<div id="locationBox" class="row mb-3 required">
 													<label class="col-md-3 col-form-label{{ $adminCodeError }}" for="admin_code">
 														{{ t('location') }} <sup>*</sup>
 													</label>
 													<div class="col-md-8">
-														<select id="adminCode"
-														        name="admin_code"
-														        class="form-control large-data-selecter{{ $adminCodeError }}"
-														>
+														<select id="adminCode" name="admin_code" class="form-control large-data-selecter{{ $adminCodeError }}">
 															<option value="0" @selected(empty(old('admin_code')))>
 																{{ t('select_your_location') }}
 															</option>
@@ -487,32 +441,15 @@
 												</div>
 											@endif
 										@else
-											<input type="hidden"
-											       id="selectedAdminType"
-											       name="selected_admin_type"
-											       value="{{ old('selected_admin_type', $adminType) }}"
-											>
-											<input type="hidden"
-											       id="selectedAdminCode"
-											       name="selected_admin_code"
-											       value="{{ old('selected_admin_code', 0) }}"
-											>
-											<input type="hidden"
-											       id="selectedCityId"
-											       name="selected_city_id"
-											       value="{{ old('selected_city_id', 0) }}"
-											>
-											<input type="hidden"
-											       id="selectedCityName"
-											       name="selected_city_name"
-											       value="{{ old('selected_city_name') }}"
-											>
+											<input type="hidden" id="selectedAdminType" name="selected_admin_type"
+											       value="{{ old('selected_admin_type', $adminType) }}">
+											<input type="hidden" id="selectedAdminCode" name="selected_admin_code" value="{{ old('selected_admin_code', 0) }}">
+											<input type="hidden" id="selectedCityId" name="selected_city_id" value="{{ old('selected_city_id', 0) }}">
+											<input type="hidden" id="selectedCityName" name="selected_city_name" value="{{ old('selected_city_name') }}">
 										@endif
 										
 										{{-- city_id --}}
-										@php
-											$cityIdError = (isset($errors) && $errors->has('city_id')) ? ' is-invalid' : '';
-										@endphp
+										<?php $cityIdError = (isset($errors) && $errors->has('city_id')) ? ' is-invalid' : ''; ?>
 										<div id="cityBox" class="row mb-3 required">
 											<label class="col-md-3 col-form-label{{ $cityIdError }}" for="city_id">
 												{{ t('city') }} <sup>*</sup>
@@ -527,9 +464,7 @@
 										</div>
 										
 										{{-- application_url --}}
-										@php
-											$applicationUrlError = (isset($errors) && $errors->has('application_url')) ? ' is-invalid' : '';
-										@endphp
+										<?php $applicationUrlError = (isset($errors) && $errors->has('application_url')) ? ' is-invalid' : ''; ?>
 										<div class="row mb-3">
 											<label class="col-md-3 col-form-label" for="title">{{ t('Application URL') }}</label>
 											<div class="col-md-8">
@@ -578,9 +513,7 @@
 											@if (in_array(config('settings.listing_form.auto_registration'), [1, 2]))
 												{{-- auto_registration --}}
 												@if (config('settings.listing_form.auto_registration') == 1)
-													@php
-														$autoRegistrationError = (isset($errors) && $errors->has('auto_registration')) ? ' is-invalid' : '';
-													@endphp
+														<?php $autoRegistrationError = (isset($errors) && $errors->has('auto_registration')) ? ' is-invalid' : ''; ?>
 													<div class="row mb-3 required">
 														<label class="col-md-3 col-form-label"></label>
 														<div class="col-md-8">
@@ -595,9 +528,7 @@
 																	{!! t('I want to register by submitting this ad') !!}
 																</label>
 															</div>
-															<div class="form-text text-muted">
-																{{ t('You will receive your authentication information by email') }}
-															</div>
+															<div class="form-text text-muted">{{ t('You will receive your authentication information by email') }}</div>
 															<div style="clear:both"></div>
 														</div>
 													</div>
@@ -671,6 +602,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- /.page-content -->
 				
 				<div class="col-md-3 reg-sidebar">
 					@includeFirst([config('larapen.core.customizedViewPath') . 'post.createOrEdit.inc.right-sidebar', 'post.createOrEdit.inc.right-sidebar'])

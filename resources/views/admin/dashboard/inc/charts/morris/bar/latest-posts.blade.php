@@ -31,7 +31,7 @@
 
 @push('dashboard_scripts')
     <script>
-	    onDocumentReady((event) => {
+        $(function () {
             "use strict";
 			
 			/* Ads Chart */
@@ -66,6 +66,7 @@
 					}
 				}
 			}, 200);
+			
         });
     </script>
 @endpush

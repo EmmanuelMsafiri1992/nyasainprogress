@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Helpers;
 
@@ -20,6 +7,7 @@ use App\Exceptions\Custom\CustomException;
 use App\Helpers\DBTool\IndexTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
 class DBTool
@@ -29,63 +17,58 @@ class DBTool
 	/**
 	 * Get PDO Connexion
 	 *
-	 * @param array|null $config
-	 * @return \PDO
+	 * @param array|null $database
+	 * @param bool $checkConnexion
+	 * @return false|\PDO
 	 * @throws \App\Exceptions\Custom\CustomException
 	 */
-	public static function getPdoConnection(?array $config = []): \PDO
+	public static function getPDOConnexion(?array $database = [], bool $checkConnexion = false): false|\PDO
 	{
 		// Retrieve Database Parameters from the /.env file,
 		// If they are not set during the function call.
-		if (empty($config)) {
-			$config = self::getDatabaseConnectionInfo();
+		if (empty($database)) {
+			$database = self::getDatabaseConnectionInfo();
 		}
 		
-		// Retrieve database & its server parameters
-		$host = $config['host'] ?? '';
-		$port = $config['port'] ?? '';
-		$database = $config['database'] ?? '';
-		$username = $config['username'] ?? '';
-		$password = $config['password'] ?? '';
-		$socket = $config['socket'] ?? '';
+		// Database Parameters
+		$driver = $database['driver'] ?? 'mysql';
+		$host = $database['host'] ?? '';
+		$port = $database['port'] ?? '';
+		$username = $database['username'] ?? '';
+		$password = $database['password'] ?? '';
+		$database = $database['database'] ?? '';
+		$charset = $database['charset'] ?? 'utf8mb4';
+		$socket = $database['socket'] ?? '';
+		$options = $database['options'] ?? [
+			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+			\PDO::ATTR_EMULATE_PREPARES   => true,
+			\PDO::ATTR_CURSOR             => \PDO::CURSOR_FWDONLY,
+		];
 		
 		try {
-			// Database connexion's configuration
-			$driver = $config['driver'] ?? 'mysql';
-			$charset = $config['charset'] ?? 'utf8mb4';
-			$options = $config['options'] ?? [
-				\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-				\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-				\PDO::ATTR_EMULATE_PREPARES   => true,
-				\PDO::ATTR_CURSOR             => \PDO::CURSOR_FWDONLY,
-			];
-			
-			// Get the connexion's host info
-			$hostInfo = !empty($socket)
-				? 'unix_socket=' . $socket
+			// Get Connexion's Host Info
+			$hostInfo = (!empty($socket))
+				? 'unix_socket=' . $database['socket']
 				: 'host=' . $host . ';port=' . $port;
 			
-			// Get the connexion's DSN
+			// Get the Connexion's DSN
 			$dsn = $driver . ':' . $hostInfo . ';dbname=' . $database . ';charset=' . $charset;
 			
-			// Connect to the database server
+			// Connect to the Database Server
 			return new \PDO($dsn, $username, $password, $options);
 			
 		} catch (\PDOException $e) {
-			$errorMessage = trans('messages.database_pdo_connection_failed');
-			$exceptionMessage = $e->getMessage();
+			$error = "<strong>ERROR:</strong> Can't connect to the database server. " . $e->getMessage();
 		} catch (\Throwable $e) {
-			$errorMessage = trans('messages.database_connection_failed');
-			$exceptionMessage = $e->getMessage();
+			$error = "<strong>ERROR:</strong> The database connection failed. " . $e->getMessage();
 		}
 		
-		$errorMessage ??= '';
-		if (!empty($exceptionMessage)) {
-			$exceptionMessageFormat = ' ERROR: <span class="fw-bold">%s</span>';
-			$errorMessage .= sprintf($exceptionMessageFormat, $exceptionMessage);
+		if ($checkConnexion) {
+			return false;
 		}
 		
-		throw new CustomException($errorMessage);
+		throw new CustomException($error);
 	}
 	
 	/**
@@ -133,7 +116,7 @@ class DBTool
 	 * @param $pdo
 	 * @return void
 	 */
-	public static function closePdoConnection(&$pdo): void
+	public static function closePDOConnexion(&$pdo): void
 	{
 		$pdo = null;
 	}
@@ -265,7 +248,7 @@ class DBTool
 		// Remove the prefix from the name of the tables found
 		if (!$withPrefix) {
 			$tablesPrefix = empty($tablesPrefix) ? DB::getTablePrefix() : $tablesPrefix;
-			$tables = $tables->map(fn ($item) => str($item)->replaceFirst($tablesPrefix, '')->toString());
+			$tables = $tables->map(fn ($item) => str_replace($tablesPrefix, '', $item));
 		}
 		
 		return $tables->toArray();
@@ -410,6 +393,114 @@ class DBTool
 		if ($errorDetect) {
 			throw new CustomException($errors);
 		}
+	}
+	
+	/**
+	 * Perform MySQL Database Backup
+	 *
+	 * @param \PDO $pdo
+	 * @param array|string $tables
+	 * @param string|null $filePath
+	 * @return bool
+	 */
+	public static function backupDatabaseTables(\PDO $pdo, array|string $tables = '*', ?string $filePath = null): bool
+	{
+		if (empty($filePath)) {
+			$filePath = storage_path();
+		}
+		
+		$res = false;
+		try {
+			
+			// Get all the tables
+			if ($tables == '*') {
+				$query = $pdo->query('SHOW TABLES');
+				$tables = $query->fetchAll(\PDO::FETCH_COLUMN);
+			} else {
+				$tables = is_string($tables) ? explode(',', $tables) : $tables;
+			}
+			$tables = is_array($tables) ? $tables : [];
+			
+			if (empty($tables)) {
+				return false;
+			}
+			
+			$out = '';
+			
+			// Loop through the tables
+			foreach ($tables as $table) {
+				if (!self::rawTableExists($pdo, $table)) {
+					continue;
+				}
+				
+				$query = $pdo->query('SELECT * FROM ' . $table);
+				
+				// Get the table column names
+				$describeTableQuery = $pdo->query('DESCRIBE ' . $table);
+				$tableColumns = $describeTableQuery->fetchAll(\PDO::FETCH_COLUMN);
+				if (empty($tableColumns)) {
+					continue;
+				}
+				
+				// Get table's number of columns
+				$columnCount = count($tableColumns);
+				
+				// Add DROP TABLE statement
+				$out .= 'DROP TABLE ' . $table . ';' . "\n\n";
+				
+				// Add CREATE TABLE statement
+				$showCreateTableQuery = $pdo->query('SHOW CREATE TABLE ' . $table);
+				$rows = $showCreateTableQuery->fetchAll(\PDO::FETCH_DEFAULT);
+				$createTableStatement = $rows[0]->{'Create Table'} ?? null;
+				if (empty($createTableStatement)) {
+					continue;
+				}
+				
+				$out .= $createTableStatement . ';' . "\n\n";
+				
+				// Add INSERT INTO statements
+				while ($row = $query->fetch(\PDO::FETCH_ASSOC)) {
+					$i = 0;
+					$out .= "INSERT INTO $table VALUES (";
+					foreach ($tableColumns as $column) {
+						$value = $row[$column] ?? null;
+						
+						if (!empty($value)) {
+							$value = addslashes($value);
+							$value = preg_replace("/\n/us", "\\n", $value);
+							$out .= '"' . $value . '"';
+						} else {
+							$out .= '""';
+						}
+						
+						if ($i < ($columnCount - 1)) {
+							$out .= ',';
+						}
+						
+						$i++;
+					}
+					$out .= ');' . "\n";
+				}
+				
+				$out .= "\n\n\n";
+			}
+			
+			if (empty($out)) {
+				return false;
+			}
+			
+			// Save the file
+			if (File::put($filePath, $out)) {
+				$res = true;
+			}
+			
+		} catch (\Throwable $e) {
+			echo "<br><pre>Exception => " . $e->getMessage() . "</pre>\n";
+			
+			return false;
+		}
+		
+		return $res;
 	}
 	
 	/**

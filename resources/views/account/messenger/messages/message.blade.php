@@ -1,11 +1,8 @@
 @php
-	$authUser = auth()->check() ? auth()->user() : null;
-	$authUserId = !empty($authUser) ? $authUser->getAuthIdentifier() : 0;
-	
 	$thread ??= [];
 	$message ??= [];
 @endphp
-@if ($authUserId == data_get($message, 'user.id'))
+@if (auth()->id() == data_get($message, 'user.id'))
 	<div class="chat-item object-me">
 		<div class="chat-item-content">
 			<div class="msg">

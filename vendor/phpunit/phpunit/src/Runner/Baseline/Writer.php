@@ -22,7 +22,7 @@ use XMLWriter;
 final readonly class Writer
 {
     /**
-     * @psalm-param non-empty-string $baselineFile
+     * @param non-empty-string $baselineFile
      */
     public function write(string $baselineFile, Baseline $baseline): void
     {
@@ -50,7 +50,7 @@ final readonly class Writer
 
                 foreach ($issues as $issue) {
                     $writer->startElement('issue');
-                    $writer->writeCData($issue->description());
+                    $writer->writeCdata($issue->description());
                     $writer->endElement();
                 }
 

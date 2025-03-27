@@ -1,17 +1,4 @@
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 if (typeof defaultAdminType === 'undefined') {
 	var defaultAdminType = 0;
@@ -20,7 +7,7 @@ if (typeof defaultAdminCode === 'undefined') {
 	var defaultAdminCode = 0;
 }
 
-onDocumentReady((event) => {
+$(document).ready(function () {
 	
 	$(document).on('change', '#countryCode', function (e) {
 		countryCode = changeCountry(countryCode, this);
@@ -32,7 +19,7 @@ onDocumentReady((event) => {
 		browseLocations(params);
 	});
 	$(document).on('click submit', '#modalQuerySearchBtn', function (e) {
-		e.preventDefault(); /* Prevents submission or reloading */
+		e.preventDefault(); /* prevents submit or reload */
 		
 		let params = getLocationsBrowsingParameters(countryCode, this);
 		browseLocations(params);

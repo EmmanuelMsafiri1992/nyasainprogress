@@ -59,7 +59,7 @@
 	{{-- include select2 js--}}
 	<script src="{{ asset('assets/plugins/select2/js/select2.js') }}"></script>
 	<script>
-		onDocumentReady((event) => {
+		jQuery(document).ready(function ($) {
 			// trigger select2 for each untriggered select2 box
 			$('#filter_{{ $filter->name }}').select2({
 				minimumInputLength: 2,

@@ -57,9 +57,9 @@
 								@foreach ($components as $key => $item)
 									<li>
 										@if ($item['isOk'])
-											<i class="bi bi-check text-success"></i>
+											<i class="fa-solid fa-check text-success"></i>
 										@else
-											<i class="bi bi-x text-danger"></i>
+											<i class="fa-solid fa-xmark text-danger"></i>
 										@endif
 										<h5 class="title-5 fw-bolder">
 											{{ $item['name'] }}
@@ -89,9 +89,9 @@
 								@foreach ($permissions as $key => $item)
 									<li>
 										@if ($item['isOk'])
-											<i class="bi bi-check text-success"></i>
+											<i class="fa-solid fa-check text-success"></i>
 										@else
-											<i class="bi bi-x text-danger"></i>
+											<i class="fa-solid fa-xmark text-danger"></i>
 										@endif
 										<h5 class="title-5 fw-bolder">
 											{{ relativeAppPath($item['name']) }}

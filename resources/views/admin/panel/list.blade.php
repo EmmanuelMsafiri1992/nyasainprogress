@@ -192,7 +192,8 @@
     @endif
 
     <script type="text/javascript">
-	    onDocumentReady((event) => {
+        jQuery(document).ready(function($) {
+	
 			/* DEBUG */
 			/* If don't want your end users to see the alert() message during error. */
 			/* $.fn.dataTable.ext.errMode = 'throw'; */

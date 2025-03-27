@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @php
@@ -190,8 +177,8 @@
 						@if (request()->filled('q') && request()->query('q') != '' && data_get($count, '0') > 0)
 							<div class="tab-box save-search-bar text-center">
 								<a id="saveSearch"
-								   data-search-url="{!! request()->fullUrlWithoutQuery(['_token', 'location']) !!}"
-								   data-results-count="{{ data_get($count, '0') }}"
+								   data-name="{!! request()->fullUrlWithoutQuery(['_token', 'location']) !!}"
+								   data-count="{{ data_get($count, '0') }}"
 								>
 									<i class="fa-regular fa-bell"></i> {{ t('Save Search') }}
 								</a>
@@ -273,50 +260,15 @@
 
 @section('after_scripts')
 	<script>
-		onDocumentReady((event) => {
-			const postTypeEls = document.querySelectorAll('#postType a');
-			if (postTypeEls.length > 0) {
-				postTypeEls.forEach((element) => {
-					element.addEventListener('click', (event) => {
-						event.preventDefault();
-						
-						const goToUrl = event.target.getAttribute('href');
-						if (goToUrl) {
-							redirect(goToUrl);
-						}
-					});
-				});
-			}
-			
-			{{-- orderBy: HTML Select --}}
-			const orderByEl = document.getElementById('orderBy');
-			if (orderByEl) {
-				orderByEl.addEventListener('change', (event) => {
-					event.preventDefault();
-					
-					const goToUrl = event.target.value;
-					if (goToUrl) {
-						redirect(goToUrl);
-					}
-				});
-			}
-			
-			{{-- orderBy: jQuery Nice Select --}}
-			onDomElementsAdded('.select-sort-by li.option', (elements) => {
-				if (elements.length <= 0) {
-					return false;
-				}
-				
-				elements.forEach((element) => {
-					element.addEventListener('click', (event) => {
-						event.preventDefault();
-						
-						const goToUrl = event.target.dataset.value;
-						if (goToUrl) {
-							redirect(goToUrl);
-						}
-					});
-				});
+        $(document).ready(function () {
+			$('#postType a').click(function (e) {
+				e.preventDefault();
+				let goToUrl = $(this).attr('href');
+				redirect(goToUrl);
+			});
+			$('#orderBy').change(function () {
+				let goToUrl = $(this).val();
+				redirect(goToUrl);
 			});
 		});
 	</script>

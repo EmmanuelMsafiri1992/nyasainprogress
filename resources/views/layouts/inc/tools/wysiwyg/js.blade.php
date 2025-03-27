@@ -1,71 +1,66 @@
 {{-- TinyMCE --}}
 @if (config('settings.listing_form.wysiwyg_editor') == 'tinymce')
     <script src="{{ asset('assets/plugins/tinymce/tinymce.min.js') }}"></script>
-    @php
-        $editorI18n = \Lang::get('tinymce', [], config('app.locale'));
-		$editorI18nJson = '';
-		if (!empty($editorI18n)) {
-			$editorI18nJson = collect($editorI18n)->toJson();
-			// Convert UTF-8 HTML to ANSI
-			$editorI18nJson = convertUTF8HtmlToAnsi($editorI18nJson);
-		}
-    @endphp
+    <?php
+    $editorI18n = \Lang::get('tinymce', [], config('app.locale'));
+    $editorI18nJson = '';
+    if (!empty($editorI18n)) {
+        $editorI18nJson = collect($editorI18n)->toJson();
+        // Convert UTF-8 HTML to ANSI
+        $editorI18nJson = convertUTF8HtmlToAnsi($editorI18nJson);
+    }
+    ?>
     <script type="text/javascript">
         @if (config('settings.listing_form.remove_url_before') || config('settings.listing_form.remove_url_after'))
             var vToolBar = 'undo redo | bold italic underline | forecolor backcolor | '
                     + 'bullist numlist blockquote table | '
                     + 'alignleft aligncenter alignright | outdent indent | fontsizeselect';
+        
         @else
             var vToolBar = 'undo redo | bold italic underline | forecolor backcolor | '
                     + 'bullist numlist blockquote table | link unlink | '
                     + 'alignleft aligncenter alignright | outdent indent | fontsizeselect';
         @endif
-
-        onDocumentReady((event) => {
-            tinymce.init({
-                selector: '#description',
-                language: '{{ (!empty($editorI18nJson)) ? config('app.locale') : 'en' }}',
-                directionality: '{{ (config('lang.direction') == 'rtl') ? 'rtl' : 'ltr' }}',
-                height: 350,
-                menubar: false,
-                statusbar: false,
-                plugins: 'lists link table',
-                toolbar: vToolBar,
-            });
-            
-            @if (!empty($editorI18nJson))
-                tinymce.addI18n('{{ config('app.locale') }}', <?php echo $editorI18nJson; ?>);
-            @endif
+        tinymce.init({
+            selector: '#description',
+            language: '{{ (!empty($editorI18nJson)) ? config('app.locale') : 'en' }}',
+            directionality: '{{ (config('lang.direction') == 'rtl') ? 'rtl' : 'ltr' }}',
+            height: 350,
+            menubar: false,
+            statusbar: false,
+            plugins: 'lists link table',
+            toolbar: vToolBar,
         });
+        @if (!empty($editorI18nJson))
+            tinymce.addI18n('{{ config('app.locale') }}', <?php echo $editorI18nJson; ?>);
+        @endif
     </script>
 @endif
 
 {{-- CKEditor --}}
 @if (config('settings.listing_form.wysiwyg_editor') == 'ckeditor')
     <script src="{{ asset('assets/plugins/ckeditor/ckeditor.js') }}"></script>
-    @php
-        $transUriPath = 'assets/plugins/ckeditor/translations/';
-        $transFileDir = public_path($transUriPath);
-        $editorLocale = '';
-		if (file_exists($transFileDir . getLangTag(config('app.locale')) . '.js')) {
-			$editorLocale = getLangTag(config('app.locale'));
-		}
-		if (empty($editorLocale)) {
-			if (file_exists($transFileDir . config('lang.tag') . '.js')) {
-				$editorLocale = config('lang.tag');
-			}
-		}
-		if (empty($editorLocale)) {
-			if (file_exists($transFileDir . strtolower(config('lang.tag')) . '.js')) {
-				$editorLocale = strtolower(config('lang.tag'));
-			}
-		}
-		if (empty($editorLocale)) {
-			$editorLocale = 'en';
-		}
-    @endphp
+    <?php
+    $editorLocale = '';
+    if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . getLangTag(config('app.locale')) . '.js')) {
+        $editorLocale = getLangTag(config('app.locale'));
+    }
+    if (empty($editorLocale)) {
+        if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . config('lang.tag') . '.js')) {
+            $editorLocale = config('lang.tag');
+        }
+    }
+    if (empty($editorLocale)) {
+        if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . strtolower(config('lang.tag')) . '.js')) {
+            $editorLocale = strtolower(config('lang.tag'));
+        }
+    }
+    if (empty($editorLocale)) {
+        $editorLocale = 'en';
+    }
+    ?>
     @if ($editorLocale != 'en')
-        <script src="{{ asset($transUriPath . $editorLocale . '.js') }}"></script>
+        <script src="{{ asset('assets/plugins/ckeditor/translations/' . $editorLocale . '.js') }}"></script>
     @endif
     <script type="text/javascript">
         @if (config('settings.listing_form.remove_url_before') || config('settings.listing_form.remove_url_after'))
@@ -120,7 +115,7 @@
                 'removeFormat'
             ];
         @endif
-        onDocumentReady((event) => {
+        jQuery(document).ready(function($) {
             ClassicEditor.create(document.querySelector('#description'), {
                 language: '{{ $editorLocale }}',
                 toolbar: {
@@ -148,29 +143,27 @@
 {{-- Summernote --}}
 @if (config('settings.listing_form.wysiwyg_editor') == 'summernote')
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
-    @php
-        $transUriPath = 'assets/plugins/summernote/lang/summernote-';
-        $transFileDir = public_path($transUriPath);
-        $editorLocale = '';
-		if (file_exists($transFileDir . getLangTag(config('app.locale')) . '.js')) {
-			$editorLocale = getLangTag(config('app.locale'));
-		}
-		if (empty($editorLocale)) {
-			if (file_exists($transFileDir . config('lang.tag') . '.js')) {
-				$editorLocale = config('lang.tag');
-			}
-		}
-		if (empty($editorLocale)) {
-			if (file_exists($transFileDir . strtolower(config('lang.tag')) . '.js')) {
-				$editorLocale = strtolower(config('lang.tag'));
-			}
-		}
-		if (empty($editorLocale)) {
-			$editorLocale = 'en-US';
-		}
-    @endphp
+    <?php
+    $editorLocale = '';
+    if (file_exists(public_path() . '/assets/plugins/summernote/lang/summernote-' . getLangTag(config('app.locale')) . '.js')) {
+        $editorLocale = getLangTag(config('app.locale'));
+    }
+    if (empty($editorLocale)) {
+        if (file_exists(public_path() . '/assets/plugins/summernote/lang/summernote-' . config('lang.tag') . '.js')) {
+            $editorLocale = config('lang.tag');
+        }
+    }
+    if (empty($editorLocale)) {
+        if (file_exists(public_path() . '/assets/plugins/summernote/lang/summernote-' . strtolower(config('lang.tag')) . '.js')) {
+            $editorLocale = strtolower(config('lang.tag'));
+        }
+    }
+    if (empty($editorLocale)) {
+        $editorLocale = 'en-US';
+    }
+    ?>
     @if ($editorLocale != 'en-US')
-        <script src="{{ url($transUriPath . $editorLocale . '.js') }}" type="text/javascript"></script>
+        <script src="{{ url('assets/plugins/summernote/lang/summernote-' . $editorLocale . '.js') }}" type="text/javascript"></script>
     @endif
     <script type="text/javascript">
         @if (config('settings.listing_form.remove_url_before') || config('settings.listing_form.remove_url_after'))
@@ -192,7 +185,7 @@
                 ['insert', ['link']]
             ];
         @endif
-        onDocumentReady((event) => {
+        $(document).ready(function() {
             $('#description').summernote({
                 lang: '{{ $editorLocale }}',
                 placeholder: '{{ t('Describe what makes your ad unique') }}...',
@@ -211,15 +204,15 @@
     <script src="{{ asset('assets/plugins/simditor/scripts/hotkeys.js') }}"></script>
     <script src="{{ asset('assets/plugins/simditor/scripts/dompurify.js') }}"></script>
     <script src="{{ asset('assets/plugins/simditor/scripts/simditor.js') }}"></script>
-    @php
-        $editorI18n = \Lang::get('simditor', [], config('app.locale'));
-		$editorI18nJson = '';
-		if (!empty($editorI18n)) {
-			$editorI18nJson = collect($editorI18n)->toJson();
-			// Convert UTF-8 HTML to ANSI
-			$editorI18nJson = convertUTF8HtmlToAnsi($editorI18nJson);
-		}
-    @endphp
+    <?php
+    $editorI18n = \Lang::get('simditor', [], config('app.locale'));
+    $editorI18nJson = '';
+    if (!empty($editorI18n)) {
+        $editorI18nJson = collect($editorI18n)->toJson();
+        // Convert UTF-8 HTML to ANSI
+        $editorI18nJson = convertUTF8HtmlToAnsi($editorI18nJson);
+    }
+    ?>
     <script type="text/javascript">
         @if (!empty($editorI18nJson))
             Simditor.i18n = {'{{ config('app.locale') }}': <?php echo $editorI18nJson; ?>};
@@ -232,10 +225,10 @@
             var vAllowedTags = ['br','span','a','img','b','strong','i','strike','u','font','p','ul','ol','li','blockquote','pre','h1','h2','h3','h4','hr','table'];
         @endif
         
-        {{-- Fake Code Separator --}}
+        <?php /* Fake Code Separator */ ?>
         
         (function() {
-            onDocumentReady((event) => {
+            $(function() {
                 @if (!empty($editorI18nJson))
                     Simditor.locale = '{{ config('app.locale') }}';
                 @endif

@@ -130,7 +130,8 @@ class TestCommand extends Command
                 $this->newLine();
             }
 
-            $coverage = Coverage::report($this->output);
+            $hideFullCoverage = (bool) $this->option('compact');
+            $coverage = Coverage::report($this->output, $hideFullCoverage);
 
             $exitCode = (int) ($coverage < $this->option('min'));
 
@@ -257,6 +258,7 @@ class TestCommand extends Command
                 && $option != '--no-ansi'
                 && ! Str::startsWith($option, '--min')
                 && ! Str::startsWith($option, '-p')
+                && ! Str::startsWith($option, '--compact')
                 && ! Str::startsWith($option, '--parallel')
                 && ! Str::startsWith($option, '--recreate-databases')
                 && ! Str::startsWith($option, '--drop-databases')
@@ -268,7 +270,7 @@ class TestCommand extends Command
             "--runner=\Illuminate\Testing\ParallelRunner",
         ], $options);
 
-        $inputDefinition = new InputDefinition();
+        $inputDefinition = new InputDefinition;
         Options::setInputDefinition($inputDefinition);
         $input = new ArgvInput($options, $inputDefinition);
 
@@ -366,7 +368,7 @@ class TestCommand extends Command
 
         $vars = [];
 
-        foreach ((new Parser())->parse($content) as $entry) {
+        foreach ((new Parser)->parse($content) as $entry) {
             $vars[] = $entry->getName();
         }
 

@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @php
@@ -163,7 +150,7 @@
 	<script src="{{ url('assets/js/footable.js?v=2-0-1') }}" type="text/javascript"></script>
 	<script src="{{ url('assets/js/footable.filter.js?v=2-0-1') }}" type="text/javascript"></script>
 	<script type="text/javascript">
-		onDocumentReady((event) => {
+		$(function () {
 			$('#addManageTable').footable().bind('footable_filtering', function (e) {
 				var selected = $('.filter-status').find(':selected').text();
 				if (selected && selected.length > 0) {
@@ -172,40 +159,29 @@
 				}
 			});
 			
-			/* Clear Filter OnClick */
-			const clearFilterEl = document.querySelector(".clear-filter");
-			clearFilterEl.addEventListener("click", (event) => {
-				event.preventDefault();
-				
-				const filterStatusEl = document.querySelector(".filter-status");
-				if (filterStatusEl) {
-					filterStatusEl.value = '';
-				}
-				
+			$('.clear-filter').click(function (e) {
+				e.preventDefault();
+				$('.filter-status').val('');
 				$('table.demo').trigger('footable_clear_filter');
 			});
 			
-			/* Check All OnClick */
-			const checkAllEl = document.querySelector(".from-check-all");
-			if (checkAllEl) {
-				checkAllEl.addEventListener("click", (event) => checkAll(event.target));
-			}
+			$('.from-check-all').click(function () {
+				checkAll(this);
+			});
 		});
 	</script>
-	{{-- include custom script for ads table [select all checkbox] --}}
+	{{-- include custom script for ads table [select all checkbox]  --}}
 	<script>
-		function checkAll(checkAllEl) {
-			if (checkAllEl.type !== "checkbox") {
-				checkAllEl = document.getElementById("checkAll");
-				checkAllEl.checked = !checkAllEl.checked;
+		function checkAll(bx) {
+			if (bx.type !== 'checkbox') {
+				bx = document.getElementById('checkAll');
+				bx.checked = !bx.checked;
 			}
 			
-			const checkboxInputs = document.getElementsByTagName("input");
-			if (checkboxInputs) {
-				for (let i = 0; i < checkboxInputs.length; i++) {
-					if (checkboxInputs[i].type === "checkbox") {
-						checkboxInputs[i].checked = checkAllEl.checked;
-					}
+			var chkinput = document.getElementsByTagName('input');
+			for (var i = 0; i < chkinput.length; i++) {
+				if (chkinput[i].type == 'checkbox') {
+					chkinput[i].checked = bx.checked;
 				}
 			}
 		}

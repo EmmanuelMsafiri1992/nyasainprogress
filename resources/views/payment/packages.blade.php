@@ -90,8 +90,8 @@
 									   id="packageId-{{ $package->id }}"
 									   value="{{ $package->id }}"
 									   data-name="{{ $package->name }}"
-									   data-currency-symbol="{{ $package->currency->symbol }}"
-									   data-currency-in-left="{{ $package->currency->in_left }}"
+									   data-currencysymbol="{{ $package->currency->symbol }}"
+									   data-currencyinleft="{{ $package->currency->in_left }}"
 										{{ $packageCheckedAttr }} {{ $packageDisabledAttr }}
 								>
 								<label class="form-check-label mb-0{{ $packageIdError }}">

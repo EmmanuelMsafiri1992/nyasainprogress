@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @php
 	$htmlLang = getLangTag(config('app.locale'));
 	$htmlDir = (config('lang.direction') == 'rtl') ? ' dir="rtl"' : '';
@@ -237,17 +224,14 @@
 
 <script src="{{ url('common/js/intl-tel-input/countries.js') . getPictureVersion() }}"></script>
 <script src="{{ url(mix('dist/public/scripts.js')) }}"></script>
-@php
-	$select2LangFilePath = 'assets/plugins/select2/js/i18n/' . config('app.locale') . '.js';
-@endphp
-@if (file_exists(public_path($select2LangFilePath)))
-	<script src="{{ url()->asset($select2LangFilePath) }}"></script>
+@if (file_exists(public_path() . '/assets/plugins/select2/js/i18n/'.config('app.locale').'.js'))
+	<script src="{{ url()->asset('assets/plugins/select2/js/i18n/'.config('app.locale').'.js') }}"></script>
 @endif
 @if (config('plugins.detectadsblocker.installed'))
 	<script src="{{ url('plugins/detectadsblocker/assets/js/script.js') . getPictureVersion() }}"></script>
 @endif
 <script>
-	onDocumentReady((event) => {
+	$(document).ready(function () {
 		{{-- Searchable Select Boxes --}}
 		let largeDataSelect2Params = {
 			width: '100%',

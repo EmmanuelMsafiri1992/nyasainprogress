@@ -43,18 +43,15 @@
 <div class="main-wrapper">
     
     @php
-        $logoFactoryUrl = config('larapen.media.logo-factory');
-        $logoUrl = '';
         $wrapperStyle = '';
-        try {
-            if (is_link(public_path('storage'))) {
-				$logoUrl = config('settings.app.logo_dark_url', $logoFactoryUrl);
-                $bgImgUrl = config('settings.style.login_bg_image_url');
-                $wrapperStyle = 'background:url(' . $bgImgUrl . ') no-repeat center center; background-size: cover;';
-            }
-        } catch (\Throwable $e) {}
-        $logoUrl = empty($logoUrl) ? $logoFactoryUrl : $logoUrl;
-		$logoCssSize = 'max-width:200px; max-height:45px; width:auto; height:auto;';
+		$logoUrl = '';
+		try {
+			if (is_link(public_path('storage'))) {
+				$bgImgUrl = config('settings.style.login_bg_image_url');
+				$wrapperStyle = 'background:url(' . $bgImgUrl . ') no-repeat center center; background-size: cover;';
+				$logoUrl = config('settings.app.logo_dark_url');
+			}
+		} catch (\Throwable $e) {}
     @endphp
     
     {{-- Login box.scss --}}
@@ -63,7 +60,7 @@
     
             <div class="logo text-center mb-5">
                 <a href="{{ url('/') }}">
-                    <img src="{{ $logoUrl }}" alt="logo" class="img-fluid" style="{!! $logoCssSize !!}">
+                    <img src="{{ $logoUrl }}" alt="logo" class="img-fluid" style="width:auto; height:auto; max-width:200px; max-height:45px;">
                 </a>
                 <hr class="border-0 bg-secondary">
             </div>
@@ -91,8 +88,9 @@
 {{-- This page plugin js --}}
 <script>
     preventPageLoadingInIframe();
-
-    onDocumentReady((event) => {
+    
+    $(document).ready(function()
+    {
         $('[data-bs-toggle="tooltip"]').tooltip();
         $('.preloader').fadeOut();
         

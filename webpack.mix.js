@@ -76,8 +76,8 @@ mix.combine([
 	'public/assets/plugins/jquery.fs.scroller/jquery.fs.scroller.min.js',
 	'public/assets/plugins/select2/js/select2.full.min.js',
 	'public/assets/plugins/social-media/js/social-share.js',
-	'public/assets/plugins/jquery-parallax/1.1/jquery.parallax-1.1.js',
-	'public/assets/plugins/hideMaxListItems/hideMaxListItems.js',
+	'public/assets/js/jquery.parallax-1.1.js',
+	'public/assets/js/hideMaxListItem-min.js',
 	'public/assets/plugins/jquery-nice-select/js/jquery.nice-select.min.js',
 	'public/assets/plugins/jquery.nicescroll/dist/jquery.nicescroll.min.js',
 	'public/assets/plugins/owlcarousel/owl.carousel.js',
@@ -95,13 +95,12 @@ mix.combine([
 	'public/assets/js/global.js',
 	'public/assets/js/http.request.js',
 	'public/assets/js/script.js',
-	'public/assets/plugins/form-validation/form-validation.js',
+	'public/assets/js/form-validation.js',
 	// 'public/assets/js/app/jquery-autocomplete.cities.js',
 	'public/assets/js/app/autocomplete.cities.js',
 	'public/assets/js/app/auth-fields.js',
 	'public/assets/js/app/show.phone.js',
-	'public/assets/js/app/make.favorite.js',
-	'public/assets/js/app/dark-mode.js'
+	'public/assets/js/app/make.favorite.js'
 ], 'public/dist/public/scripts.js');
 
 /* ADMIN PANEL */

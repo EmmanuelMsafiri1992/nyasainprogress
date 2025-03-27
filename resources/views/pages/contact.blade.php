@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @section('search')
@@ -29,7 +16,7 @@
 					<div class="col-xl-12">
 						<div class="alert alert-danger alert-dismissible">
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ t('Close') }}"></button>
-							<h5><strong>{{ t('validation_errors_title') }}</strong></h5>
+							<h5><strong>{{ t('oops_an_error_has_occurred') }}</strong></h5>
 							<ul class="list list-check">
 								@foreach ($errors->all() as $error)
 									<li>{!! $error !!}</li>
@@ -61,9 +48,7 @@
 							<fieldset>
 								<div class="row">
 									<div class="col-md-6 mb-3">
-										@php
-											$firstNameError = (isset($errors) && $errors->has('first_name')) ? ' is-invalid' : '';
-										@endphp
+										<?php $firstNameError = (isset($errors) && $errors->has('first_name')) ? ' is-invalid' : ''; ?>
 										<div class="form-floating required">
 											<input id="first_name" name="first_name" type="text" placeholder="{{ t('first_name') }}"
 												   class="form-control{{ $firstNameError }}" value="{{ old('first_name') }}">
@@ -72,9 +57,7 @@
 									</div>
 									
 									<div class="col-md-6 mb-3">
-										@php
-											$lastNameError = (isset($errors) && $errors->has('last_name')) ? ' is-invalid' : '';
-										@endphp
+										<?php $lastNameError = (isset($errors) && $errors->has('last_name')) ? ' is-invalid' : ''; ?>
 										<div class="form-floating required">
 											<input id="last_name" name="last_name" type="text" placeholder="{{ t('last_name') }}"
 												   class="form-control{{ $lastNameError }}" value="{{ old('last_name') }}">
@@ -83,9 +66,7 @@
 									</div>
 									
 									<div class="col-md-6 mb-3">
-										@php
-											$companyNameError = (isset($errors) && $errors->has('company_name')) ? ' is-invalid' : '';
-										@endphp
+										<?php $companyNameError = (isset($errors) && $errors->has('company_name')) ? ' is-invalid' : ''; ?>
 										<div class="form-floating required">
 											<input id="company_name" name="company_name" type="text" placeholder="{{ t('company_name') }}"
 												   class="form-control{{ $companyNameError }}" value="{{ old('company_name') }}">
@@ -94,13 +75,10 @@
 									</div>
 									
 									<div class="col-md-6 mb-3">
-										@php
-											$emailError = (isset($errors) && $errors->has('email')) ? ' is-invalid' : '';
-										@endphp
+										<?php $emailError = (isset($errors) && $errors->has('email')) ? ' is-invalid' : ''; ?>
 										<div class="form-floating required">
 											<input id="email"
 											       name="email"
-											       data-valid-type="email"
 											       type="text"
 											       placeholder="{{ t('email_address') }}"
 											       class="form-control{{ $emailError }}"
@@ -111,9 +89,7 @@
 									</div>
 									
 									<div class="col-md-12 mb-3">
-										@php
-											$messageError = (isset($errors) && $errors->has('message')) ? ' is-invalid' : '';
-										@endphp
+										<?php $messageError = (isset($errors) && $errors->has('message')) ? ' is-invalid' : ''; ?>
 										<div class="form-floating required">
 											<textarea class="form-control{{ $messageError }}"
 											          id="message"
@@ -144,9 +120,5 @@
 @endsection
 
 @section('after_scripts')
-	<script>
-		onDocumentReady((event) => {
-			formValidate("form", formValidateOptions);
-		});
-	</script>
+	<script src="{{ url('assets/js/form-validation.js') }}"></script>
 @endsection

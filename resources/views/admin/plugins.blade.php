@@ -152,7 +152,7 @@
 					
 						@if (isset($errors) && $errors->any() && old('purchaseCodeForm')=='1')
 							<div class="alert alert-danger">
-								<ul class="list list-check mb-0">
+								<ul class="list list-check">
 									@foreach($errors->all() as $error)
 										<li>{!! $error !!}</li>
 									@endforeach
@@ -200,67 +200,51 @@
     <script src="{{ asset('assets/plugins/ladda/ladda.js') }}"></script>
 	
     <script>
-	    onDocumentReady((event) => {
+        jQuery(document).ready(function($) {
         	
         	/* Installation: Display the Purchase Code Form */
-		    const installBtnEls = document.querySelectorAll('.btn-install');
-		    if (installBtnEls.length > 0) {
-			    installBtnEls.forEach((element) => {
-				    element.addEventListener('click', (e) => {
-					    e.preventDefault(); /* Prevents submission or reloading */
-					
-					    const thisEl = (e.target.tagName.toLowerCase() === 'i')
-						    ? e.target.parentElement
-						    : e.target;
-					
-					    /* Clear form existing data */
-					    clearFormData();
-					
-					    /* Retrieve form data */
-					    let displayName = thisEl.dataset.name;
-					    let installUrl = thisEl.getAttribute('href');
-					    let isCodeRequired = thisEl.dataset.isCodeRequired;
-					    isCodeRequired = (isCodeRequired === 1 || isCodeRequired === '1');
-					
-					    if (isCodeRequired) {
-						    return showInstallationForm(displayName, installUrl);
-					    } else {
-						    Swal.fire({
-							    text: langLayout.confirm.message.question,
-							    icon: 'warning',
-							    showCancelButton: true,
-							    confirmButtonText: langLayout.confirm.button.yes,
-							    cancelButtonText: langLayout.confirm.button.no
-						    }).then((result) => {
-							    if (result.isConfirmed) {
-								
-								    redirect(installUrl);
-								
-							    } else if (result.dismiss === Swal.DismissReason.cancel) {
-								    jsAlert(langLayout.confirm.message.cancel, 'info');
-							    }
-						    });
-					    }
-					
-					    return false;
-				    });
-			    });
-		    }
+            $(document).on('click', '.btn-install', function(e) {
+				e.preventDefault(); /* prevents a submitting or reloading */
+				
+				/* Clear form existing data */
+				clearFormData();
+				
+				/* Retrieve form data */
+				let displayName = $(this).data('name');
+				let installUrl = $(this).attr('href');
+	            let isCodeRequired = $(this).data('isCodeRequired');
+	            isCodeRequired = (isCodeRequired === 1);
+                
+                if (isCodeRequired) {
+					return showInstallationForm(displayName, installUrl);
+				} else {
+					Swal.fire({
+						text: langLayout.confirm.message.question,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonText: langLayout.confirm.button.yes,
+						cancelButtonText: langLayout.confirm.button.no
+					}).then((result) => {
+						if (result.isConfirmed) {
+							
+							redirect(installUrl);
+			
+						} else if (result.dismiss === Swal.DismissReason.cancel) {
+							jsAlert(langLayout.confirm.message.cancel, 'info');
+						}
+					});
+				}
+				
+				return false;
+            });
             
             /* Installation: Submit the Purchase Code Form */
-		    const submitBtnEl = document.getElementById('btnSubmit');
-		    if (submitBtnEl) {
-			    submitBtnEl.addEventListener('click', (e) => {
-				    e.preventDefault(); /* Prevents submission or reloading */
-					
-				    const formEl = document.querySelector('#purchaseCodeModal form');
-				    if (formEl) {
-					    formEl.submit();
-				    }
-					
-				    return false;
-			    });
-		    }
+			$(document).on('click', '#btnSubmit', function(e) {
+				e.preventDefault(); /* prevents a submitting or reloading */
+				$('#purchaseCodeModal form').submit();
+				
+				return false;
+			});
 			
 			@if (isset($errors) && $errors->any())
 				@if ($errors->any() && old('purchaseCodeForm')=='1')
@@ -271,77 +255,30 @@
 			@endif
 			
         });
-		
-	    function showInstallationForm(displayName, installUrl) {
-		    /* Set the modal title */
-		    const modalTitleEl = document.querySelector('#purchaseCodeModal h4.modal-title');
-		    if (modalTitleEl) {
-			    modalTitleEl.innerHTML = displayName;
-		    }
-		    /* Set the displayName input value */
-		    const displayNameEl = document.querySelector('#purchaseCodeModal [name="displayName"]');
-		    if (displayNameEl) {
-			    displayNameEl.value = displayName;
-		    }
-		    /* Set the form action attribute */
-		    const formEl = document.querySelector('#purchaseCodeModal form');
-		    if (formEl) {
-			    formEl.setAttribute('action', installUrl);
-		    }
-		    /* Set the installUrl input value */
-		    const installUrlEl = document.querySelector('#purchaseCodeModal [name="installUrl"]');
-		    if (installUrlEl) {
-			    installUrlEl.value = installUrl;
-		    }
+        
+        function showInstallationForm(displayName, installUrl) {
+        	$('#purchaseCodeModal h4.modal-title').html(displayName);
+			$('#purchaseCodeModal [name="displayName"]').val(displayName);
+			$('#purchaseCodeModal form').attr('action', installUrl);
+			$('#purchaseCodeModal [name="installUrl"]').val(installUrl);
 			
-		    /* Open Modal */
-		    const modalEl = document.getElementById('purchaseCodeModal');
-		    if (modalEl) {
-			    const modal = new bootstrap.Modal(modalEl, {});
-			    modal.show();
-		    }
+			/* Open Modal */
+			let purchaseCodeModal = new bootstrap.Modal(document.getElementById('purchaseCodeModal'), {});
+			purchaseCodeModal.show();
 			
-		    return false;
-	    }
-		
-	    function clearFormData() {
-		    /* Clear the modal title */
-		    const modalTitleEl = document.querySelector('#purchaseCodeModal h4.modal-title');
-		    if (modalTitleEl) {
-			    modalTitleEl.innerHTML = '';
-		    }
-		    /* Clear the displayName input value */
-		    const displayNameEl = document.querySelector('#purchaseCodeModal [name="displayName"]');
-		    if (displayNameEl) {
-			    displayNameEl.value = '';
-		    }
-		    /* Clear the form action attribute */
-		    const formEl = document.querySelector('#purchaseCodeModal form');
-		    if (formEl) {
-			    formEl.setAttribute('action', '');
-		    }
-		    /* Clear the installUrl input value */
-		    const installUrlEl = document.querySelector('#purchaseCodeModal [name="installUrl"]');
-		    if (installUrlEl) {
-			    installUrlEl.value = '';
-		    }
-		    /* Clear and hide the alert message */
-		    const alertEl = document.querySelector('#purchaseCodeModal .alert.alert-danger');
-		    if (alertEl) {
-			    alertEl.innerHTML = '';
-			    alertEl.style.display = 'none';
-		    }
-		    /* Clear the purchase code input value */
-		    const purchaseCodeField = document.querySelector('#purchaseCodeModal [name="purchase_code"]');
-		    if (purchaseCodeField) {
-			    purchaseCodeField.value = '';
-				
-			    /* Remove the is-invalid class from the parent div */
-			    const parentPurchaseCodeField = purchaseCodeField.closest('div.input-group');
-			    if (parentPurchaseCodeField) {
-				    parentPurchaseCodeField.classList.remove('is-invalid');
-			    }
-		    }
-	    }
+			return false;
+        }
+        
+        function clearFormData() {
+			$('#purchaseCodeModal h4.modal-title').html('');
+			$('#purchaseCodeModal [name="displayName"]').val('');
+			$('#purchaseCodeModal form').attr('action', '');
+			$('#purchaseCodeModal [name="installUrl"]').val('');
+			
+			$('#purchaseCodeModal .alert.alert-danger').html('').hide();
+			let purchaseCodeFieldSelector = '#purchaseCodeModal [name="purchase_code"]';
+			$(purchaseCodeFieldSelector).val('');
+			$(purchaseCodeFieldSelector).parent('div.input-group').removeClass('is-invalid');
+		}
     </script>
 @endsection

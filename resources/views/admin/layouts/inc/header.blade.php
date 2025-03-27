@@ -2,9 +2,8 @@
 	@php
 		$navbarTheme = (config('settings.style.admin_navbar_bg') == 'skin6') ? 'navbar-light' : 'navbar-dark';
 		$appName = strtolower(config('settings.app.name'));
-		$logoFactoryUrl = config('larapen.media.logo-factory');
-		$logoDarkUrl = config('settings.app.logo_dark_url', $logoFactoryUrl);
-		$logoLightUrl = config('settings.app.logo_light_url', $logoFactoryUrl);
+		$logoDarkUrl = config('settings.app.logo_dark_url');
+		$logoLightUrl = config('settings.app.logo_light_url');
 	@endphp
 	<nav class="navbar top-navbar navbar-expand-md {{ $navbarTheme }}">
 		

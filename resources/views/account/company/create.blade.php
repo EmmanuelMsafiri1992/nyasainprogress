@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 @extends('layouts.master')
 
 @php
@@ -26,6 +13,7 @@
 				<div class="col-md-3 page-sidebar">
 					@includeFirst([config('larapen.core.customizedViewPath') . 'account.inc.sidebar', 'account.inc.sidebar'])
 				</div>
+				<!--/.page-sidebar-->
 				
 				<div class="col-md-9 page-content">
 					
@@ -33,7 +21,7 @@
 					
 					@if (isset($errors) && $errors->any())
 						<div class="alert alert-danger">
-							<h5><strong>{{ t('validation_errors_title') }}</strong></h5>
+							<h5><strong>{{ t('oops_an_error_has_occurred') }}</strong></h5>
 							<ul class="list list-check">
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -55,19 +43,11 @@
 							{{-- COMPANY --}}
 							<div class="card card-default">
 								<div class="card-header">
-									<h4 class="card-title">
-										<a href="#companyPanel" data-bs-toggle="collapse" data-parent="#accordion"> {{ t('Company Information') }} </a>
-									</h4>
+									<h4 class="card-title"><a href="#companyPanel" data-bs-toggle="collapse" data-parent="#accordion"> {{ t('Company Information') }} </a></h4>
 								</div>
 								<div class="panel-collapse collapse show" id="companyPanel">
 									<div class="card-body">
-										<form name="company"
-										      class="form-horizontal"
-										      role="form"
-										      method="POST"
-										      action="{{ url('account/companies') }}"
-										      enctype="multipart/form-data"
-										>
+										<form name="company" class="form-horizontal" role="form" method="POST" action="{{ url('account/companies') }}" enctype="multipart/form-data">
 											{!! csrf_field() !!}
 											<input name="panel" type="hidden" value="companyPanel">
 											
@@ -89,12 +69,17 @@
 							</div>
 						
 						</div>
+						<!--/.row-box End-->
 					
 					</div>
 				</div>
+				<!--/.page-content-->
 			</div>
+			<!--/.row-->
 		</div>
+		<!--/.container-->
 	</div>
+	<!-- /.main-container -->
 @endsection
 
 @section('after_styles')

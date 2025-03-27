@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Exceptions\Handler;
 
@@ -53,7 +40,7 @@ trait Http419ExceptionHandler
 	 */
 	protected function responseHttp419Exception(\Throwable $e, Request $request): Response|JsonResponse|RedirectResponse
 	{
-		$message = getHttp419ExceptionMessage($request);
+		$message = $this->getHttp419ExceptionMessage($e, $request);
 		
 		if (!isFromApi($request) && !isFromAjax($request)) {
 			$previousUrl = $this->getHttp419ExceptionPreviousUrl();
@@ -68,6 +55,18 @@ trait Http419ExceptionHandler
 	}
 	
 	// PRIVATE
+	
+	/**
+	 * @param \Throwable $e
+	 * @param \Illuminate\Http\Request $request
+	 * @return string
+	 */
+	private function getHttp419ExceptionMessage(\Throwable $e, Request $request): string
+	{
+		return (isFromApi($request) || isFromAjax($request))
+			? t('page_expired_reload_needed')
+			: t('page_expired');
+	}
 	
 	/**
 	 * @return string|null

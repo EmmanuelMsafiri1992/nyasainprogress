@@ -39,7 +39,7 @@
 	@parent
 	<script src="{{ url('assets/plugins/twism/jquery.twism.js') }}"></script>
 	<script>
-		onDocumentReady((event) => {
+		$(document).ready(function () {
 			@if ($mapCanBeShown)
 				$('#countryMap').css('cursor', 'pointer');
 				$('#countryMap').twism("create",

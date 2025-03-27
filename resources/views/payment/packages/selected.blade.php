@@ -22,8 +22,8 @@
 						   id="packageId-{{ $selectedPackage->id }}"
 						   value="{{ $selectedPackage->id }}"
 						   data-name="{{ $selectedPackage->name }}"
-						   data-currency-symbol="{{ $selectedPackage->currency->symbol }}"
-						   data-currency-in-left="{{ $selectedPackage->currency->in_left }}"
+						   data-currencysymbol="{{ $selectedPackage->currency->symbol }}"
+						   data-currencyinleft="{{ $selectedPackage->currency->in_left }}"
 							{{ $packageCheckedAttr }}
 					>
 					<label class="form-check-label mb-0{{ $packageIdError }}">

@@ -4,8 +4,6 @@
 		in_array($captcha, ['default', 'math', 'flat', 'mini', 'inverse', 'custom'])
 		&& !empty(config('captcha.option'))
 	);
-	
-	$hideClass = 'd-none';
 @endphp
 @if ($isSimpleCaptchaEnabled)
 	@php
@@ -15,11 +13,11 @@
 		$blankImage = url('images/blank.gif');
 		
 		$captchaImage = '<img src="' . $blankImage . '" style="cursor: pointer;">';
-		$captchaHint = '<div class="form-text text-muted ' . $hideClass . '" style="margin-bottom: 2px;">' . t('captcha_hint') . '</div>';
+		$captchaHint = '<div class="form-text text-muted hide" style="margin-bottom: 2px;">' . t('captcha_hint') . '</div>';
 		$captchaWidth = config('captcha.' . config('settings.security.captcha') . '.width', 150);
 		$styleCss = ' style="width: ' . $captchaWidth . 'px;"';
 		
-		$captchaReloadBtn = '<a rel="nofollow" href="javascript:;" class="' . $hideClass . '" title="' . t('captcha_reload_hint') . '">';
+		$captchaReloadBtn = '<a rel="nofollow" href="javascript:;" class="hide" title="' . t('captcha_reload_hint') . '">';
 		$captchaReloadBtn .= '<button type="button" class="btn btn-primary btn-refresh"><i class="fa-solid fa-rotate"></i></button>';
 		$captchaReloadBtn .= '</a>';
 		
@@ -32,7 +30,7 @@
 		@php
 			$captchaDivError = (isset($errors) && $errors->has('captcha')) ? ' has-danger' : '';
 			$captchaError = (isset($errors) && $errors->has('captcha')) ? ' form-control-danger' : '';
-			$captchaField = '<input type="text" name="captcha" autocomplete="off" class="' . $hideClass . ' form-control' . $captchaError . '"' . $styleCss . '>';
+			$captchaField = '<input type="text" name="captcha" autocomplete="off" class="hide form-control' . $captchaError . '"' . $styleCss . '>';
 		@endphp
 		
 		<div class="captcha-div form-group mb-3 required{{ $captchaDivError }}">
@@ -42,8 +40,8 @@
 				{!! $captchaField !!}
 			</div>
 			
-			@if (isset($errors) && $errors->has('captcha'))
-				<div class="invalid-feedback {{ $hideClass }}">{{ $errors->first('captcha') }}</div>
+			@if ($errors->has('captcha'))
+				<div class="invalid-feedback hide">{{ $errors->first('captcha') }}</div>
 			@endif
 		</div>
 		
@@ -51,12 +49,12 @@
 		
 		@php
 			$captchaError = (isset($errors) && $errors->has('captcha')) ? ' is-invalid' : '';
-			$captchaField = '<input type="text" name="captcha" autocomplete="off" class="' . $hideClass . ' form-control' . $captchaError . '"' . $styleCss . '>';
+			$captchaField = '<input type="text" name="captcha" autocomplete="off" class="hide form-control' . $captchaError . '"' . $styleCss . '>';
 		@endphp
 		
 		@if (isset($colLeft) && isset($colRight))
 			<div class="captcha-div row mb-3 required{{ $captchaError }}">
-				<label class="{{ $colLeft }} col-form-label {{ $hideClass }}" for="captcha">
+				<label class="{{ $colLeft }} col-form-label hide" for="captcha">
 					@if (isset($label) && $label == true)
 						{{ t('captcha_label') }}
 					@endif
@@ -70,7 +68,7 @@
 		@else
 			@if (isset($label) && $label == true)
 				<div class="captcha-div row mb-3 required{{ $captchaError }}">
-					<label class="control-label {{ $hideClass }}" for="captcha">{{ t('captcha_label') }}</label>
+					<label class="control-label hide" for="captcha">{{ t('captcha_label') }}</label>
 					<div>
 						{!! $captchaReloadBtn !!}
 						{!! $captchaHint !!}
@@ -110,9 +108,8 @@
 		<script>
 			let captchaImage = '{!! $captchaImage !!}';
 			let captchaUrl = '{{ $captchaReloadUrl }}';
-			let hideClass = '{{ trim($hideClass) }}';
 			
-			onDocumentReady((event) => {
+			$(document).ready(function () {
 				/* Load the captcha image */
 				{{--
 				 * Load the captcha image N ms after the page is loaded
@@ -125,36 +122,20 @@
 				 * Firefox: 100ms
 				--}}
 				let stTimeout = {{ $captchaDelay }};
-				setTimeout(() => loadCaptchaImage(captchaImage, captchaUrl), stTimeout);
+				setTimeout(function () {
+					loadCaptchaImage(captchaImage, captchaUrl);
+				}, stTimeout);
 				
-				/*
-				 * Handle captcha image click
-				 * Reload the captcha image on by clicking on it
-				 */
-				onDomElementsAdded('.captcha-div img', (elements) => {
-					if (elements.length <= 0) {
-						return false;
-					}
-					elements.forEach((element) => {
-						element.addEventListener('click', (e) => {
-							e.preventDefault();
-							reloadCaptchaImage(e.target, captchaUrl);
-						});
-					});
+				/* Reload the captcha image on by clicking on it */
+				$(document).on('click', '.captcha-div img', function(e) {
+					e.preventDefault();
+					reloadCaptchaImage($(this), captchaUrl);
 				});
 				
-				/*
-				 * Handle captcha reload link click
-				 * Reload the captcha image on by clicking on the reload link
-				 */
-				const captchaLinkEl = document.querySelector('.captcha-div a');
-				captchaLinkEl.addEventListener('click', (e) => {
+				/* Reload the captcha image on by clicking on the reload link */
+				$(document).on('click', '.captcha-div a', function(e) {
 					e.preventDefault();
-					
-					const captchaImage = document.querySelector('.captcha-div img');
-					if (captchaImage) {
-						reloadCaptchaImage(captchaImage, captchaUrl);
-					}
+					reloadCaptchaImage($('.captcha-div img'), captchaUrl);
 				});
 			});
 			
@@ -164,42 +145,21 @@
 				captchaImage = captchaImage.replace(/src="[^"]*"/gi, 'src="' + captchaUrl + '"');
 				
 				/* Remove existing <img> */
-				let captchaImageEls = document.querySelectorAll('.captcha-div img');
-				if (captchaImageEls.length > 0) {
-					captchaImageEls.forEach((element) => element.remove());
-				}
+				let captchaImageSelector = '.captcha-div img';
+				$(captchaImageSelector).remove();
 				
 				/* Add the <img> tag in the DOM */
-				let captchaDivEls = document.querySelectorAll('.captcha-div > div');
-				if (captchaDivEls.length > 0) {
-					captchaDivEls.forEach((element) => element.insertAdjacentHTML('afterbegin', captchaImage));
-				}
+				$('.captcha-div > div').prepend(captchaImage);
 				
-				/* Show the captcha's div only when the image src is fully loaded */
-				let newCaptchaImageEls = document.querySelectorAll('.captcha-div img');
-				if (newCaptchaImageEls.length > 0) {
-					newCaptchaImageEls.forEach((element) => {
-						element.addEventListener('load', () => {
-							const captchaSelectors = [
-								'.captcha-div label',
-								'.captcha-div a',
-								'.captcha-div div',
-								'.captcha-div small',
-								'.captcha-div input'
-							];
-							toggleElementsClass(captchaSelectors, 'remove', hideClass);
-						});
-						
-						element.addEventListener('error', () => {
-							console.error('Error loading captcha image');
-						});
-					});
-				}
+				/* Show the captcha' div only when the image src is fully loaded */
+				$('.captcha-div img').on('load', function() {
+					$('.captcha-div label, .captcha-div a, .captcha-div div, .captcha-div small, .captcha-div input').removeClass('hide');
+				});
 			}
 			
 			function reloadCaptchaImage(captchaImageEl, captchaUrl) {
 				captchaUrl = getTimestampedUrl(captchaUrl);
-				captchaImageEl.src = captchaUrl;
+				captchaImageEl.attr('src', captchaUrl);
 			}
 			
 			function getTimestampedUrl(captchaUrl) {

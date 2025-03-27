@@ -5,42 +5,183 @@ if (typeof maxSubCats === 'undefined') {
 	var maxSubCats = 3;
 }
 
+if (typeof isSettingsAppDarkModeEnabled === 'undefined') {
+	var isSettingsAppDarkModeEnabled = false;
+}
+if (typeof isDarkModeEnabledForCurrentUser === 'undefined') {
+	var isDarkModeEnabledForCurrentUser = false;
+}
+if (typeof isDarkModeEnabledForCurrentDevice === 'undefined') {
+	var isDarkModeEnabledForCurrentDevice = false;
+}
+
+var headerHeight = $('.navbar-site').height();
+var wrapper = $('#wrapper');
+
 // Modernizr touch event detect
-function isFromTouchDevice() {
+function is_touch_device() {
 	return 'ontouchstart' in window;
 }
 
-var isTouchDevice = isFromTouchDevice();
+var isTouchDevice = is_touch_device();
 
 /* console.log('is touch device : ',isTouchDevice); */
 
-onDocumentReady((event) => {
+$(document).ready(function () {
 	
-	/* Enable tooltips everywhere */
-	initElementTooltips(getHtmlElement()); /* Default trigger: 'hover focus' */
-	initElementTooltips(getHtmlElement(), {trigger: 'hover'}, 'tooltipHover');
+	/* tooltips */
+	/* Enable tooltips everywhere (Default trigger: 'hover focus') */
+	let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+	let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl);
+	});
 	
-	/* Enable poppers everywhere */
-	initElementPopovers(getHtmlElement(), {html: true});
+	/* Enable tooltips everywhere (Default trigger: 'hover') */
+	let tooltipHoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltipHover"]'));
+	let tooltipHoverList = tooltipHoverTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl, {
+			trigger : 'hover'
+		});
+	});
+	
+	/* popper.js */
+	/* Enable popovers everywhere */
+	let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+	let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		return new bootstrap.Popover(popoverTriggerEl, {
+			html: true
+		});
+	});
 	
 	/* Change a tooltip size in Bootstrap 4.x */
-	const locSearchEl = document.getElementById('locSearch');
-	if (locSearchEl) {
-		const tooltipEvents = ['mouseover', 'mouseenter', 'mouseleave', 'mousemove'];
-		tooltipEvents.forEach((event) => {
-			locSearchEl.addEventListener(event, applyTooltipStyles);
+	$('#locSearch').on('mouseover mouseenter mouseleave mousemove', function () {
+		$('.tooltip-inner').css({"width": "300px", "max-width": "300px"});
+	});
+	
+	/* Dark Mode Functions */
+	function getHtmlEl() {
+		return document.documentElement;
+		// return document.getElementsByTagName('html')[0];
+		// return = document.querySelector('html');
+	}
+	function isDarkThemeEnabledInHtml() {
+		let htmlEl = getHtmlEl();
+		return (isSettingsAppDarkModeEnabled && htmlEl.getAttribute('theme') === 'dark');
+	}
+	
+	function isDarkThemeNotEnabledInHtml() {
+		let htmlEl = getHtmlEl();
+		return (htmlEl.getAttribute('theme') !== 'dark');
+	}
+	
+	function setDarkModeServer(themeSwitcherEl) {
+		if (isElNotDefined(themeSwitcherEl)) {
+			return false;
+		}
+		
+		let requestUserId = themeSwitcherEl.dataset.userId;
+		let requestDarkMode = isDarkThemeNotEnabledInHtml() ? 1 : 0;
+		
+		let url = siteUrl + '/ajax/user/dark-mode';
+		let data = {
+			'user_id': requestUserId,
+			'dark_mode': requestDarkMode,
+			'_token': $('input[name=_token]').val()
+		};
+		
+		httpRequest('post', url, data)
+			.then((json) => {
+				if (typeof json.darkMode === 'undefined') {
+					jsAlert(langLayout.darkMode.error, 'error');
+					return false;
+				}
+				
+				let message = (json.darkMode === 1) ? langLayout.darkMode.successSet : langLayout.darkMode.successDisabled;
+				jsAlert(message, 'success');
+			})
+			.catch((error) => {
+				jsAlert(error, 'error');
+			});
+	}
+	
+	function setDarkMode(themeSwitcherEl) {
+		setDarkModeServer(themeSwitcherEl);
+		
+		let htmlEl = getHtmlEl();
+		let logoDarkEl = document.querySelector('.navbar-identity .navbar-brand .dark-logo');
+		let logoLightEl = document.querySelector('.navbar-identity .navbar-brand .light-logo');
+		
+		if (isElNotDefined(logoDarkEl) || isElNotDefined(logoLightEl)) {
+			return false;
+		}
+		
+		if (!isDarkThemeEnabledInHtml()) {
+			htmlEl.setAttribute('theme', 'dark');
+			htmlEl.dataset.bsTheme = 'dark';
+			logoDarkEl.style.display = 'block';
+			logoLightEl.style.display = 'none';
+			if (isElDefined(themeSwitcherEl)) {
+				themeSwitcherEl.classList.add('active');
+			}
+		} else {
+			htmlEl.setAttribute('theme', 'light');
+			delete htmlEl.dataset.bsTheme;
+			logoDarkEl.style.display = 'none';
+			logoLightEl.style.display = 'block';
+			if (isElDefined(themeSwitcherEl)) {
+				themeSwitcherEl.classList.remove('active');
+			}
+		}
+	}
+	
+	function loadDarkMode(themeSwitcherEl) {
+		let htmlEl = getHtmlEl();
+		let logoDarkEl = document.querySelector('.navbar-identity .navbar-brand .dark-logo');
+		let logoLightEl = document.querySelector('.navbar-identity .navbar-brand .light-logo');
+		
+		if (isElNotDefined(logoDarkEl) || isElNotDefined(logoLightEl)) {
+			return false;
+		}
+		
+		if (isDarkModeEnabledForCurrentDevice) {
+			htmlEl.setAttribute('theme', 'dark');
+			htmlEl.dataset.bsTheme = 'dark';
+			logoDarkEl.style.display = 'block';
+			logoLightEl.style.display = 'none';
+			if (isElDefined(themeSwitcherEl)) {
+				themeSwitcherEl.classList.add('active');
+			}
+		} else {
+			htmlEl.setAttribute('theme', 'light');
+			delete htmlEl.dataset.bsTheme;
+			logoDarkEl.style.display = 'none';
+			logoLightEl.style.display = 'block';
+			if (isElDefined(themeSwitcherEl)) {
+				themeSwitcherEl.classList.remove('active');
+			}
+		}
+	}
+	
+	/* Dark Mode */
+	let themeSwitcherEl = document.querySelector('.theme-switcher');
+	loadDarkMode(themeSwitcherEl);
+	if (isElDefined(themeSwitcherEl)) {
+		themeSwitcherEl.addEventListener('click', function (e) {
+			setDarkMode(this);
 		});
 	}
 	
+	var navbarSite = $('.navbar-site');
+	
 	/* Get Page Direction */
-	let htmlEl = getHtmlElement();
-	let isRTLEnabled = (htmlEl.getAttribute('dir') === 'rtl');
+	var rtlIsEnabled = false;
+	var dir = $('html').attr('dir');
+	if (dir === 'rtl') {
+		rtlIsEnabled = true;
+	}
+	
 	
 	/* SET HEADER HEIGHT AS PADDING-TOP to WRAPPER */
-	
-	let wrapper = $('#wrapper');
-	let navbarSite = $('.navbar-site');
-	let headerHeight = navbarSite.height();
 	
 	function setWrapperHeight() {
 		wrapper.css('padding-top', headerHeight + 'px');
@@ -108,23 +249,25 @@ onDocumentReady((event) => {
 	 Global Plugins ||
 	 ==================================*/
 	
-	hideMaxListItems('.long-list', {
-		max: 8,
-		speed: 500,
-		moreText: langLayout.hideMaxListItems.moreText + ' ([COUNT])',
-		lessText: langLayout.hideMaxListItems.lessText
+	$('.long-list').hideMaxListItems({
+		'max': 8,
+		'speed': 500,
+		'moreText': langLayout.hideMaxListItems.moreText + ' ([COUNT])',
+		'lessText': langLayout.hideMaxListItems.lessText
 	});
-	hideMaxListItems('.long-list-user', {
-		max: 12,
-		speed: 500,
-		moreText: langLayout.hideMaxListItems.moreText + ' ([COUNT])',
-		lessText: langLayout.hideMaxListItems.lessText
+	
+	$('.long-list-user').hideMaxListItems({
+		'max': 12,
+		'speed': 500,
+		'moreText': langLayout.hideMaxListItems.moreText + ' ([COUNT])',
+		'lessText': langLayout.hideMaxListItems.lessText
 	});
-	hideMaxListItems('.long-list-home', {
-		max: maxSubCats,
-		speed: 500,
-		moreText: langLayout.hideMaxListItems.moreText + ' ([COUNT])',
-		lessText: langLayout.hideMaxListItems.lessText
+	
+	$('.long-list-home').hideMaxListItems({
+		'max': maxSubCats,
+		'speed': 500,
+		'moreText': langLayout.hideMaxListItems.moreText + ' ([COUNT])',
+		'lessText': langLayout.hideMaxListItems.lessText
 	});
 	
 	/* Bootstrap Collapse + jQuery hideMaxListItem fix on mobile */
@@ -208,7 +351,7 @@ onDocumentReady((event) => {
 	var sidebarDirection = {};
 	var sidebarDirectionClose = {};
 	
-	if (isRTLEnabled) {
+	if (rtlIsEnabled) {
 		sidebarDirection = {right: '-251px'};
 		sidebarDirectionClose = {right: '0'};
 	} else {
@@ -290,24 +433,20 @@ onDocumentReady((event) => {
 	/* Check 'assets/js/app/messenger.js' */
 	
 	/* Check New Messages */
-	/* 60000 = 60 seconds (Timer) */
 	if (typeof timerNewMessagesChecking !== 'undefined') {
 		checkNewMessages();
 		if (timerNewMessagesChecking > 0) {
-			setInterval(() => checkNewMessages(), timerNewMessagesChecking);
+			setInterval(function () {
+				checkNewMessages();
+				/* 60000 = 60 seconds (Timer) */
+			}, timerNewMessagesChecking);
 		}
 	}
 	
-	/* Toggle (Show|hide) Password Field Value */
-	const togglePasswordLinkEls = document.querySelectorAll('.toggle-password-link');
-	if (togglePasswordLinkEls.length > 0) {
-		togglePasswordLinkEls.forEach((element) => {
-			element.addEventListener('click', (e) => {
-				e.preventDefault();
-				togglePassword(e.target);
-			});
-		});
-	}
+	/* Show/hide password in forms */
+	$('.eyeOfPwd').click(function (e) {
+		showPwd($(this));
+	});
 	
 	/* Data loading-mask pre-configuration */
 	$.busyLoadSetup({
@@ -337,19 +476,6 @@ function createCustomSpinnerEl() {
 }
 
 /**
- * Change a tooltip size in Bootstrap 4.x
- */
-function applyTooltipStyles() {
-	const tooltipInnerEls = document.querySelectorAll('.tooltip-inner');
-	if (tooltipInnerEls.length > 0) {
-		tooltipInnerEls.forEach((element) => {
-			element.style.width = "300px";
-			element.style.maxWidth = "300px";
-		});
-	}
-}
-
-/**
  * Set Country Phone Code
  * @param countryCode
  * @param countries
@@ -359,10 +485,7 @@ function setCountryPhoneCode(countryCode, countries) {
 	if (typeof countryCode === "undefined" || typeof countries === "undefined") return false;
 	if (typeof countries[countryCode] === "undefined") return false;
 	
-	const phoneCountryEl = document.getElementById('phoneCountry');
-	if (phoneCountryEl) {
-		phoneCountryEl.innerHTML = countries[countryCode]['phone'];
-	}
+	$('#phoneCountry').html(countries[countryCode]['phone']);
 }
 
 /**
@@ -371,45 +494,77 @@ function setCountryPhoneCode(countryCode, countries) {
  * @returns {boolean}
  */
 function setUserType(userTypeId) {
-	let companyElSelector = '#companyBloc';
-	let resumeElSelector = '#resumeBloc';
+	let companyContainerEl = $('#companyBloc');
+	let resumeContainerEl = $('#resumeBloc');
 	
-	setElementsVisibility("hide", companyElSelector);
-	setElementsVisibility("hide", resumeElSelector);
+	companyContainerEl.hide();
+	resumeContainerEl.hide();
 	
-	let coNameDivEl;
-	const coNameEl = document.querySelector('input[name="company[name]"]');
-	if (coNameEl) {
-		coNameEl.classList.remove("is-invalid");
-		coNameDivEl = coNameEl.closest("div");
-		if (coNameDivEl) {
-			coNameDivEl.classList.remove("required");
-		}
+	if (typeof userTypeId === "undefined") {
+		return false;
 	}
 	
-	let coDescriptionDivEl;
-	const coDescriptionEl = document.querySelector('textarea[name="company[description]"]');
-	if (coDescriptionEl) {
-		coDescriptionEl.classList.remove("is-invalid");
-		coDescriptionDivEl = coDescriptionEl.closest("div");
-		if (coDescriptionDivEl) {
-			coDescriptionDivEl.classList.remove("required");
-		}
+	/* Company */
+	if (userTypeId == 1) {
+		companyContainerEl.show();
 	}
 	
-	if (userTypeId === 1 || userTypeId === '1') {
-		setElementsVisibility("show", companyElSelector);
-		if (coNameDivEl) {
-			coNameDivEl.classList.add("required");
-		}
-		if (coDescriptionDivEl) {
-			coDescriptionDivEl.classList.add("required");
-		}
+	/* Candidate */
+	if (userTypeId == 2) {
+		resumeContainerEl.show();
+	}
+}
+
+/**
+ * Show Payment Methods SelectBox
+ * @param packagePrice
+ * @param forceDisplay
+ */
+function showPaymentMethods(packagePrice, forceDisplay = false) {
+	if (forceDisplay) {
+		$('#packagesTable tbody tr:last').show();
+		return;
 	}
 	
-	if (userTypeId === 2 || userTypeId === '2') {
-		setElementsVisibility("show", resumeElSelector);
+	/* If price <= 0 hide the Payment Method selection */
+	if (packagePrice <= 0) {
+		$('#packagesTable tbody tr:last').hide();
+	} else {
+		$('#packagesTable tbody tr:last').show();
 	}
+}
+
+/**
+ * Show Amount
+ * @param packagePrice
+ * @param packageCurrencySymbol
+ * @param packageCurrencyInLeft
+ */
+function showAmount(packagePrice, packageCurrencySymbol, packageCurrencyInLeft) {
+	/* Show Amount */
+	$('.payable-amount').html(packagePrice);
+	
+	/* Show Amount Currency */
+	$('.amount-currency').html(packageCurrencySymbol);
+	if (packageCurrencyInLeft == 1) {
+		$('.amount-currency.currency-in-left').show();
+		$('.amount-currency.currency-in-right').hide();
+	} else {
+		$('.amount-currency.currency-in-left').hide();
+		$('.amount-currency.currency-in-right').show();
+	}
+}
+
+/**
+ * Get the Selected Package Price
+ * @param selectedPackage
+ * @returns {*|jQuery}
+ */
+function getPackagePrice(selectedPackage) {
+	let price = $('#price-' + selectedPackage + ' .price-int').html();
+	price = parseFloat(price);
+	
+	return price;
 }
 
 /**
@@ -417,47 +572,35 @@ function setUserType(userTypeId) {
  * @param companyId
  */
 function getCompany(companyId) {
-	const logoFieldEl = document.getElementById('logoField');
-	const logoFieldElValue = document.getElementById('logoFieldValue');
-	const companyFieldsEl = document.getElementById('companyFields');
-	const companyIdEl = document.getElementById('companyId');
-	const companyFormLinkEl = document.getElementById('companyFormLink');
-	
 	if (companyId === 0 || companyId === '0' || companyId === '') {
-		logoFieldEl.style.display = 'none';
-		logoFieldElValue.innerHTML = '';
-		companyFieldsEl.style.display = '';
+		$('#logoField').hide();
+		$('#logoFieldValue').html('');
+		
+		$('#companyFields').show();
 	} else {
-		companyFieldsEl.style.display = 'none';
+		$('#companyFields').hide();
 		
-		const selectedOption = companyIdEl.options[companyIdEl.selectedIndex];
-		const selectedCompanyLogo = selectedOption.getAttribute('data-logo');
-		logoFieldElValue.innerHTML = '<img src="' + selectedCompanyLogo + '">';
+		let selectedCompanyLogo = $('#companyId').find('option:selected').data('logo');
+		$('#logoFieldValue').html('<img src="' + selectedCompanyLogo + '">');
 		
-		const searchValue = /companies\/([0-9]+|new)\/edit/;
-		const replaceValue = 'companies/' + companyId + '/edit';
+		let companyFormLinkElement = $('#companyFormLink');
+		let companyFormLinkHrefValue = companyFormLinkElement.attr('href');
+		companyFormLinkHrefValue = companyFormLinkHrefValue.replace(/companies\/([0-9]+|new)\/edit/, 'companies/' + companyId + '/edit');
+		companyFormLinkElement.attr('href', companyFormLinkHrefValue);
 		
-		let companyFormLinkHrefValue = companyFormLinkEl.getAttribute('href');
-		companyFormLinkHrefValue = companyFormLinkHrefValue.replace(searchValue, replaceValue);
-		companyFormLinkEl.setAttribute('href', companyFormLinkHrefValue);
-		
-		logoFieldEl.style.display = '';
+		$('#logoField').show();
 	}
 }
-
 
 /**
  * Get Candidate's Resume details
  * @param resumeId
  */
 function getResume(resumeId) {
-	let resumeFields = document.getElementById('resumeFields');
-	if (resumeFields) {
-		if (resumeId === 0 || resumeId === '0' || resumeId === '') {
-			resumeFields.style.display = 'block';
-		} else {
-			resumeFields.style.display = 'none';
-		}
+	if (resumeId === 0 || resumeId === '0' || resumeId === '') {
+		$('#resumeFields').show();
+	} else {
+		$('#resumeFields').hide();
 	}
 }
 
@@ -509,25 +652,16 @@ function checkNewMessages() {
 }
 
 /**
- * Toggle (Show|hide) Password Field Value
- * @param togglePasswordLinkIconEl
+ * Show/Hide password in forms
  */
-function togglePassword(togglePasswordLinkIconEl) {
-	const togglePasswordLinkEl = togglePasswordLinkIconEl.parentElement;
-	const inputGroup = togglePasswordLinkEl.closest('.toggle-password-wrapper');
-	const passwordFieldEls = inputGroup.querySelectorAll('input[type="password"], .is-password-field');
+function showPwd(btnEl) {
+	let el = $('.show-pwd-group #mPassword, .show-pwd-group #password');
 	
-	if (passwordFieldEls.length > 0) {
-		passwordFieldEls.forEach((element) => {
-			if (element.type === 'password') {
-				element.classList.add('is-password-field');
-				element.type = 'text';
-				togglePasswordLinkEl.innerHTML = '<i class="fa-regular fa-eye"></i>';
-			} else {
-				element.type = 'password';
-				togglePasswordLinkEl.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
-				element.classList.remove('is-password-field');
-			}
-		});
+	if (el.attr('type') === 'password') {
+		el.prop('type', 'text');
+		btnEl.html('<i class="fa-regular fa-eye"></i>');
+	} else {
+		el.prop('type', 'password');
+		btnEl.html('<i class="fa-regular fa-eye-slash"></i>');
 	}
 }

@@ -256,7 +256,8 @@ return [
 	
     'message_has_sent_successfully_to' => 'Your message has sent successfully to :contact_name.',
     'report_has_sent_successfully_to_us' => 'Your report has sent successfully to us. Thank you!',
-	
+    
+    'posting_listings_is_disabled' => 'Posting jobs is disabled for this time. Please try later. Thank you.',
     'your_listing_is_created' => 'Your listing has been created.',
     
     'update_my_ad' => 'Update My Listing',
@@ -303,8 +304,7 @@ return [
 	'count_mails' => '{0} mail|{1} mail|[2,*] mails',
 	'count_messages' => '{0} message|{1} message|[2,*] messages',
     
-    'validation_errors_title' => 'Oops! There were some issues with your submission',
-	'errors_occurred_title' => 'Oops! Some errors occurred during your request',
+    'oops_an_error_has_occurred' => 'Oops ! An error has occurred. Please correct the red fields in the form',
     'visits' => 'visits',
     'Favorites' => 'Favorites',
     'Hello' => 'Hello',
@@ -402,8 +402,8 @@ return [
     'Save' => 'Save',
     'All Ads' => 'All Ads',
     'Sort by' => 'Sort by',
-    'salary_low_to_high' => 'Salary : Low to High',
-    'salary_high_to_low' => 'Salary : High to Low',
+    'price_low_to_high' => 'Price : Low to High',
+    'price_high_to_low' => 'Price : High to Low',
     'Relevance' => 'Relevance',
     'Date' => 'Date',
     'around_x_distance' => 'Around :distance :unit',
@@ -1100,25 +1100,7 @@ return [
 	'enter_minimum_chars' => 'Enter at least ${threshold} characters to find cities',
 	'no_results_for' => 'No results found for: ${query}',
 	'unknown_error' => 'Unknown Error.',
-	'formValidation' => [
-		'formErrorMessage' => 'This form contains invalid data.',
-		'defaultErrors' => [
-			'required' => 'This field is required',
-			'validator' => 'This field is not valid',
-		],
-		'errors' => [
-			'alphanumeric' => 'Enter an alphanumeric value',
-			'numeric' => 'Enter a positive numeric value',
-			'email' => 'Enter a valid email address',
-			'url' => 'Enter a valid URL',
-			'username' => 'Enter an alphanumeric with underscores, 3-16 characters',
-			'password' => 'Enter a strong password requirements',
-			'date' => 'Enter a valid date (YYYY-MM-DD) format',
-			'time' => 'Enter a valid time (HH 24-hour) format',
-			'cardExpiry' => 'Enter a valid card expiry',
-			'cardCvc' => 'Enter a valid card CVC',
-		],
-	],
+
 
 
 

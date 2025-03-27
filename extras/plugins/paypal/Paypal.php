@@ -52,19 +52,6 @@ class Paypal extends Payment
 		
 		$referenceId = md5($payable->id . $package->id . $package->type . uniqid('', true));
 		
-		// Get the current session ID
-		$sessionId = session()->getId();
-		
-		// Get the payment callback URL
-		$paymentReturnUrl = parent::$uri['paymentReturnUrl'];
-		$paymentReturnUrl .= str_contains($paymentReturnUrl, '?') ? '&' : '?';
-		$paymentReturnUrl .= 'sessionId=' . $sessionId;
-		
-		// Get the payment cancel callback URL
-		$paymentCancelUrl = parent::$uri['paymentCancelUrl'];
-		$paymentCancelUrl .= str_contains($paymentCancelUrl, '?') ? '&' : '?';
-		$paymentCancelUrl .= 'sessionId=' . $sessionId;
-		
 		// API Parameters
 		$providerParams = [
 			'intent'              => 'CAPTURE',
@@ -79,8 +66,8 @@ class Paypal extends Payment
 				],
 			],
 			'application_context' => [
-				'cancel_url' => $paymentCancelUrl,
-				'return_url' => $paymentReturnUrl,
+				'cancel_url' => parent::$uri['paymentCancelUrl'],
+				'return_url' => parent::$uri['paymentReturnUrl'],
 				'brand_name' => config('app.name'),
 			],
 		];

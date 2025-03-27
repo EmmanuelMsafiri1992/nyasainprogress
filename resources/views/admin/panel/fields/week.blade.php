@@ -1,11 +1,6 @@
 {{-- html5 week input --}}
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder">
-        {!! $field['label'] !!}
-        @if (isset($field['required']) && $field['required'])
-            <span class="text-danger">*</span>
-        @endif
-    </label>
+    <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
     <input
         type="week"

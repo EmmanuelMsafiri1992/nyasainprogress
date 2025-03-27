@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -169,10 +156,14 @@ class SecuritySetting
 				'value' => trans('admin.honeypot_title'),
 			],
 			[
-				'name'  => 'honeypot_enabled',
-				'label' => trans('admin.honeypot_enabled_label'),
-				'type'  => 'checkbox_switch',
-				'hint'  => trans('admin.honeypot_enabled_hint'),
+				'name'       => 'honeypot_enabled',
+				'label'      => trans('admin.honeypot_enabled_label'),
+				'type'       => 'checkbox_switch',
+				'attributes' => [
+					'id'       => 'honeypot',
+					'onchange' => 'enableHoneypot(this)',
+				],
+				'hint'       => trans('admin.honeypot_enabled_hint'),
 			],
 			[
 				'name'              => 'honeypot_name_field_name',
@@ -217,6 +208,10 @@ class SecuritySetting
 				'name'              => 'honeypot_valid_from_timestamp',
 				'label'             => trans('admin.honeypot_valid_from_timestamp_label'),
 				'type'              => 'checkbox_switch',
+				'attributes'        => [
+					'id'       => 'validFromTimestamp',
+					'onchange' => 'enableValidFromTimestamp(this)',
+				],
 				'hint'              => trans('admin.honeypot_valid_from_timestamp_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6 honeypot-el',
@@ -264,6 +259,10 @@ class SecuritySetting
 					'inverse'   => 'Simple Captcha (Inverse)',
 					'custom'    => 'Simple Captcha (Custom)',
 					'recaptcha' => 'Google reCAPTCHA',
+				],
+				'attributes'        => [
+					'id'       => 'captcha',
+					'onchange' => 'getCaptchaFields(this)',
 				],
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
@@ -513,6 +512,10 @@ class SecuritySetting
 				'options'           => [
 					'v2' => 'v2 (Checkbox)',
 					'v3' => 'v3',
+				],
+				'attributes'        => [
+					'id'       => 'recaptchaVersion',
+					'onchange' => 'getReCaptchaFields(this)',
 				],
 				'hint'              => trans('admin.recaptcha_version_hint'),
 				'wrapperAttributes' => [
@@ -768,8 +771,94 @@ class SecuritySetting
 					'class' => 'col-md-6',
 				],
 			],
+			
+			// ==========
+			
+			[
+				'name'  => 'javascript',
+				'type'  => 'custom_html',
+				'value' => '<script>
+onDocumentReady((event) => {
+	/* honeypot */
+	let honeypotEl = document.querySelector("#honeypot");
+	enableHoneypot(honeypotEl);
+	
+	/* captcha */
+	let captchaEl = document.querySelector("#captcha");
+	getCaptchaFields(captchaEl);
+	
+	let recaptchaVersionEl = document.querySelector("#recaptchaVersion");
+	getReCaptchaFields(recaptchaVersionEl);
+});
+
+function enableHoneypot(honeypotEl) {
+	if (honeypotEl.checked) {
+		setElementsVisibility("show", ".honeypot-el");
+		
+		let validFromTimestampEl = document.querySelector("#validFromTimestamp");
+		enableValidFromTimestamp(validFromTimestampEl);
+	} else {
+		setElementsVisibility("hide", ".honeypot-el");
+	}
+}
+function enableValidFromTimestamp(validFromTimestampEl) {
+	let action = validFromTimestampEl.checked ? "show" : "hide";
+	setElementsVisibility(action, ".honeypot-timestamp-el");
+}
+function getCaptchaFields(captchaEl) {
+	let captchaElValue = captchaEl.value;
+	
+	if (captchaElValue === "") {
+		setElementsVisibility("hide", [".s-captcha", ".recaptcha"]);
+	}
+	if (
+		captchaElValue === "default"
+		|| captchaElValue === "math"
+		|| captchaElValue === "flat"
+		|| captchaElValue === "mini"
+		|| captchaElValue === "inverse"
+	) {
+		setElementsVisibility("hide", [".recaptcha", ".s-captcha-custom"]);
+		setElementsVisibility("show", ".s-captcha:not(.s-captcha-custom)");
+	}
+	if (captchaElValue === "custom") {
+		setElementsVisibility("hide", ".recaptcha");
+		setElementsVisibility("show", ".s-captcha");
+	}
+	if (captchaElValue === "recaptcha") {
+		setElementsVisibility("hide", ".s-captcha");
+		setElementsVisibility("show", ".recaptcha");
+		
+		let recaptchaVersionEl = document.querySelector("#recaptchaVersion");
+		getReCaptchaFields(recaptchaVersionEl);
+	}
+}
+
+function getReCaptchaFields(recaptchaVersionEl) {
+	let recaptchaVersionElValue = recaptchaVersionEl.value;
+	
+	let captchaEl = document.querySelector("#captcha");
+	let captchaElValue = captchaEl.value;
+	
+	if (captchaElValue === "recaptcha") {
+		setElementsVisibility("hide", ".s-captcha");
+		setElementsVisibility("show", ".recaptcha");
+		
+		if (recaptchaVersionElValue === "v3") {
+			setElementsVisibility("hide", ".recaptcha-v2");
+			setElementsVisibility("show", ".recaptcha-v3");
+		} else {
+			setElementsVisibility("hide", ".recaptcha-v3");
+			setElementsVisibility("show", ".recaptcha-v2");
+		}
+	} else {
+		setElementsVisibility("hide", ".recaptcha");
+	}
+}
+</script>',
+			],
 		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields);
+		return $fields;
 	}
 }

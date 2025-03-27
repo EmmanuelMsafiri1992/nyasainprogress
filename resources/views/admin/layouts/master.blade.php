@@ -104,7 +104,7 @@
 <script src="{{ url(mix('dist/admin/scripts.js')) }}"></script>
 
 <script>
-    onDocumentReady((event) => {
+    $(function () {
         "use strict";
         $('#main-wrapper').AdminSettings({
             Theme: {{ config('settings.style.admin_dark_theme') == '1' ? 'true' : 'false' }},
@@ -122,27 +122,25 @@
 
 {{-- Page Script --}}
 <script type="text/javascript">
-    onDocumentReady((event) => {
-        /* To make Pace works on Ajax calls */
-        $(document).ajaxStart(function () {
-            Pace.restart();
-        });
+    /* To make Pace works on Ajax calls */
+    $(document).ajaxStart(function() { Pace.restart(); });
     
-        /* Set active state on menu element */
-        var currentUrl = "{{ url(Route::current()->uri()) }}";
-        $("#sidebarnav li a").each(function () {
-            if ($(this).attr('href').startsWith(currentUrl) || currentUrl.startsWith($(this).attr('href'))) {
-                $(this).parents('li').addClass('selected');
-            }
-        });
+    /* Set active state on menu element */
+    var currentUrl = "{{ url(Route::current()->uri()) }}";
+    $("#sidebarnav li a").each(function() {
+        if ($(this).attr('href').startsWith(currentUrl) || currentUrl.startsWith($(this).attr('href')))
+        {
+            $(this).parents('li').addClass('selected');
+        }
     });
 </script>
 <script>
-    onDocumentReady((event) => {
+    $(document).ready(function()
+    {
         {{-- Confirm Action For AJAX (Update) Request --}}
         $(document).on('click', '.ajax-request', function(e)
         {
-            e.preventDefault(); {{-- Prevents submission or reloading --}}
+            e.preventDefault(); {{-- prevents a submitting or reloading --}}
             
             var thisEl = this;
             

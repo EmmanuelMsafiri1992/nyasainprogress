@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -123,9 +110,7 @@ class SocialShareSetting
 	
 	public static function getFields($diskName)
 	{
-		$fields = [];
-		
-		$fields = array_merge($fields, [
+		$fields = [
 			[
 				'name'  => 'social_share_title',
 				'type'  => 'custom_html',
@@ -136,9 +121,6 @@ class SocialShareSetting
 				'type'  => 'custom_html',
 				'value' => trans('admin.social_share_info'),
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'facebook',
 				'label'             => 'Facebook',
@@ -148,9 +130,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'twitter',
 				'label'             => 'X (Twitter)',
@@ -160,9 +139,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'linkedin',
 				'label'             => 'LinkedIn',
@@ -172,9 +148,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'whatsapp',
 				'label'             => 'WhatsApp',
@@ -184,9 +157,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'telegram',
 				'label'             => 'Telegram',
@@ -196,9 +166,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'snapchat',
 				'label'             => 'Snapchat',
@@ -208,9 +175,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'messenger',
 				'label'             => 'Facebook Messenger',
@@ -226,12 +190,9 @@ class SocialShareSetting
 				'type'              => 'text',
 				'hint'              => trans('admin.facebook_app_id_hint'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 messenger',
+					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'pinterest',
 				'label'             => 'Pinterest',
@@ -241,9 +202,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'vk',
 				'label'             => 'VK (VKontakte)',
@@ -253,9 +211,6 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'              => 'tumblr',
 				'label'             => 'Tumblr',
@@ -265,9 +220,7 @@ class SocialShareSetting
 					'class' => 'col-md-12',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
+			
 			[
 				'name'  => 'og_image_title',
 				'type'  => 'custom_html',
@@ -310,8 +263,8 @@ class SocialShareSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
+		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields);
+		return $fields;
 	}
 }

@@ -25,6 +25,11 @@ return [
     'send_jobs_to_ray' => env('SEND_JOBS_TO_RAY', false),
 
     /*
+    * When enabled all mails will automatically be sent to Ray.
+    */
+    'send_mails_to_ray' => env('SEND_MAILS_TO_RAY', true),
+
+    /*
     * When enabled, all things logged to the application log
     * will be sent to Ray as well.
     */
@@ -49,6 +54,26 @@ return [
      * Queries that are longer than this number of milliseconds will be regarded as slow.
      */
     'slow_query_threshold_in_ms' => env('RAY_SLOW_QUERY_THRESHOLD_IN_MS', 500),
+
+    /*
+     * When enabled, all update queries will automatically be sent to Ray.
+     */
+    'send_update_queries_to_ray' => env('SEND_UPDATE_QUERIES_TO_RAY', false),
+
+    /*
+     * When enabled, all insert queries will automatically be sent to Ray.
+     */
+    'send_insert_queries_to_ray' => env('SEND_INSERT_QUERIES_TO_RAY', false),
+
+    /*
+     * When enabled, all delete queries will automatically be sent to Ray.
+     */
+    'send_delete_queries_to_ray' => env('SEND_DELETE_QUERIES_TO_RAY', false),
+
+    /*
+     * When enabled, all select queries will automatically be sent to Ray.
+     */
+    'send_select_queries_to_ray' => env('SEND_SELECT_QUERIES_TO_RAY', false),
 
     /*
     * When enabled, all requests made to this app will automatically be sent to Ray.

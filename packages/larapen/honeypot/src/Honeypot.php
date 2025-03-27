@@ -15,12 +15,12 @@ class Honeypot implements Arrayable
 	
 	public function enabled(): bool
 	{
-		return $this->config['enabled'] ?? false;
+		return $this->config['enabled'];
 	}
 	
 	public function unrandomizedNameFieldName(): string
 	{
-		return $this->config['name_field_name'] ?? '';
+		return $this->config['name_field_name'];
 	}
 	
 	public function nameFieldName(): string
@@ -31,17 +31,17 @@ class Honeypot implements Arrayable
 			return sprintf('%s_%s', $nameFieldName, Str::random());
 		}
 		
-		return $nameFieldName ?? '';
+		return $nameFieldName;
 	}
 	
 	public function randomizeNameFieldName(): bool
 	{
-		return $this->config['randomize_name_field_name'] ?? false;
+		return $this->config['randomize_name_field_name'];
 	}
 	
 	public function validFromFieldName(): string
 	{
-		return $this->config['valid_from_field_name'] ?? '';
+		return $this->config['valid_from_field_name'];
 	}
 	
 	public function validFrom(): CarbonInterface

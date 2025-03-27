@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Helpers\Localization;
 
@@ -349,17 +336,13 @@ class Country
 		$postId = hashId($postId, true) ?? $postId;
 		
 		// Get the Post
-		$post = null;
-		try {
-			$cacheId = 'post.' . $postId . '.auto.find.country';
-			$post = cache()->remember($cacheId, self::$cacheExpiration, function () use ($postId) {
-				return Post::query()
-					->withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
-					->where('id', $postId)
-					->first();
-			});
-		} catch (\Throwable $e) {
-		}
+		$cacheId = 'post.' . $postId . '.auto.find.country';
+		$post = cache()->remember($cacheId, self::$cacheExpiration, function () use ($postId) {
+			return Post::query()
+				->withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
+				->where('id', $postId)
+				->first();
+		});
 		
 		if (empty($post)) {
 			return collect();
@@ -601,21 +584,18 @@ class Country
 			// If country is an instance of Country Model instead of \Std object
 			// @todo: Find a best way to take to account this feature
 			if (method_exists($country, 'save')) {
-				try {
-					// Get the Country's most populated City
-					$cacheId = 'country.' . $countryCode . '.mostPopulatedCity';
-					$city = cache()->remember($cacheId, self::$cacheExpiration, function () use ($countryCode) {
-						return City::where('country_code', $countryCode)->orderByDesc('population')->first();
-					});
-					
-					// Get the Country's most populated City's TimeZone
-					$timeZone = (!empty($city) && !empty($city->time_zone)) ? $city->time_zone : $timeZone;
-					
-					// Save the TimeZone to prevent performance issue
-					$country->time_zone = $timeZone;
-					$country->save();
-				} catch (\Throwable $e) {
-				}
+				// Get the Country's most populated City
+				$cacheId = 'country.' . $countryCode . '.mostPopulatedCity';
+				$city = cache()->remember($cacheId, self::$cacheExpiration, function () use ($countryCode) {
+					return City::where('country_code', $countryCode)->orderByDesc('population')->first();
+				});
+				
+				// Get the Country's most populated City's TimeZone
+				$timeZone = (!empty($city) && !empty($city->time_zone)) ? $city->time_zone : $timeZone;
+				
+				// Save the TimeZone to prevent performance issue
+				$country->time_zone = $timeZone;
+				$country->save();
 			}
 		}
 		
@@ -626,13 +606,10 @@ class Country
 		$currency = null;
 		$currencyCode = $country['currency_code'] ?? null;
 		if (!empty($currencyCode)) {
-			try {
-				$cacheId = 'currency.' . $currencyCode;
-				$currency = cache()->remember($cacheId, self::$cacheExpiration, function () use ($currencyCode) {
-					return Currency::find($currencyCode);
-				});
-			} catch (\Throwable $e) {
-			}
+			$cacheId = 'currency.' . $currencyCode;
+			$currency = cache()->remember($cacheId, self::$cacheExpiration, function () use ($currencyCode) {
+				return Currency::find($currencyCode);
+			});
 		}
 		
 		// Get the Country's Language
@@ -642,7 +619,7 @@ class Country
 		
 		// Update some existing columns & Add new columns
 		$country['time_zone'] = $timeZone;
-		$country['currency'] = !empty($currency) ? $currency : [];
+		$country['currency'] = (!empty($currency)) ? $currency : [];
 		$country['lang'] = $lang;
 		
 		// Get the Country as Collection
@@ -675,9 +652,8 @@ class Country
 				$found = false;
 				foreach ($countryLanguageCodes as $countryLangCode) {
 					foreach ($availableLanguages as $lang) {
-						$iLangCode = data_get($lang, 'code');
-						if (str_starts_with(strtolower($iLangCode), strtolower($countryLangCode))) {
-							$langCode = $iLangCode;
+						if (str_starts_with(strtolower($lang->code), strtolower($countryLangCode))) {
+							$langCode = $lang->code;
 							$found = true;
 							break;
 						}

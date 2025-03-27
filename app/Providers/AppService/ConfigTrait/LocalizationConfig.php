@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Providers\AppService\ConfigTrait;
 
@@ -122,11 +109,6 @@ trait LocalizationConfig
 		// Apply updated config
 		$this->updateLocalizationConfig($settings);
 		
-		/*
-		 * Fetch the service
-		 */
-		$driver = config('geoip.default');
-		$message = null;
 		try {
 			$data = (new GeoIP())->getData();
 			$countryCode = data_get($data, 'countryCode');
@@ -139,17 +121,13 @@ trait LocalizationConfig
 				if (!is_string($message)) {
 					$message = 'Error occurred, but the error message is not a string.';
 				}
+				
+				return $message;
 			}
 		} catch (\Throwable $e) {
-			$message = $e->getMessage();
+			return $e->getMessage();
 		}
 		
-		if (!empty($message)) {
-			$exceptionMessageFormat = ' ERROR: <span class="fw-bold">%s</span>';
-			$message = sprintf($exceptionMessageFormat, $message);
-			$message = trans('admin.geoip_fetching_error', ['driver' => $driver]) . $message;
-		}
-		
-		return $message;
+		return null;
 	}
 }

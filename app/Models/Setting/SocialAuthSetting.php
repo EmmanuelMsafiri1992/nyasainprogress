@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -24,46 +11,6 @@ class SocialAuthSetting
 {
 	public static function getValues($value, $disk)
 	{
-		// Settings from Old versions
-		$isSocialAuthEnabled = isOldSocialAuthEnabled(null, $value);
-		$isFacebookEnabled = isOldSocialAuthEnabled('facebook', $value);
-		$isLinkedInEnabled = isOldSocialAuthEnabled('linkedin', $value);
-		$isTwitterOauth2Enabled = isOldSocialAuthEnabled('twitterOauth2', $value);
-		$isTwitterOauth1Enabled = isOldSocialAuthEnabled('twitterOauth1', $value);
-		$isGoogleEnabled = isOldSocialAuthEnabled('google', $value);
-		
-		if (empty($value)) {
-			
-			$value['social_auth_enabled'] = $isSocialAuthEnabled;
-			$value['facebook_enabled'] = $isFacebookEnabled;
-			$value['linkedin_enabled'] = $isLinkedInEnabled;
-			$value['twitter_oauth_2_enabled'] = $isTwitterOauth2Enabled;
-			$value['twitter_oauth_1_enabled'] = $isTwitterOauth1Enabled;
-			$value['google_enabled'] = $isGoogleEnabled;
-			
-		} else {
-			
-			if (!array_key_exists('social_auth_enabled', $value)) {
-				$value['social_auth_enabled'] = $isSocialAuthEnabled;
-			}
-			if (!array_key_exists('facebook_enabled', $value)) {
-				$value['facebook_enabled'] = $isFacebookEnabled;
-			}
-			if (!array_key_exists('linkedin_enabled', $value)) {
-				$value['linkedin_enabled'] = $isLinkedInEnabled;
-			}
-			if (!array_key_exists('twitter_oauth_2_enabled', $value)) {
-				$value['twitter_oauth_2_enabled'] = $isTwitterOauth2Enabled;
-			}
-			if (!array_key_exists('twitter_oauth_1_enabled', $value)) {
-				$value['twitter_oauth_1_enabled'] = $isTwitterOauth1Enabled;
-			}
-			if (!array_key_exists('google_enabled', $value)) {
-				$value['google_enabled'] = $isGoogleEnabled;
-			}
-			
-		}
-		
 		return $value;
 	}
 	
@@ -99,59 +46,31 @@ class SocialAuthSetting
 		$twitterOauth1Info = trans('admin.card_light_inverse', ['content' => $twitterOauth1Info]);
 		$googleInfo = trans('admin.card_light_inverse', ['content' => $googleInfo]);
 		
-		$fields = [];
-		
-		$fields = array_merge($fields, [
+		$fields = [
 			[
-				'name'              => 'social_auth_enabled',
-				'label'             => trans('admin.social_auth_enabled_label'),
-				'type'              => 'checkbox_switch',
-				'attributes'        => [
-					'data-social-network' => 'all',
-				],
-				'hint'              => trans('admin.social_auth_enabled_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
+				'name'  => 'social_login_activation',
+				'label' => trans('admin.social_login_activation_label'),
+				'type'  => 'checkbox_switch',
+				'hint'  => trans('admin.social_login_activation_hint'),
 			],
-		]);
-		
-		// facebook
-		$fields = array_merge($fields, [
+			
+			// facebook
 			[
-				'name'              => 'facebook_title',
-				'type'              => 'custom_html',
-				'value'             => trans('admin.facebook_title'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
+				'name'  => 'facebook_title',
+				'type'  => 'custom_html',
+				'value' => trans('admin.facebook_title'),
 			],
 			[
-				'name'              => 'facebook_enabled',
-				'label'             => trans('admin.facebook_enabled_label'),
-				'type'              => 'checkbox_switch',
-				'attributes'        => [
-					'data-social-network' => 'facebook',
-				],
-				'hint'              => trans('admin.facebook_enabled_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
-			],
-			[
-				'name'              => 'facebook_oauth_info',
-				'type'              => 'custom_html',
-				'value'             => $facebookInfo,
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 facebook',
-				],
+				'name'  => 'facebook_oauth_info',
+				'type'  => 'custom_html',
+				'value' => $facebookInfo,
 			],
 			[
 				'name'              => 'facebook_client_id',
 				'label'             => trans('admin.facebook_client_id_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 facebook',
+					'class' => 'col-md-6',
 				],
 			],
 			[
@@ -159,47 +78,27 @@ class SocialAuthSetting
 				'label'             => trans('admin.facebook_client_secret_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 facebook',
+					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// linkedin
-		$fields = array_merge($fields, [
+			
+			// linkedin
 			[
-				'name'              => 'linkedin_title',
-				'type'              => 'custom_html',
-				'value'             => trans('admin.linkedin_title'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
+				'name'  => 'linkedin_title',
+				'type'  => 'custom_html',
+				'value' => trans('admin.linkedin_title'),
 			],
 			[
-				'name'              => 'linkedin_enabled',
-				'label'             => trans('admin.linkedin_enabled_label'),
-				'type'              => 'checkbox_switch',
-				'attributes'        => [
-					'data-social-network' => 'linkedin',
-				],
-				'hint'              => trans('admin.linkedin_enabled_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
-			],
-			[
-				'name'              => 'linkedin_oauth_info',
-				'type'              => 'custom_html',
-				'value'             => $linkedinInfo,
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 linkedin',
-				],
+				'name'  => 'linkedin_oauth_info',
+				'type'  => 'custom_html',
+				'value' => $linkedinInfo,
 			],
 			[
 				'name'              => 'linkedin_client_id',
 				'label'             => trans('admin.linkedin_client_id_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 linkedin',
+					'class' => 'col-md-6',
 				],
 			],
 			[
@@ -207,47 +106,27 @@ class SocialAuthSetting
 				'label'             => trans('admin.linkedin_client_secret_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 linkedin',
+					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// twitter (OAuth 2.0)
-		$fields = array_merge($fields, [
+			
+			// twitter (OAuth 2.0)
 			[
-				'name'              => 'twitter_oauth_2_title',
-				'type'              => 'custom_html',
-				'value'             => trans('admin.twitter_oauth_2_title'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
+				'name'  => 'twitter_oauth_2_title',
+				'type'  => 'custom_html',
+				'value' => trans('admin.twitter_oauth_2_title'),
 			],
 			[
-				'name'              => 'twitter_oauth_2_enabled',
-				'label'             => trans('admin.twitter_oauth_2_enabled_label'),
-				'type'              => 'checkbox_switch',
-				'attributes'        => [
-					'data-social-network' => 'twitter-oauth-2',
-				],
-				'hint'              => trans('admin.twitter_oauth_2_enabled_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
-			],
-			[
-				'name'              => 'twitter_oauth_2_info',
-				'type'              => 'custom_html',
-				'value'             => $twitterOauth2Info,
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 twitter-oauth-2',
-				],
+				'name'  => 'twitter_oauth_2_info',
+				'type'  => 'custom_html',
+				'value' => $twitterOauth2Info,
 			],
 			[
 				'name'              => 'twitter_oauth_2_client_id',
 				'label'             => trans('admin.twitter_oauth_2_client_id_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 twitter-oauth-2',
+					'class' => 'col-md-6',
 				],
 			],
 			[
@@ -255,47 +134,27 @@ class SocialAuthSetting
 				'label'             => trans('admin.twitter_oauth_2_client_secret_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 twitter-oauth-2',
+					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// twitter (OAuth 1.0)
-		$fields = array_merge($fields, [
+			
+			// twitter (OAuth 1.0)
 			[
-				'name'              => 'twitter_oauth_1_title',
-				'type'              => 'custom_html',
-				'value'             => trans('admin.twitter_oauth_1_title'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
+				'name'  => 'twitter_oauth_1_title',
+				'type'  => 'custom_html',
+				'value' => trans('admin.twitter_oauth_1_title'),
 			],
 			[
-				'name'              => 'twitter_oauth_1_enabled',
-				'label'             => trans('admin.twitter_oauth_1_enabled_label'),
-				'type'              => 'checkbox_switch',
-				'attributes'        => [
-					'data-social-network' => 'twitter-oauth-1',
-				],
-				'hint'              => trans('admin.twitter_oauth_1_enabled_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
-			],
-			[
-				'name'              => 'twitter_oauth_1_info',
-				'type'              => 'custom_html',
-				'value'             => $twitterOauth1Info,
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 twitter-oauth-1',
-				],
+				'name'  => 'twitter_oauth_1_info',
+				'type'  => 'custom_html',
+				'value' => $twitterOauth1Info,
 			],
 			[
 				'name'              => 'twitter_client_id',
 				'label'             => trans('admin.twitter_client_id_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 twitter-oauth-1',
+					'class' => 'col-md-6',
 				],
 			],
 			[
@@ -303,47 +162,27 @@ class SocialAuthSetting
 				'label'             => trans('admin.twitter_client_secret_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 twitter-oauth-1',
+					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		// google
-		$fields = array_merge($fields, [
+			
+			// google
 			[
-				'name'              => 'google_title',
-				'type'              => 'custom_html',
-				'value'             => trans('admin.google_title'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
+				'name'  => 'google_title',
+				'type'  => 'custom_html',
+				'value' => trans('admin.google_title'),
 			],
 			[
-				'name'              => 'google_enabled',
-				'label'             => trans('admin.google_enabled_label'),
-				'type'              => 'checkbox_switch',
-				'attributes'        => [
-					'data-social-network' => 'google',
-				],
-				'hint'              => trans('admin.google_enabled_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12',
-				],
-			],
-			[
-				'name'              => 'google_oauth_info',
-				'type'              => 'custom_html',
-				'value'             => $googleInfo,
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 google',
-				],
+				'name'  => 'google_oauth_info',
+				'type'  => 'custom_html',
+				'value' => $googleInfo,
 			],
 			[
 				'name'              => 'google_client_id',
 				'label'             => trans('admin.google_client_id_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 google',
+					'class' => 'col-md-6',
 				],
 			],
 			[
@@ -351,11 +190,11 @@ class SocialAuthSetting
 				'label'             => trans('admin.google_client_secret_label'),
 				'type'              => 'text',
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 google',
+					'class' => 'col-md-6',
 				],
 			],
-		]);
+		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields);
+		return $fields;
 	}
 }

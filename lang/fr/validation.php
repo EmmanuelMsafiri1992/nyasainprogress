@@ -92,14 +92,20 @@ return [
     'username_is_valid_rule' => 'Le champ :attribute doit être une chaîne alphanumérique.',
     'username_is_allowed_rule' => 'La valeur du champ :attribute n\'est pas autorisée.',
     'custom' => [
+        'database_connection' => [
+            'required' => 'Can\'t connect to MySQL server',
+        ],
+        'database_not_empty' => [
+            'required' => 'The database is not empty. Please empty the database or specify <a href="./database">another database</a>.',
+        ],
         'promo_code_not_valid' => [
             'required' => 'The promo code is not valid',
         ],
         'smtp_valid' => [
-            'required' => 'Can not connect to SMTP server',
+            'required' => 'Can\'t connect to SMTP server',
         ],
         'yaml_parse_error' => [
-            'required' => 'Can not parse yaml. Please check the syntax',
+            'required' => 'Can\'t parse yaml. Please check the syntax',
         ],
         'file_not_found' => [
             'required' => 'File not found.',
@@ -116,23 +122,29 @@ return [
         'php_bin_path_invalid' => [
             'required' => 'Invalid PHP executable. Please check again.',
         ],
+        'can_not_empty_database' => [
+            'required' => 'Cannot DROP certain tables. Please cleanup your database manually and try again.',
+        ],
+        'can_not_create_database_tables' => [
+            'required' => 'Cannot create certain tables. Please make sure you have full privileges on the database and try again.',
+        ],
+        'can_not_import_database_data' => [
+            'required' => 'Cannot import all the app required data. Please try again.',
+        ],
         'recaptcha_invalid' => [
             'required' => 'Invalid reCAPTCHA check.',
         ],
         'payment_method_not_valid' => [
             'required' => 'Something went wrong with payment method setting. Please check again.',
         ],
+        'attribute-name' => [
+            'rule-name' => 'custom-message',
+        ],
         'listings_limit' => [
             'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Listing Form → Listings Limit per User".',
         ],
         'expiration_time' => [
             'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Cron → Activated Listings Expiration".',
-        ],
-        'pictures_limit' => [
-            'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Listing Form → Pictures Limit per Listing".',
-        ],
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
         ],
     ],
     'attributes' => [
@@ -235,8 +247,6 @@ return [
     'sluggable_rule' => 'The :attribute field contains invalid characters only.',
     'uniqueness_of_post_rule' => 'Vous avez déjà posté cette annonce. Il ne peut pas être dupliqué.',
     'uniqueness_of_unverified_post_rule' => 'Vous avez déjà posté cette annonce. Veuillez vérifier votre adresse e-mail ou SMS pour suivre les instructions de validation.',
-    'purchase_code_rule' => 'The :attribute field is not valid.',
-    'no_spaces_rule' => 'The :attribute must not contain any spaces.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',
     'current_password' => 'Le mot de passe est incorrect.',
     'declined' => 'The :attribute must be declined.',
@@ -307,6 +317,4 @@ return [
     'hex_color' => 'The :attribute field must be a valid hexadecimal color.',
     'list' => 'The :attribute field must be a list.',
     'required_if_declined' => 'The :attribute field is required when :other is declined.',
-    'alphabetic_plus_rule' => 'The :attribute field may only contain letters and the following additional characters: :additionalChars',
-    'alphabetic_only_rule' => 'The :attribute field may only contain letters.',
 ];

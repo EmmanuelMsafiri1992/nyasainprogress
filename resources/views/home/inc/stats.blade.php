@@ -88,13 +88,11 @@
 	@parent
 	@if (!isset($disableCounterUp) || !$disableCounterUp)
 		<script>
-			onDocumentReady((event) => {
-				const counterUp = window.counterUp.default;
-				const counterEl = document.querySelector('.counter');
-				counterUp(counterEl, {
-					duration: {{ $counterUpTime }},
-					delay: {{ $counterUpDelay }}
-				});
+			const counterUp = window.counterUp.default;
+			const counterEl = document.querySelector('.counter');
+			counterUp(counterEl, {
+				duration: {{ $counterUpTime }},
+				delay: {{ $counterUpDelay }}
 			});
 		</script>
 	@endif

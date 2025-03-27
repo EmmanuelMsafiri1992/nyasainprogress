@@ -140,7 +140,7 @@
     {{-- YOUR JS HERE --}}
     <script src="{{ asset('assets/plugins/cropper/dist/cropper.min.js') }}"></script>
     <script>
-	    onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			// Loop through all instances of the image field
 			$('form div.image').each(function(index){
 				// Find DOM elements under this form-group element
@@ -253,6 +253,8 @@
 			});
 		});
     </script>
+    
+    
     @endpush
 @endif
 {{-- End of Extra CSS and JS --}}

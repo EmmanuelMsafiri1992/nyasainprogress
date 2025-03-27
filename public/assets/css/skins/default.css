@@ -781,26 +781,11 @@ a:not(.btn):focus {
 .select2-container--default .select2-selection--multiple {
 	border-color: #ddd;
 }
-
-div:not(.input-group) > .form-control:focus,
+.form-control:focus,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
 	border-color: #4682b4;
 	box-shadow: 0 1px 0 #4682b4, 0 -1px 0 #4682b4, -1px 0 0 #4682b4, 1px 0 0 #4682b4;
-	/* box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25); */
 	outline: 0 none;
-}
-
-.input-group:focus-within {
-	border: 1px solid #4682b4;
-	border-radius: 6px;
-	box-shadow: 0 1px 0 #4682b4, 0 -1px 0 #4682b4, -1px 0 0 #4682b4, 1px 0 0 #4682b4;
-	outline: 0 none;
-}
-.input-group > .form-control:focus,
-.input-group > .iti > .form-control:focus {
-	border: none !important;
-	outline: none !important;
-	box-shadow: none !important;
 }
 
 .logo,

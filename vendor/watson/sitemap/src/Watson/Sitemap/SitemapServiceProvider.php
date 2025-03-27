@@ -1,4 +1,6 @@
-<?php namespace Watson\Sitemap;
+<?php
+
+namespace Watson\Sitemap;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +23,7 @@ class SitemapServiceProvider extends ServiceProvider
         $this->app->bind('sitemap', 'Watson\Sitemap\Sitemap');
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/config.php', 'sitemap'
+            __DIR__.'/../../config/config.php', 'sitemap'
         );
     }
 
@@ -35,7 +37,7 @@ class SitemapServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../views', 'sitemap');
         
         $this->publishes([
-            __DIR__ . '/../../config/config.php' => config_path('sitemap.php'),
+            __DIR__.'/../../config/config.php' => config_path('sitemap.php'),
         ], 'config');
         
         $this->publishes([

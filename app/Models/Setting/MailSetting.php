@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -61,6 +48,9 @@ class MailSetting
 				'label'             => trans('admin.mail_driver_label'),
 				'type'              => 'select2_from_array',
 				'options'           => $mailDrivers,
+				'attributes'        => [
+					'id' => 'driver',
+				],
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
@@ -100,8 +90,6 @@ class MailSetting
 					'name'              => 'sendmail_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sendmail',
@@ -133,7 +121,6 @@ class MailSetting
 					'name'              => 'smtp_host',
 					'label'             => trans('admin.mail_smtp_host_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_host_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 smtp',
@@ -143,7 +130,6 @@ class MailSetting
 					'name'              => 'smtp_port',
 					'label'             => trans('admin.mail_smtp_port_label'),
 					'type'              => 'number',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_port_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 smtp',
@@ -180,8 +166,6 @@ class MailSetting
 					'name'              => 'smtp_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 smtp',
@@ -213,7 +197,6 @@ class MailSetting
 					'name'              => 'mailgun_domain',
 					'label'             => trans('admin.mail_mailgun_domain_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
 					],
@@ -222,7 +205,6 @@ class MailSetting
 					'name'              => 'mailgun_secret',
 					'label'             => trans('admin.mail_mailgun_secret_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
 					],
@@ -232,7 +214,6 @@ class MailSetting
 					'label'             => trans('admin.mail_mailgun_endpoint_label'),
 					'type'              => 'text',
 					'default'           => 'api.mailgun.net',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
 					],
@@ -241,7 +222,6 @@ class MailSetting
 					'name'              => 'mailgun_host',
 					'label'             => trans('admin.mail_smtp_host_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_host_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
@@ -251,7 +231,6 @@ class MailSetting
 					'name'              => 'mailgun_port',
 					'label'             => trans('admin.mail_smtp_port_label'),
 					'type'              => 'number',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_port_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
@@ -261,7 +240,6 @@ class MailSetting
 					'name'              => 'mailgun_username',
 					'label'             => trans('admin.mail_smtp_username_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_username_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
@@ -271,7 +249,6 @@ class MailSetting
 					'name'              => 'mailgun_password',
 					'label'             => trans('admin.mail_smtp_password_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_password_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
@@ -281,7 +258,6 @@ class MailSetting
 					'name'              => 'mailgun_encryption',
 					'label'             => trans('admin.mail_smtp_encryption_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_encryption_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
@@ -291,8 +267,6 @@ class MailSetting
 					'name'              => 'mailgun_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailgun',
@@ -324,7 +298,6 @@ class MailSetting
 					'name'              => 'postmark_token',
 					'label'             => trans('admin.mail_postmark_token_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
 					],
@@ -333,7 +306,6 @@ class MailSetting
 					'name'              => 'postmark_host',
 					'label'             => trans('admin.mail_smtp_host_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_host_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
@@ -343,7 +315,6 @@ class MailSetting
 					'name'              => 'postmark_port',
 					'label'             => trans('admin.mail_smtp_port_label'),
 					'type'              => 'number',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_port_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
@@ -353,7 +324,6 @@ class MailSetting
 					'name'              => 'postmark_username',
 					'label'             => trans('admin.mail_smtp_username_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_username_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
@@ -363,7 +333,6 @@ class MailSetting
 					'name'              => 'postmark_password',
 					'label'             => trans('admin.mail_smtp_password_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_password_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
@@ -373,7 +342,6 @@ class MailSetting
 					'name'              => 'postmark_encryption',
 					'label'             => trans('admin.mail_smtp_encryption_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_encryption_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
@@ -383,8 +351,6 @@ class MailSetting
 					'name'              => 'postmark_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 postmark',
@@ -416,7 +382,6 @@ class MailSetting
 					'name'              => 'ses_key',
 					'label'             => trans('admin.mail_ses_key_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
 					],
@@ -425,7 +390,6 @@ class MailSetting
 					'name'              => 'ses_secret',
 					'label'             => trans('admin.mail_ses_secret_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
 					],
@@ -434,7 +398,6 @@ class MailSetting
 					'name'              => 'ses_region',
 					'label'             => trans('admin.mail_ses_region_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
 					],
@@ -443,7 +406,6 @@ class MailSetting
 					'name'              => 'ses_token',
 					'label'             => trans('admin.mail_ses_token_label'),
 					'type'              => 'text',
-					'required'          => false,
 					'hint'              => trans('admin.mail_ses_token_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -453,7 +415,6 @@ class MailSetting
 					'name'              => 'ses_host',
 					'label'             => trans('admin.mail_smtp_host_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_host_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -463,7 +424,6 @@ class MailSetting
 					'name'              => 'ses_port',
 					'label'             => trans('admin.mail_smtp_port_label'),
 					'type'              => 'number',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_port_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -473,7 +433,6 @@ class MailSetting
 					'name'              => 'ses_username',
 					'label'             => trans('admin.mail_smtp_username_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_username_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -483,7 +442,6 @@ class MailSetting
 					'name'              => 'ses_password',
 					'label'             => trans('admin.mail_smtp_password_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_password_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -493,7 +451,6 @@ class MailSetting
 					'name'              => 'ses_encryption',
 					'label'             => trans('admin.mail_smtp_encryption_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_encryption_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -503,8 +460,6 @@ class MailSetting
 					'name'              => 'ses_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 ses',
@@ -536,7 +491,6 @@ class MailSetting
 					'name'              => 'sparkpost_secret',
 					'label'             => trans('admin.mail_sparkpost_secret_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
 					],
@@ -545,7 +499,6 @@ class MailSetting
 					'name'              => 'sparkpost_host',
 					'label'             => trans('admin.mail_smtp_host_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_host_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
@@ -555,7 +508,6 @@ class MailSetting
 					'name'              => 'sparkpost_port',
 					'label'             => trans('admin.mail_smtp_port_label'),
 					'type'              => 'number',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_port_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
@@ -565,7 +517,6 @@ class MailSetting
 					'name'              => 'sparkpost_username',
 					'label'             => trans('admin.mail_smtp_username_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_username_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
@@ -575,7 +526,6 @@ class MailSetting
 					'name'              => 'sparkpost_password',
 					'label'             => trans('admin.mail_smtp_password_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_password_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
@@ -585,7 +535,6 @@ class MailSetting
 					'name'              => 'sparkpost_encryption',
 					'label'             => trans('admin.mail_smtp_encryption_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_smtp_encryption_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
@@ -595,8 +544,6 @@ class MailSetting
 					'name'              => 'sparkpost_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 sparkpost',
@@ -628,7 +575,6 @@ class MailSetting
 					'name'              => 'resend_api_key',
 					'label'             => trans('admin.mail_resend_api_key_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_resend_api_key_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 resend',
@@ -638,8 +584,6 @@ class MailSetting
 					'name'              => 'resend_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 resend',
@@ -671,7 +615,6 @@ class MailSetting
 					'name'              => 'mailersend_api_key',
 					'label'             => trans('admin.mail_mailersend_api_key_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.mail_mailersend_api_key_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailersend',
@@ -681,54 +624,9 @@ class MailSetting
 					'name'              => 'mailersend_email_sender',
 					'label'             => trans('admin.mail_email_sender_label'),
 					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
 					'hint'              => trans('admin.mail_email_sender_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 mailersend',
-					],
-				],
-			]);
-		}
-		
-		// brevo
-		if (array_key_exists('brevo', $mailDrivers)) {
-			$fields = array_merge($fields, [
-				[
-					'name'              => 'driver_brevo_title',
-					'type'              => 'custom_html',
-					'value'             => trans('admin.driver_brevo_title'),
-					'wrapperAttributes' => [
-						'class' => 'col-md-12 brevo',
-					],
-				],
-				[
-					'name'              => 'driver_brevo_info',
-					'type'              => 'custom_html',
-					'value'             => trans('admin.driver_brevo_info'),
-					'wrapperAttributes' => [
-						'class' => 'col-md-12 brevo',
-					],
-				],
-				[
-					'name'              => 'brevo_api_key',
-					'label'             => trans('admin.mail_brevo_api_key_label'),
-					'type'              => 'text',
-					'required'          => true,
-					'hint'              => trans('admin.mail_brevo_api_key_hint'),
-					'wrapperAttributes' => [
-						'class' => 'col-md-6 brevo',
-					],
-				],
-				[
-					'name'              => 'brevo_email_sender',
-					'label'             => trans('admin.mail_email_sender_label'),
-					'type'              => 'email',
-					'default'           => config('settings.app.email'),
-					'required'          => true,
-					'hint'              => trans('admin.mail_email_sender_hint'),
-					'wrapperAttributes' => [
-						'class' => 'col-md-6 brevo',
 					],
 				],
 			]);
@@ -751,6 +649,9 @@ class MailSetting
 				'name'              => 'driver_test',
 				'label'             => trans('admin.driver_test_label'),
 				'type'              => 'checkbox_switch',
+				'attributes'        => [
+					'id' => 'driverTest',
+				],
 				'hint'              => trans('admin.mail_driver_test_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6 mt-2',
@@ -761,11 +662,84 @@ class MailSetting
 				'label'             => trans('admin.email_always_to_label'),
 				'type'              => 'email',
 				'default'           => config('settings.app.email'),
-				'required'          => true,
+				'attributes'        => [
+					'id' => 'alwaysTo',
+				],
 				'hint'              => trans('admin.email_always_to_hint', ['option' => trans('admin.driver_test_label')]),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6 driver-test',
 				],
+			],
+		]);
+		
+		$fields = array_merge($fields, [
+			[
+				'name'  => 'javascript',
+				'type'  => 'custom_html',
+				'value' => '<script>
+let mailDriversSelectors = ' . $mailDriversSelectorsJson . ';
+let mailDriversSelectorsList = Object.values(mailDriversSelectors);
+
+onDocumentReady((event) => {
+	/* Driver Selection (select2) */
+	let driverElSelector = "#driver";
+	let driverEl = document.querySelector(driverElSelector);
+	getDriverFields(driverEl);
+	/* Vanilla JS is not used since the select2 plugin is built with jQuery */
+	$(driverElSelector).on("change", function (event) {
+		getDriverFields(this);
+	});
+	
+	/* Driver Test Checking (checkbox) */
+	let driverTestEl = document.querySelector("#driverTest");
+	applyDriverTestChanges(driverTestEl, event.type);
+	driverTestEl.addEventListener("change", (event) => {
+		applyDriverTestChanges(event.target, event.type);
+	});
+	
+	/* Mail Always To (input[type=email]) */
+	let alwaysToEl = document.querySelector("#alwaysTo");
+	alwaysToEl.addEventListener("blur", (event) => {
+		applyDriverTestChanges(driverTestEl, event.type);
+	});
+}, true);
+
+function getDriverFields(driverEl) {
+	setElementsVisibility("hide", mailDriversSelectorsList);
+	setElementsVisibility("show", mailDriversSelectors[driverEl.value] ?? "");
+}
+
+function applyDriverTestChanges(driverTestEl, eventType) {
+	let driverTestElSelector = ".driver-test";
+	let alwaysToEl = document.querySelector("#alwaysTo");
+	
+	let alertMessage;
+	if (driverTestEl.checked) {
+		setElementsVisibility("show", driverTestElSelector);
+		
+		if (eventType !== "DOMContentLoaded") {
+			const alwaysToValue = alwaysToEl.value;
+			if (alwaysToValue != "" && isEmailAddress(alwaysToValue)) {
+				alertMessage = () => {
+					return `' . trans('admin.email_always_to_activated') . '`
+				};
+				pnAlert(alertMessage(), "notice");
+			} else {
+				alertMessage = "' . trans('admin.email_to_admin_activated') . '";
+				pnAlert(alertMessage, "info");
+			}
+		}
+	}
+	if (!driverTestEl.checked) {
+		setElementsVisibility("hide", driverTestElSelector);
+		
+		if (eventType !== "DOMContentLoaded") {
+			alertMessage = "' . trans('admin.email_always_to_disabled') . '";
+			pnAlert(alertMessage, "info");
+		}
+	}
+}
+</script>',
 			],
 		]);
 		
@@ -801,8 +775,6 @@ class MailSetting
 			],
 		]);
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields, [
-			'mailDriversSelectorsJson' => $mailDriversSelectorsJson,
-		]);
+		return $fields;
 	}
 }

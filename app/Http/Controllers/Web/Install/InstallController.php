@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Install;
 
@@ -28,12 +15,7 @@ use App\Http\Controllers\Web\Install\Traits\Install\ApiTrait;
 use App\Http\Controllers\Web\Install\Traits\Install\CheckerTrait;
 use App\Http\Controllers\Web\Install\Traits\Install\DbTrait;
 use App\Http\Controllers\Web\Install\Traits\Install\EnvTrait;
-use App\Http\Requests\Install\DatabaseInfoRequest;
-use App\Http\Requests\Install\SiteInfoRequest;
 use App\Providers\AppService\ConfigTrait\MailConfig;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
@@ -43,9 +25,6 @@ class InstallController extends Controller
 	
 	public string $baseUrl;
 	public string $installUrl;
-	public array $stepUrl;
-	
-	private ?string $defaultCountyCode = null;
 	
 	public function __construct()
 	{
@@ -65,17 +44,6 @@ class InstallController extends Controller
 		// Installation URL
 		$this->installUrl = $this->baseUrl . '/install';
 		view()->share('installUrl', $this->installUrl);
-		
-		// Installation Steps' URLs
-		$this->stepUrl = [
-			'compatibility'  => $this->installUrl . '/system_compatibility',
-			'siteInfo'       => $this->installUrl . '/site_info',
-			'databaseInfo'   => $this->installUrl . '/database_info',
-			'databaseImport' => $this->installUrl . '/database_import',
-			'cronJobs'       => $this->installUrl . '/cron_jobs',
-			'finish'         => $this->installUrl . '/finish',
-		];
-		view()->share('stepUrl', $this->stepUrl);
 	}
 	
 	/**
@@ -91,8 +59,9 @@ class InstallController extends Controller
 		session()->forget('langCode');
 		
 		// Get country code by the user IP address
-		// This method set its result in cookie (with the 'ipCountryCode' as key name)
-		$this->defaultCountyCode = $this->getCountryCodeFromIPAddr();
+		// This method set its result in cookie,
+		// that is used in the view instead of the local variable '$ipCountryCode'
+		$ipCountryCode = $this->getCountryCodeFromIPAddr();
 	}
 	
 	/**
@@ -104,37 +73,37 @@ class InstallController extends Controller
 	{
 		$step = 0;
 		
-		$data = session('compatibilityChecked');
-		if (!empty($data)) {
+		$data = session('isCompatible');
+		if (isset($data)) {
 			$step = 1;
 		} else {
 			return $step;
 		}
 		
 		$data = session('siteInfo');
-		if (!empty($data)) {
-			$step = 2;
-		} else {
-			return $step;
-		}
-		
-		$data = session('databaseInfo');
-		if (!empty($data)) {
+		if (isset($data)) {
 			$step = 3;
 		} else {
 			return $step;
 		}
 		
-		$data = session('databaseImported');
-		if (!empty($data)) {
+		$data = session('database');
+		if (isset($data)) {
 			$step = 4;
 		} else {
 			return $step;
 		}
 		
-		$data = session('cronJobsInfoSeen');
-		if (!empty($data)) {
+		$data = session('databaseImported');
+		if (isset($data)) {
 			$step = 5;
+		} else {
+			return $step;
+		}
+		
+		$data = session('cronJobs');
+		if (isset($data)) {
+			$step = 6;
 		} else {
 			return $step;
 		}
@@ -147,7 +116,7 @@ class InstallController extends Controller
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function starting(): RedirectResponse
+	public function starting()
 	{
 		Artisan::call('cache:clear');
 		Artisan::call('config:clear');
@@ -156,7 +125,7 @@ class InstallController extends Controller
 		$queryString = request()->getQueryString();
 		$queryString = !empty($queryString) ? '?' . $queryString : '';
 		
-		return redirect()->to($this->stepUrl['compatibility'] . $queryString);
+		return redirect()->to($this->installUrl . '/system_compatibility' . $queryString);
 	}
 	
 	/**
@@ -164,9 +133,9 @@ class InstallController extends Controller
 	 *
 	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 */
-	public function systemCompatibility(): View|RedirectResponse
+	public function systemCompatibility()
 	{
-		session()->forget('compatibilityChecked');
+		session()->forget('isCompatible');
 		
 		// Check Components & Permissions
 		$checkComponents = $this->checkComponents();
@@ -176,19 +145,19 @@ class InstallController extends Controller
 		// 1. Auto-Checking: Skip this step If the system is OK
 		$isCompatibleWithAutoRedirect = $isCompatible && !$this->isManualCheckingAllowed();
 		if ($isCompatibleWithAutoRedirect) {
-			session()->put('compatibilityChecked', ($isCompatible ? 1 : 0));
+			session()->put('isCompatible', ($isCompatible ? 1 : 0));
 			
 			// Get possible query string
 			$queryString = request()->getQueryString();
 			$queryString = !empty($queryString) ? '?' . $queryString : '';
 			
-			return redirect()->to($this->stepUrl['siteInfo'] . $queryString);
+			return redirect()->to($this->installUrl . '/site_info' . $queryString);
 		}
 		
 		// 2. Check the compatibilities manually: Retry if something does not work yet
 		try {
 			if ($isCompatible) {
-				session()->put('compatibilityChecked', 1);
+				session()->put('isCompatible', 1);
 			}
 			
 			return appView('install.compatibilities', [
@@ -203,22 +172,19 @@ class InstallController extends Controller
 			Artisan::call('cache:clear');
 			Artisan::call('config:clear');
 			
-			return redirect()->to($this->stepUrl['compatibility']);
+			return redirect()->to($this->installUrl . '/system_compatibility');
 		}
 	}
 	
 	/**
-	 * STEP 2.1 - Set Site Info
+	 * STEP 2 - Set Site Info
 	 *
 	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 */
-	public function siteInfo(): View|RedirectResponse
+	public function siteInfo()
 	{
 		if ($this->step() < 1) {
-			$message = trans('messages.compatibility_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['compatibility']);
+			return redirect()->to($this->installUrl . '/system_compatibility');
 		}
 		
 		// Remove the installed file (if it does exist)
@@ -242,7 +208,7 @@ class InstallController extends Controller
 		// Get the drivers selectors list as JS objects
 		$mailDriversSelectorsJson = collect($mailDrivers)
 			->keys()
-			->mapWithKeys(fn ($item) => [$item => '.' . $item])
+			->mapWithKeys(fn ($item) => [$item => '.' . $item . '-box'])
 			->toJson();
 		
 		// Format the mail drivers list
@@ -250,194 +216,264 @@ class InstallController extends Controller
 			->mapWithKeys(fn ($item, $key) => [$key => ['value' => $key, 'text' => $item]])
 			->toArray();
 		
-		// Retrieve site info
+		// Make sure the session is working
+		$rules = [
+			'site_name'       => 'required',
+			'site_slogan'     => 'required',
+			'name'            => 'required',
+			'purchase_code'   => 'required',
+			'email'           => 'required|email',
+			'password'        => 'required',
+			'default_country' => 'required',
+		];
+		
+		// Check if the selected mail driver parameters need to be validated
+		$isMailDriverTestEnabled = (request()->filled('driver') && request()->input('driver_test'));
+		
+		// Mail Driver's Rules
+		$mailDriversRules = [];
+		$mailDriversRules['sendmail'] = [];
+		if ($isMailDriverTestEnabled) {
+			$mailDriversRules['sendmail']['sendmail_path'] = 'required';
+		}
+		$mailDriversRules['smtp'] = [
+			'smtp_host' => 'required',
+			'smtp_port' => 'required',
+			// 'smtp_username'   => 'required',
+			// 'smtp_password'   => 'required',
+			// 'smtp_encryption' => 'required',
+		];
+		$mailDriversRules['mailgun'] = [
+			'mailgun_domain'     => 'required',
+			'mailgun_secret'     => 'required',
+			'mailgun_host'       => 'required',
+			'mailgun_port'       => 'required',
+			'mailgun_username'   => 'required',
+			'mailgun_password'   => 'required',
+			'mailgun_encryption' => 'required',
+		];
+		$mailDriversRules['postmark'] = [
+			'postmark_token'      => 'required',
+			'postmark_host'       => 'required',
+			'postmark_port'       => 'required',
+			'postmark_username'   => 'required',
+			'postmark_password'   => 'required',
+			'postmark_encryption' => 'required',
+		];
+		$mailDriversRules['ses'] = [
+			'ses_key'        => 'required',
+			'ses_secret'     => 'required',
+			'ses_region'     => 'required',
+			'ses_host'       => 'required',
+			'ses_port'       => 'required',
+			'ses_username'   => 'required',
+			'ses_password'   => 'required',
+			'ses_encryption' => 'required',
+		];
+		$mailDriversRules['sparkpost'] = [
+			'sparkpost_secret'     => 'required',
+			'sparkpost_host'       => 'required',
+			'sparkpost_port'       => 'required',
+			'sparkpost_username'   => 'required',
+			'sparkpost_password'   => 'required',
+			'sparkpost_encryption' => 'required',
+		];
+		$mailDriversRules['resend'] = [
+			'resend_api_key' => 'required',
+		];
+		$mailDriversRules['mailersend'] = [
+			'mailersend_api_key' => 'required',
+		];
+		
+		// Get selected mail driver
+		$selectedMailDriver = request()->input('driver');
+		
+		// Validate and save posted data
+		if (request()->isMethod('POST')) {
+			session()->forget('siteInfo');
+			
+			// Check purchase code
+			$purchaseCodeData = $this->purchaseCodeChecker(request()->input('purchase_code'));
+			
+			$isValid = data_get($purchaseCodeData, 'valid');
+			$doesPurchaseCodeIsValid = (is_bool($isValid) && $isValid == true);
+			
+			$messages = [];
+			if (!$doesPurchaseCodeIsValid) {
+				$errorMessage = data_get($purchaseCodeData, 'message');
+				$errorMessage = !empty($errorMessage) ? ' ERROR: <strong>' . $errorMessage . '</strong>' : '';
+				$errorMessage = 'The :attribute field is required.' . $errorMessage;
+				
+				$rules['purchase_code_valid'] = 'required';
+				$messages['purchase_code_valid.required'] = $errorMessage;
+			}
+			
+			// Merge all rules
+			$rules = array_merge($rules, $mailDriversRules[$selectedMailDriver] ?? []);
+			
+			// Validate requirements
+			$validatedData = request()->validate($rules, $messages);
+			
+			// Check mail sending parameters
+			if ($isMailDriverTestEnabled) {
+				config()->set('settings.app.name', request()->input('site_name'));
+				$errorMessage = $this->testMailConfig(true, request()->input('email'), request()->all());
+				if (!empty($errorMessage)) {
+					$ruleKey = $selectedMailDriver . '_valid';
+					
+					$rules = [$ruleKey => 'required'];
+					$messages = [$ruleKey . '.required' => $errorMessage];
+					
+					// Validate requirements
+					$validatedData = request()->validate($rules, $messages);
+				}
+			}
+			
+			// Get unselected mail drivers parameters to avoid storing them in session
+			$exceptInput = $this->getUnSelectedMailDriversParameters($mailDriversRules, $selectedMailDriver);
+			
+			// Save data in session
+			session()->put('siteInfo', request()->except($exceptInput));
+			
+			return redirect()->to($this->installUrl . '/database');
+		}
+		
 		$siteInfo = request()->old();
 		$siteInfo = !empty($siteInfo) ? $siteInfo : session('siteInfo');
 		
 		return appView('install.site_info', [
-			'defaultCountyCode'        => $this->defaultCountyCode,
 			'siteInfo'                 => $siteInfo,
+			'rules'                    => $rules,
 			'step'                     => $this->step(),
 			'current'                  => 2,
 			'mailDrivers'              => $mailDrivers,
 			'mailDriversSelectorsJson' => $mailDriversSelectorsJson,
+			'mailDriversRules'         => $mailDriversRules,
 		]);
 	}
 	
 	/**
-	 * STEP 2.2 - Set Site Info
-	 *
-	 * @param \App\Http\Requests\Install\SiteInfoRequest $request
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function postSiteInfo(SiteInfoRequest $request): RedirectResponse
-	{
-		if ($this->step() < 1) {
-			$message = trans('messages.compatibility_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['compatibility']);
-		}
-		
-		// Clear old data from the session
-		session()->forget('siteInfo');
-		
-		// Save the new data in session
-		session()->put('siteInfo', $request->all());
-		
-		return redirect()->to($this->stepUrl['databaseInfo']);
-	}
-	
-	/**
-	 * STEP 3.1 - Database Configuration
+	 * STEP 3 - Database configuration
 	 *
 	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 */
-	public function databaseInfo(): View|RedirectResponse
+	public function database()
 	{
 		if ($this->step() < 2) {
-			$message = trans('messages.site_info_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['siteInfo']);
+			return redirect()->to($this->installUrl . '/site_info');
 		}
 		
-		$databaseInfo = request()->old();
-		$databaseInfo = !empty($databaseInfo) ? $databaseInfo : session('databaseInfo');
+		// Check required fields
+		$rules = [
+			'host'     => 'required',
+			'port'     => 'required',
+			'username' => 'required',
+			'database' => 'required',
+		];
 		
-		return appView('install.database_info', [
-			'databaseInfo' => $databaseInfo,
-			'step'         => $this->step(),
-			'current'      => 3,
+		// Validate and save posted data
+		if (request()->isMethod('POST')) {
+			session()->forget('database');
+			
+			// Validate requirements
+			$validatedData = request()->validate($rules);
+			
+			// Check the Database Connection
+			$messages = [];
+			try {
+				// Database Parameters
+				$defaultDriver = config('database.default');
+				$driver = config('database.connections.' . $defaultDriver . '.driver', 'mysql');
+				$charset = config('database.connections.' . $defaultDriver . '.charset', 'utf8mb4');
+				$port = (int)request()->input('port');
+				$options = [
+					\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+					\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+					\PDO::ATTR_EMULATE_PREPARES   => true,
+					\PDO::ATTR_CURSOR             => \PDO::CURSOR_FWDONLY,
+				];
+				
+				// Get Connexion's Host Info
+				$hostInfo = (request()->filled('socket'))
+					? 'unix_socket=' . request()->input('socket')
+					: 'host=' . request()->input('host') . ';port=' . $port;
+				
+				// Get the Connexion's DSN
+				$dsn = $driver . ':' . $hostInfo . ';dbname=' . request()->input('database') . ';charset=' . $charset;
+				
+				// Connect to the Database Server
+				$pdo = new \PDO($dsn, request()->input('username'), request()->input('password'), $options);
+				
+			} catch (\PDOException $e) {
+				$errorMsg = 'Can\'t connect to the database server. ERROR: <strong>' . $e->getMessage() . '</strong>';
+				
+				$rules['database_connection'] = 'required';
+				$messages = ['database_connection.required' => $errorMsg];
+			} catch (\Throwable $e) {
+				$errorMsg = 'The database connection failed. ERROR: <strong>' . $e->getMessage() . '</strong>';
+				
+				$rules['database_connection'] = 'required';
+				$messages = ['database_connection.required' => $errorMsg];
+			}
+			
+			// Validate requirements
+			$validatedData = request()->validate($rules, $messages);
+			
+			// Get database info and Save it in session
+			session()->put('database', request()->all());
+			
+			// Write config file
+			$this->writeEnv();
+			
+			// Return to Import Database page
+			return redirect()->to($this->installUrl . '/database_import');
+		}
+		
+		$database = request()->old();
+		$database = !empty($database) ? $database : session('database');
+		
+		return appView('install.database', [
+			'database' => $database,
+			'rules'    => $rules,
+			'step'     => $this->step(),
+			'current'  => 3,
 		]);
 	}
 	
 	/**
-	 * STEP 3.2 - Submit Database Configuration
-	 *
-	 * @param \App\Http\Requests\Install\DatabaseInfoRequest $request
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function postDatabaseInfo(DatabaseInfoRequest $request): RedirectResponse
-	{
-		if ($this->step() < 2) {
-			$message = trans('messages.site_info_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['siteInfo']);
-		}
-		
-		// Clear old data from the session
-		session()->forget('databaseInfo');
-		
-		// Get database info & site info
-		$siteInfo = (array)session('siteInfo');
-		$databaseInfo = $request->all();
-		
-		// Save the new data in session
-		session()->put('databaseInfo', $databaseInfo);
-		/*
-		 * Ensure this session is saved before continuing
-		 * i.e. Don't wait until the end of the request to let it be saved
-		 */
-		session()->save();
-		
-		// Write config file
-		$this->writeEnv($siteInfo, $databaseInfo);
-		
-		// Notification Message
-		$message = trans('messages.database_connection_success');
-		flash($message)->success();
-		
-		// Return to Import Database page
-		return redirect()->to($this->stepUrl['databaseImport'])
-			->withHeaders(config('larapen.core.noCacheHeaders'));
-	}
-	
-	/**
-	 * STEP 4.1 - Import Database
+	 * STEP 4 - Import Database
 	 *
 	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+	 * @throws \App\Exceptions\Custom\CustomException
 	 */
-	public function databaseImport(): View|RedirectResponse
+	public function databaseImport()
 	{
 		if ($this->step() < 3) {
-			$message = trans('messages.database_info_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['databaseInfo']);
+			return redirect()->to($this->installUrl . '/database');
 		}
 		
-		// Get the database info
-		$databaseInfo = (array)session('databaseInfo');
+		// Get database connexion info & site info
+		$database = session('database');
+		$siteInfo = session('siteInfo');
 		
-		// Check if the database connection is ok
-		try {
-			$this->getPdoConnectionWithEnvCheck($databaseInfo);
-		} catch (\Throwable $e) {
-			flash($e->getMessage())->error();
+		if (request()->input('action') == 'import') {
+			session()->forget('databaseImported');
 			
-			return redirect()->to($this->stepUrl['databaseInfo']);
+			$this->submitDatabaseImport($siteInfo, $database);
+			
+			// The database is now imported!
+			session()->put('databaseImported', 1);
+			
+			session()->flash('alert-success', trans('messages.install.database_import.success'));
+			
+			return redirect()->to($this->installUrl . '/cron_jobs');
 		}
 		
 		return appView('install.database_import', [
-			'databaseInfo' => $databaseInfo,
-			'step'         => $this->step(),
-			'current'      => 4,
+			'database' => $database,
+			'step'     => $this->step(),
+			'current'  => 3,
 		]);
-	}
-	
-	/**
-	 * STEP 4.2 - Submit Database Import
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function postDatabaseImport(Request $request): RedirectResponse
-	{
-		if ($this->step() < 3) {
-			$message = trans('messages.database_info_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['databaseInfo']);
-		}
-		
-		// Get database info & site info
-		$siteInfo = (array)session('siteInfo');
-		$databaseInfo = (array)session('databaseInfo');
-		
-		// Update the database info
-		$databaseInfo['overwrite_tables'] = $request->input('overwrite_tables', '0');
-		session()->put('databaseInfo', $databaseInfo);
-		/*
-		 * Ensure this session is saved before continuing
-		 * i.e. Don't wait until the end of the request to let it be saved
-		 */
-		session()->save();
-		
-		// Clear old notification from the session
-		session()->forget('databaseImported');
-		
-		try {
-			
-			// Import the required data
-			$this->submitDatabaseImport($siteInfo, $databaseInfo);
-			
-		} catch (\Throwable $e) {
-			flash($e->getMessage())->error();
-			
-			return redirect()->to($this->stepUrl['databaseImport'])->withInput($databaseInfo);
-		}
-		
-		// The database is now imported!
-		// Save the new notification in session
-		session()->put('databaseImported', 1);
-		
-		// Notification Message
-		$message = trans('messages.database_tables_configuration_success');
-		flash($message)->success();
-		
-		return redirect()->to($this->stepUrl['cronJobs']);
 	}
 	
 	/**
@@ -445,27 +481,13 @@ class InstallController extends Controller
 	 *
 	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 */
-	public function cronJobs(): View|RedirectResponse
+	public function cronJobs()
 	{
-		if ($this->step() < 4) {
-			$message = trans('messages.database_import_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['databaseImport']);
+		if ($this->step() < 5) {
+			return redirect()->to($this->installUrl . '/database');
 		}
 		
-		// Check if the database connection is ok
-		try {
-			$this->getPdoConnectionWithEnvCheck();
-		} catch (\Throwable $e) {
-			flash($e->getMessage())->error();
-			
-			return redirect()->to($this->stepUrl['databaseInfo']);
-		}
-		
-		// The cron jobs config info is seen
-		// Save the notification in session
-		session()->put('cronJobsInfoSeen', 1);
+		session()->put('cronJobs', true);
 		
 		$phpBinaryPath = $this->getPhpBinaryPath();
 		$requiredPhpVersion = $this->getComposerRequiredPhpVersion();
@@ -485,33 +507,17 @@ class InstallController extends Controller
 	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
 	 * @throws \App\Exceptions\Custom\CustomException
 	 */
-	public function finish(): View|RedirectResponse
+	public function finish()
 	{
-		if ($this->step() < 5) {
-			$message = trans('messages.cron_jobs_required');
-			flash($message)->info();
-			
-			return redirect()->to($this->stepUrl['cronJobs']);
-		}
-		
-		// Check if the database connection is ok
-		try {
-			$this->getPdoConnectionWithEnvCheck();
-		} catch (\Throwable $e) {
-			flash($e->getMessage())->error();
-			
-			return redirect()->to($this->stepUrl['databaseInfo']);
+		if ($this->step() < 6) {
+			return redirect()->to($this->installUrl . '/database');
 		}
 		
 		// Create the "installed" file
 		createTheInstalledFile(true);
 		
 		// Declare the installation as complete
-		session()->put('installationCompleted', 1);
-		/*
-		 * Ensure this session is saved before continuing
-		 * i.e. Don't wait until the end of the request to let it be saved
-		 */
+		session()->put('installFinished', 1);
 		session()->save();
 		
 		// Delete all front & back office cookies

@@ -33,16 +33,13 @@
 					@if (auth()->check() && isset(auth()->user()->email))
 						<input type="hidden" name="sender_email" value="{{ auth()->user()->email }}">
 					@else
-						@php
-							$senderEmailError = (isset($errors) && $errors->has('sender_email')) ? ' is-invalid' : '';
-						@endphp
+						<?php $senderEmailError = (isset($errors) && $errors->has('sender_email')) ? ' is-invalid' : ''; ?>
 						<div class="form-group required mb-3">
 							<label for="sender_email" class="control-label">{{ t('Your Email') }} <sup>*</sup></label>
 							<div class="input-group">
 								<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
 								<input name="sender_email"
 								       type="text"
-								       data-valid-type="email"
 								       maxlength="60"
 								       class="form-control{{ $senderEmailError }}"
 								       value="{{ old('sender_email') }}"
@@ -52,16 +49,13 @@
 					@endif
 					
 					{{-- recipient_email --}}
-					@php
-						$recipientEmailError = (isset($errors) && $errors->has('recipient_email')) ? ' is-invalid' : '';
-					@endphp
+					<?php $recipientEmailError = (isset($errors) && $errors->has('recipient_email')) ? ' is-invalid' : ''; ?>
 					<div class="form-group required mb-3">
 						<label for="recipient_email" class="control-label">{{ t('Recipient Email') }} <sup>*</sup></label>
 						<div class="input-group">
 							<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
 							<input name="recipient_email"
 							       type="text"
-							       data-valid-type="email"
 							       maxlength="60"
 							       class="form-control{{ $recipientEmailError }}"
 							       value="{{ old('recipient_email') }}"

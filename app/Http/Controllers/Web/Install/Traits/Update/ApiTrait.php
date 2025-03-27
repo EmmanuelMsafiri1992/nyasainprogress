@@ -1,18 +1,4 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
 
 namespace App\Http\Controllers\Web\Install\Traits\Update;
 
@@ -28,7 +14,6 @@ trait ApiTrait
 	 */
 	private function checkPurchaseCode(): bool
 	{
-		return;
 		// Make sure that the website is properly installed
 		if (!File::exists(base_path('.env'))) {
 			return false;
@@ -44,7 +29,7 @@ trait ApiTrait
 			
 			// Send the purchase code checking
 			$data = [];
-			$endpoint = getPurchaseCodeApiEndpoint($purchaseCode, config('larapen.core.item.id'));
+			$endpoint = getPurchaseCodeApiEndpoint($purchaseCode, config('larapen.core.itemId'));
 			try {
 				/*
 				 * Make the request and wait for 30 seconds for response.

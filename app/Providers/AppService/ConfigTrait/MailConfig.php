@@ -1,28 +1,16 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Providers\AppService\ConfigTrait;
 
-use App\Providers\AppService\ConfigTrait\MailConfig\EmailTest;
+use App\Models\Permission;
+use App\Models\User;
+use App\Notifications\ExampleMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 trait MailConfig
 {
-	use EmailTest;
-	
 	private function updateMailConfig(?array $settings = [], ?string $appName = null): void
 	{
 		if (empty($settings)) {
@@ -38,8 +26,8 @@ trait MailConfig
 		config()->set('mail.default', $driver);
 		config()->set('mail.from.name', env('MAIL_FROM_NAME', $fromName));
 		
-		// Default Mail Sender
-		$mailSender = config('settings.app.email');
+		// Default Mail Sender (from Installer)
+		$mailSender = $settings['email'] ?? null;
 		
 		// SMTP
 		if ($driver == 'smtp') {
@@ -182,15 +170,57 @@ trait MailConfig
 			config()->set('mailersend-driver.api_path', env('MAILERSEND_API_PATH', $apiPath));
 			*/
 		}
-		
-		// Brevo
-		if ($driver == 'brevo') {
-			$apiKey = $settings['brevo_api_key'] ?? null;
-			$address = $settings['brevo_email_sender'] ?? ($mailSender ?? null);
-			
-			config()->set('services.brevo.key', env('BREVO_API_KEY', $apiKey));
-			config()->set('mail.from.address', env('MAIL_FROM_ADDRESS', $address));
+	}
+	
+	/**
+	 * @param bool $isTestEnabled
+	 * @param string|null $mailTo
+	 * @param array|null $settings
+	 * @param bool $fallbackMailToAdminUsers
+	 * @return string|null
+	 */
+	private function testMailConfig(bool $isTestEnabled, ?string $mailTo, ?array $settings = [], bool $fallbackMailToAdminUsers = false): ?string
+	{
+		if (!$isTestEnabled) {
+			return null;
 		}
+		
+		// Apply updated config
+		$this->updateMailConfig($settings);
+		
+		// Get the test recipient
+		$mailTo = !empty($mailTo) ? $mailTo : config('settings.app.email');
+		
+		/*
+		 * Send Example Email
+		 *
+		 * With the sendmail driver, in local environment,
+		 * this test email cannot be found if you have not familiar with the sendmail configuration
+		 */
+		try {
+			if (!empty($mailTo)) {
+				Notification::route('mail', $mailTo)->notify(new ExampleMail());
+			} else {
+				if ($fallbackMailToAdminUsers) {
+					$admins = User::permission(Permission::getStaffPermissions())->get();
+					if ($admins->count() > 0) {
+						Notification::send($admins, new ExampleMail());
+					}
+				} else {
+					return 'No email address defined to receive the test email.';
+				}
+			}
+		} catch (\Throwable $e) {
+			$message = $e->getMessage();
+			if (empty($message)) {
+				$message = 'Error in the mail sending parameters.';
+				$message .= ' Please contact your mail sending server\'s provider for more information.';
+			}
+			
+			return $message;
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -212,5 +242,28 @@ trait MailConfig
 		if ($isAlwaysToEnabled) {
 			Mail::alwaysTo($emailAlwaysTo);
 		}
+	}
+	
+	/**
+	 * Get un-selected mail drivers parameters to avoid to store them in session
+	 *
+	 * @param array|null $mailDriversRules
+	 * @param string|null $mailDriver
+	 * @return array
+	 */
+	private function getUnSelectedMailDriversParameters(?array $mailDriversRules, ?string $mailDriver = null): array
+	{
+		$exceptInput = [];
+		$mailUnnecessaryInput = $mailDriversRules;
+		if (isset($mailUnnecessaryInput[$mailDriver])) {
+			unset($mailUnnecessaryInput[$mailDriver]);
+		}
+		if (!empty($mailUnnecessaryInput)) {
+			foreach ($mailUnnecessaryInput as $iRules) {
+				$exceptInput = array_merge($exceptInput, array_keys($iRules));
+			}
+		}
+		
+		return $exceptInput;
 	}
 }

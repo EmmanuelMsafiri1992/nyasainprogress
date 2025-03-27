@@ -160,7 +160,7 @@
     <script src="{{ asset('assets/plugins/ladda/ladda.js') }}"></script>
     
     <script>
-	    onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			
 			/* Capture the Create new backup button */
 			let backupBtnEl = $('.backup-button');

@@ -1,17 +1,4 @@
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 /* Polyfill (https://en.wikipedia.org/wiki/Polyfill_(programming)) */
 /* Array.isArray() */
@@ -60,7 +47,7 @@ if (!String.prototype.endsWith) {
  * @param isFullyLoaded
  */
 if (!window.onDocumentReady) {
-	function onDocumentReady(callback, isFullyLoaded = true) {
+	function onDocumentReady(callback, isFullyLoaded = false) {
 		switch (document.readyState) {
 			case "loading":
 				/* The document is still loading, attach the event listener */
@@ -87,61 +74,6 @@ if (!window.onDocumentReady) {
 	}
 }
 
-function onDomElementsAdded(selector, callback) {
-	let existingElements = document.querySelectorAll(selector);
-	
-	// Array to store matched elements
-	let matchedElements = existingElements.length > 0 ? Array.from(existingElements) : [];
-	
-	// Create a new MutationObserver instance
-	const observer = new MutationObserver(function (mutationsList) {
-		for (let mutation of mutationsList) {
-			if (mutation.type === 'childList') {
-				for (let addedNode of mutation.addedNodes) {
-					if (addedNode.matches && addedNode.matches(selector)) {
-						matchedElements.push(addedNode);
-					}
-					// If the added node has descendants that match the selector
-					let descendants = addedNode.querySelectorAll ? addedNode.querySelectorAll(selector) : [];
-					descendants.forEach(descendant => matchedElements.push(descendant));
-				}
-			}
-		}
-		
-		// Callback to return the matched elements
-		if (typeof callback === 'function') {
-			callback(matchedElements);
-		}
-	});
-	
-	// Configuration of the observer
-	const config = {childList: true, subtree: true};
-	
-	// Start observing the body for configured mutations
-	observer.observe(document.body, config);
-	
-	return matchedElements;
-}
-
-/**
- * Submit a form on click its submit button
- * @param formSelector
- * @param submitButtonSelector
- */
-function setupFormSubmit(formSelector, submitButtonSelector) {
-	const form = document.querySelector(formSelector);
-	const submitButton = document.querySelector(submitButtonSelector);
-	
-	if (form && submitButton) {
-		submitButton.addEventListener('click', (event) => {
-			event.preventDefault();
-			form.submit();
-		});
-	} else {
-		console.error('Form or submit button not found');
-	}
-}
-
 /**
  * During or after typing, Check if an input field changed
  * @param inputElement
@@ -149,10 +81,14 @@ function setupFormSubmit(formSelector, submitButtonSelector) {
  */
 function addInputChangeListeners(inputElement, callback) {
 	// The 'input' event is triggered immediately whenever the value of the input field changes
-	inputElement.addEventListener('input', (event) => callback(event));
+	inputElement.addEventListener('input', function (event) {
+		callback(event);
+	});
 	
 	// The 'change' event is triggered when the input field loses focus after its value has been changed
-	inputElement.addEventListener('change', (event) => callback(event));
+	inputElement.addEventListener('change', function (event) {
+		callback(event);
+	});
 }
 
 /**
@@ -266,7 +202,7 @@ function rawurlencode(value) {
 }
 
 /**
- * Check if variable is defined
+ * Check if a variable is defined
  * @param value
  * @returns {boolean}
  */
@@ -275,7 +211,7 @@ function isDefined(value) {
 }
 
 /**
- * Check if variable is not defined
+ * Check if a variable is not defined
  * @param value
  * @returns {boolean}
  */
@@ -289,7 +225,7 @@ function isNotDefined(value) {
  * @returns {boolean}
  */
 function isElDefined(el) {
-	return (typeof el !== 'undefined' && el !== null);
+	return !isElNotDefined(el);
 }
 
 /**
@@ -298,11 +234,11 @@ function isElDefined(el) {
  * @returns {boolean}
  */
 function isElNotDefined(el) {
-	return !isElDefined(el);
+	return (typeof (el) === 'undefined' || el === null);
 }
 
 /**
- * Check if variable is undefined, null, 0, or blank
+ * Check if a value is undefined, null, 0, or blank
  * @param value
  * @returns {boolean}
  */
@@ -319,7 +255,7 @@ function isEmpty(value) {
 }
 
 /**
- * Check if variable is blank
+ * Check if a variable is blank
  * Support: undefined, null, array, object, date, number and string
  *
  * @param value
@@ -357,7 +293,7 @@ function isBlank(value) {
 }
 
 /**
- * Check if variable is filled
+ * Check if a variable is filled
  * @param value
  * @returns {boolean}
  */
@@ -366,7 +302,7 @@ function isFilled(value) {
 }
 
 /**
- * Check if variable is blank or null
+ * Check if a string is blank or null
  *
  * @param value
  * @returns {boolean}
@@ -376,20 +312,24 @@ function isBlankString(value) {
 }
 
 /**
- * Check if variable is a string
+ * Check if 'value' is a string
  * @param value
  * @returns {boolean}
  */
 function isString(value) {
 	if (isDefined(value)) {
-		return (typeof value === 'string' || value instanceof String);
+		if (typeof value === 'string' || value instanceof String) {
+			if (value !== '') {
+				return true;
+			}
+		}
 	}
 	
 	return false;
 }
 
 /**
- * Check if variable is an array
+ * Check if 'value' is an array
  *
  * @param value
  * @returns {arg is any[]}
@@ -399,7 +339,7 @@ function isArray(value) {
 }
 
 /**
- * Check if variable is an object
+ * Check if 'value' is an object
  * Note: Since 'null' is an object in JS, exclude it
  *
  * @param value
@@ -410,39 +350,7 @@ function isObject(value) {
 }
 
 /**
- * Check if an element is a DOM element
- * @param value
- * @returns {boolean}
- */
-function isDomElement(value) {
-	return (isElDefined(value) && (value instanceof HTMLElement || value instanceof Element));
-}
-
-/**
- * Check if variable is a jQuery object
- * @param value
- * @returns {boolean}
- */
-function isJQueryObject(value) {
-	return (typeof jQuery !== 'undefined' && value instanceof jQuery);
-}
-
-/**
- * Check if variable is a JSON object
- * @param value
- * @returns {boolean}
- */
-function isJsonObject(value) {
-	return (
-		typeof isObject(value)
-		&& !isArray(value)
-		&& !isJQueryObject(value)
-		&& !isDomElement(value)
-	);
-}
-
-/**
- * Check if variable is numeric (Integer or Float)
+ * Check if 'value' is numeric (Integer or Float)
  * Note: Second argument to check if string containing an integer
  *
  * @param value
@@ -468,7 +376,7 @@ function isNumeric(value, checkIfStringContainingAnInteger = false) {
 }
 
 /**
- * Check if variable is an integer (strictly)
+ * Check if 'value' is an integer (strictly)
  * @param value
  * @returns {boolean}
  */
@@ -477,7 +385,7 @@ function isInt(value) {
 }
 
 /**
- * Check if variable is a float number (strictly)
+ * Check if 'value' is a float number (strictly)
  * @param value
  * @returns {boolean}
  */
@@ -486,45 +394,22 @@ function isFloat(value) {
 }
 
 /**
- * Check if variable is string of JSON or not
+ * Check if a string is JSON or not
  * @param value
  * @returns {boolean}
  */
-function isJsonString(value) {
-	if (isString(value)) {
-		try {
-			JSON.parse(value);
-			return true;
-		} catch (e) {
-		}
+function isJson(value) {
+	if (!isString(value)) {
+		return false;
 	}
-	return false;
-}
-
-/**
- * Check if variable is array of JSON objects
- * @param value
- * @returns {*}
- */
-function isArrayOfJsonObjects(value) {
-	return isArray(value) && value.every(item => isJsonObject(item));
-}
-
-/**
- * Check if variable is array of DOM Elements
- * @param value
- * @returns {*}
- */
-function isArrayOfDomElements(value) {
-	return isArray(value) && value.every(item => isDomElement(item));
-}
-
-/**
- * Get the DOM HTML element
- * @returns {HTMLElement}
- */
-function getHtmlElement() {
-	return document.documentElement;
+	
+	try {
+		JSON.parse(value);
+	} catch (e) {
+		return false;
+	}
+	
+	return true;
 }
 
 /**
@@ -692,7 +577,7 @@ function removeURLParameter(name, url = window.location.href) {
  * @returns {{top: *, left: *, bottom: *, width, right: *, height}|null}
  */
 function getElementCoords(el) {
-	if (!isDomElement(el)) {
+	if (isElNotDefined(el)) {
 		return null;
 	}
 	
@@ -716,7 +601,8 @@ function getElementCoords(el) {
  * @param defaultMessage
  * @returns {*|null}
  */
-function getErrorMessage(value, defaultMessage = null) {
+function getErrorMessage(value, defaultMessage = null)
+{
 	if (!isDefined(value)) {
 		return defaultMessage;
 	}
@@ -738,7 +624,8 @@ function getErrorMessage(value, defaultMessage = null) {
  * @param defaultMessage
  * @returns {*|null}
  */
-function getErrorMessageFromXhr(value, defaultMessage = null) {
+function getErrorMessageFromXhr(value, defaultMessage = null)
+{
 	let message = null;
 	
 	if (isDefined(value.responseJSON)) {
@@ -762,7 +649,8 @@ function getErrorMessageFromXhr(value, defaultMessage = null) {
  * @param defaultMessage
  * @returns {*|null}
  */
-function getErrorMessageFromJson(value, defaultMessage = null) {
+function getErrorMessageFromJson(value, defaultMessage = null)
+{
 	if (!isObject(value)) {
 		return defaultMessage;
 	}
@@ -775,6 +663,19 @@ function getErrorMessageFromJson(value, defaultMessage = null) {
 	message = isString(message) ? message : null;
 	
 	return !isEmpty(message) ? message : defaultMessage;
+}
+
+/**
+ * Check if a DOM element has a class
+ * @param element
+ * @param className
+ * @returns {boolean}
+ */
+function hasClass(element, className) {
+	if (isElNotDefined(element)) {
+		return false;
+	}
+	return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
 }
 
 /**
@@ -802,53 +703,10 @@ function findEmailAddresses(str) {
 
 /**
  * Set one or more elements' visibility (by passing their selector in argument)
- * Note: @action can be: hide or show
  * @param action
  * @param selectors
  */
 function setElementsVisibility(action, selectors) {
-	if (!selectors || (isArray(selectors) && selectors.length === 0)) {
-		return;
-	}
-	
-	if (!isArray(selectors)) {
-		selectors = [selectors];
-	}
-	
-	selectors.forEach((selector) => {
-		let elements;
-		
-		if (isString(selector)) {
-			elements = document.querySelectorAll(selector);
-		} else if (isDomElement(selector)) {
-			elements = [selector];
-		} else if (isArray(selector) && selector.every(item => isString(item) || isDomElement(item))) {
-			elements = selector;
-		} else {
-			console.warn(`Invalid selector: "${selector}". Use a string, a DOM element, or an array of them.`);
-			return;
-		}
-		
-		elements.forEach((element) => {
-			if (action === 'show') {
-				element.style.display = ''; /* Default to empty string to show element */
-			} else if (action === 'hide') {
-				element.style.display = 'none';
-			} else {
-				console.warn(`Invalid action: "${action}". Use 'show' or 'hide'.`);
-			}
-		});
-	});
-}
-
-/**
- * Toggle one or more elements' classes by adding/removing a specified class
- * Note: @action can be: add or remove
- * @param selectors
- * @param action
- * @param className
- */
-function toggleElementsClass(selectors, action, className) {
 	if (isEmpty(selectors)) {
 		return;
 	}
@@ -856,175 +714,23 @@ function toggleElementsClass(selectors, action, className) {
 		if (isString(selectors)) {
 			selectors = [selectors];
 		} else {
-			console.warn(`The first argument needs to be a string or an array, "${typeof selectors}" given.`);
+			console.warn(`The second argument need to be string or array, "${typeof selectors}" given.`);
 			return;
 		}
 	}
 	
-	selectors.forEach(function (selector) {
+	selectors.forEach(function(selector) {
 		let elements = document.querySelectorAll(selector);
 		if (elements.length > 0) {
-			elements.forEach(function (element) {
-				if (action === 'add') {
-					element.classList.add(className);
-				} else if (action === 'remove') {
-					element.classList.remove(className);
+			elements.forEach(function(element) {
+				if (action === 'show') {
+					element.style.display = ''; /* Default to empty string to show element */
+				} else if (action === 'hide') {
+					element.style.display = 'none';
 				} else {
-					console.warn(`Invalid action: "${action}". Use 'add' or 'remove'.`);
+					console.warn(`Invalid action: "${action}". Use 'show' or 'hide'.`);
 				}
 			});
 		}
 	});
-}
-
-/**
- * Initialize all tooltips in the DOM element (including the new one)
- *
- * Enable tooltips everywhere in the DOM element
- * Usage: initElementTooltips(domElement, {html: true});
- *        initElementTooltips(domElement, {trigger: 'hover'});
- *        initElementTooltips(domElement, {trigger: 'hover focus'});
- *
- * @param element
- * @param config
- * @param toggle
- */
-function initElementTooltips(element, config = {}, toggle = 'tooltip') {
-	if (!element) return;
-	
-	const tooltipTriggerList = [].slice.call(element.querySelectorAll(`[data-bs-toggle="${toggle}"]`));
-	const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		return new bootstrap.Tooltip(tooltipTriggerEl, config);
-	});
-}
-
-/**
- * Initialize all popovers in the DOM element (including the new one)
- *
- * Enable popovers everywhere
- * Usage: initElementPopovers(domElement, {html: true});
- *
- * @param element
- * @param config
- * @param toggle
- */
-function initElementPopovers(element, config = {}, toggle = 'popover') {
-	if (!element) return;
-	
-	const popoverTriggerList = [].slice.call(element.querySelectorAll(`[data-bs-toggle="${toggle}"]`));
-	const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-		return new bootstrap.Popover(popoverTriggerEl, config);
-	});
-}
-
-/**
- * Updates a select box with options from a JSON object and optionally sets a default selected option
- *
- * Example usage:
- * const options = {
- * 	"option1": "Option 1",
- * 	"option2": "Option 2",
- * 	"option3": "Option 3"
- * };
- *
- * Update the select box with ID 'mySelectBox' and set 'option2' as the default selected option
- * updateSelectOptions('#mySelectBox', options, 'option2');
- *
- * @param {string|Element} selectElement
- * @param {object} optionsJson
- * @param {null|string} defaultValue
- */
-function updateSelectOptions(selectElement, optionsJson, defaultValue = null) {
-	/* Get the select box element with selector */
-	const selectBox = isString(selectElement) ? document.querySelector(selectElement) : selectElement;
-	
-	/* If the select box does not exist, log an error and exit the function */
-	if (!isDomElement(selectBox)) {
-		if (isString(selectElement)) {
-			console.error(`Select box with selector "${selectElement}" not found.`);
-		}
-		return;
-	}
-	
-	/* Clear the existing options */
-	selectBox.innerHTML = '';
-	
-	/* Iterate through the JSON object and create option elements */
-	for (const [value, text] of Object.entries(optionsJson)) {
-		const option = document.createElement('option');
-		option.value = value;
-		option.text = text;
-		
-		/* If a default value is provided and matches the current option value, set it as selected */
-		if (defaultValue !== null && value === defaultValue) {
-			option.selected = true;
-		}
-		
-		selectBox.appendChild(option);
-	}
-}
-
-/**
- * Updates a Select2 select box with options from a JSON object and optionally sets a default selected option
- * Note: This is the select2 version of the updateSelectOptions() function
- *
- * @param {string|Element} selectElement
- * @param {object} optionsJson
- * @param {null|string} defaultValue
- */
-function updateSelect2Options(selectElement, optionsJson, defaultValue = null) {
-	if (typeof jQuery === 'undefined' || typeof $ === 'undefined') {
-		console.error(`jQuery is not available.`);
-		return;
-	}
-	
-	/* Get the select box element with selector */
-	let selectBox = (isString(selectElement) || isDomElement(selectElement))
-		? $(selectElement)
-		: selectElement;
-	
-	/* If the select box does not exist, log an error and exit the function */
-	if (!isJQueryObject(selectBox)) {
-		if (isString(selectElement)) {
-			console.error(`Select box with selector "${selectElement}" not found.`);
-		}
-		return;
-	}
-	
-	/* Clear the existing options */
-	selectBox.empty();
-	
-	/* Iterate through the JSON object and create option elements */
-	for (const [value, text] of Object.entries(optionsJson)) {
-		if (value === defaultValue) {
-			selectBox.append(`<option value="${value}" selected="selected">${text}</option>`);
-		} else {
-			selectBox.append(`<option value="${value}">${text}</option>`);
-		}
-	}
-	
-	/* Set the default value if provided */
-	if (defaultValue !== null) {
-		selectBox.val(defaultValue).trigger('change');
-	}
-}
-
-/**
- * Convert associative JSON object to key:value object (for Select options for example)
- * @param jsonObject
- * @param {string} valueProperty
- * @param {string|null} keyProperty
- * @returns {{}}
- */
-function assocObjectToKeyValue(jsonObject, valueProperty, keyProperty = null) {
-	const newObject = {};
-	
-	for (const key in jsonObject) {
-		if (jsonObject.hasOwnProperty(key)) {
-			const newKey = !isEmpty(keyProperty) ? jsonObject[key][keyProperty] : key;
-			newObject[newKey] = jsonObject[key][valueProperty];
-		}
-	}
-	
-	return newObject;
 }

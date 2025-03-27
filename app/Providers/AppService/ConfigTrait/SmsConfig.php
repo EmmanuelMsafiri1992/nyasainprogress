@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Providers\AppService\ConfigTrait;
 
@@ -29,9 +16,7 @@ trait SmsConfig
 			return;
 		}
 		
-		// SMS
 		$driver = $settings['driver'] ?? null;
-		config()->set('settings.sms.driver', $driver);
 		
 		// Vonage
 		if ($driver == 'vonage') {
@@ -94,8 +79,7 @@ trait SmsConfig
 		/*
 		 * Send Example SMS
 		 */
-		$driver = config('settings.sms.driver');
-		$message = null;
+		$driver = $setting->value['driver'] ?? null;
 		try {
 			if (!empty($smsTo)) {
 				Notification::route($driver, $smsTo)->notify(new ExampleSms());
@@ -106,19 +90,13 @@ trait SmsConfig
 						Notification::send($admins, new ExampleSms());
 					}
 				} else {
-					$message = trans('admin.sms_to_missing');
+					return 'No phone number defined to receive the test SMS.';
 				}
 			}
 		} catch (\Throwable $e) {
-			$message = $e->getMessage();
+			return $e->getMessage();
 		}
 		
-		if (!empty($message)) {
-			$exceptionMessageFormat = ' ERROR: <span class="fw-bold">%s</span>';
-			$message = sprintf($exceptionMessageFormat, $message);
-			$message = trans('admin.sms_sending_error', ['driver' => $driver]) . $message;
-		}
-		
-		return $message;
+		return null;
 	}
 }

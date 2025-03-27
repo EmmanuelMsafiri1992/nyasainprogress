@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Api;
 
@@ -48,11 +35,9 @@ class CompanyController extends BaseController
 		$isBelongLoggedUser = (request()->filled('belongLoggedUser') && request()->integer('belongLoggedUser') == 1);
 		$keyword = request()->input('q');
 		$perPage = getNumberOfItemsPerPage('companies', request()->integer('perPage'));
-		$isListingsReviewEnabled = config('settings.listing_form.listings_review_activation');
 		
 		$embed = explode(',', request()->input('embed'));
 		
-		// Non Cached Query
 		$companies = Company::query()->with(['user', 'user.permissions', 'user.roles']);
 		
 		if ($doEntriesHavePosts) {
@@ -66,9 +51,9 @@ class CompanyController extends BaseController
 		
 		if ($isWithCountPosts) {
 			$companies->withCount([
-				'posts' => function ($query) use ($isListingsReviewEnabled) {
+				'posts' => function ($query) {
 					$query->inCountry()->verified()->unarchived();
-					if ($isListingsReviewEnabled) {
+					if (config('settings.listing_form.listings_review_activation')) {
 						$query->reviewed();
 					}
 				},

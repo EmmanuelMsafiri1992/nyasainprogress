@@ -1,22 +1,7 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Helpers\Response;
-
-use Illuminate\Http\JsonResponse;
 
 Class Ajax
 {
@@ -26,18 +11,14 @@ Class Ajax
 	 * @param array $headers
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function json(?array $data = [], int $status = 200, array $headers = []): JsonResponse
+	public function json(?array $data = [], int $status = 200, array $headers = []): \Illuminate\Http\JsonResponse
 	{
 		$data = is_array($data) ? $data : [];
 		
+		$status = isValidHttpStatus($status) ? $status : 500;
 		$headers = addContentTypeHeader('application/json', $headers);
-		$status = getAsInt($status);
-		$status = isValidHttpStatus($status) ? $status : 200;
-		$statusText = getHttpStatusMessage($status);
 		
-		return response()
-			->json($data, $status, $headers, JSON_UNESCAPED_UNICODE)
-			->setStatusCode($status, $statusText);
+		return response()->json($data, $status, $headers, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -50,13 +31,9 @@ Class Ajax
 	{
 		$content = is_string($content) ? $content : '';
 		
+		$status = isValidHttpStatus($status) ? $status : 500;
 		$headers = addContentTypeHeader('text/plain', $headers);
-		$status = getAsInt($status);
-		$status = isValidHttpStatus($status) ? $status : 200;
-		$statusText = getHttpStatusMessage($status);
 		
-		return response($content, $status)
-			->withHeaders($headers)
-			->setStatusCode($status, $statusText);
+		return response($content, $status)->withHeaders($headers);
 	}
 }

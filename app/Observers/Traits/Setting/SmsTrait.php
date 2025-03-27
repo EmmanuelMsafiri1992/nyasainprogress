@@ -1,35 +1,37 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Observers\Traits\Setting;
 
 use App\Helpers\DotenvEditor;
+use App\Providers\AppService\ConfigTrait\SmsConfig;
 
 trait SmsTrait
 {
+	use SmsConfig;
+	
 	/**
 	 * Updating
 	 *
 	 * @param $setting
 	 * @param $original
-	 * @return void
+	 * @return bool
 	 * @throws \App\Exceptions\Custom\CustomException
 	 */
 	public function smsUpdating($setting, $original)
 	{
+		// Test the SMS driver config
+		$driverTest = $setting->value['driver_test'] ?? '0';
+		$driverTest = ($driverTest == '1');
+		$smsTo = $setting->value['sms_to'] ?? null;
+		
+		$errorMessage = $this->testSmsConfig($driverTest, $smsTo, $setting->value, true);
+		if (!empty($errorMessage)) {
+			notification($errorMessage, 'error');
+			
+			return false;
+		}
+		
 		$this->saveParametersInEnvFile($setting);
 	}
 	

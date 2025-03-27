@@ -77,9 +77,9 @@ final class Facade
     }
 
     /**
-     * @psalm-param ?array<string, TestResultCollection> $testDoxResult
+     * @param ?array<string, TestResultCollection> $testDoxResult
      */
-    public static function printResult(TestResult $result, ?array $testDoxResult, Duration $duration): void
+    public static function printResult(TestResult $result, ?array $testDoxResult, Duration $duration, bool $stackTraceForDeprecations): void
     {
         assert(self::$printer !== null);
 
@@ -92,11 +92,11 @@ final class Facade
         }
 
         if (self::$testDoxResultPrinter !== null && $testDoxResult !== null) {
-            self::$testDoxResultPrinter->print($testDoxResult);
+            self::$testDoxResultPrinter->print($result, $testDoxResult);
         }
 
         if (self::$defaultResultPrinter !== null) {
-            self::$defaultResultPrinter->print($result);
+            self::$defaultResultPrinter->print($result, $stackTraceForDeprecations);
         }
 
         if (self::$summaryPrinter !== null) {
@@ -206,7 +206,7 @@ final class Facade
                 self::$printer,
                 true,
                 true,
-                true,
+                $configuration->displayDetailsOnPhpunitDeprecations(),
                 false,
                 false,
                 true,
@@ -225,6 +225,7 @@ final class Facade
                 self::$printer,
                 $configuration->colors(),
                 $configuration->columns(),
+                $configuration->testDoxOutputWithSummary(),
             );
         }
 
@@ -240,7 +241,7 @@ final class Facade
             self::$printer,
             true,
             true,
-            true,
+            $configuration->displayDetailsOnPhpunitDeprecations(),
             true,
             true,
             true,

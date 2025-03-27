@@ -156,7 +156,7 @@
 						
 						<div class="col-md-2 col-sm-12 search-col">
 							<div class="search-btn-border bg-primary">
-								<button type="submit" class="btn btn-primary btn-search btn-block btn-gradient">
+								<button class="btn btn-primary btn-search btn-block btn-gradient">
 									<i class="fa-solid fa-magnifying-glass"></i> <strong>{{ t('find') }}</strong>
 								</button>
 							</div>

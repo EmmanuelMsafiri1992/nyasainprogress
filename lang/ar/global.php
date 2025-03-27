@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 return [
     'no_categories_found' => 'لم يتم العثور على فئات',
@@ -230,6 +230,7 @@ return [
     'my_account_on' => 'حسابي في :appName',
     'message_has_sent_successfully_to' => 'تم إرسال رسالتك بنجاح :contact_name.',
     'message_has_sent_successfully_to_us' => 'لقد أرسل تقريرك بنجاح إلينا. شكرا!',
+    'posting_listings_is_disabled' => 'تم تعطيل وظائف النشر لهذا الوقت. الرجاء المحاولة لاحقا. شكرا.',
     'your_listing_is_created' => 'تم إنشاء إعلانك.',
     'update_my_ad' => 'تحديث إعلاني',
     'your_listing_is_updated' => 'تم تحديث إعلانك.',
@@ -268,8 +269,7 @@ return [
     'count_views' => '{0} رأي|{1} رأي|[2,*] الآراء',
     'count_mails' => '{0} بريد|{1} بريد|[2,*] رسائل',
     'count_messages' => '{0} رسالة|{1} رسالة|[2,*] رسائل',
-    'validation_errors_title' => 'أُووبس! كانت هناك بعض المشاكل في إرسالك',
-    'errors_occurred_title' => 'أُووبس! حدثت بعض الأخطاء أثناء طلبك',
+    'oops_an_error_has_occurred' => 'وجه الفتاة ! حدث خطأ. يرجى تصحيح الحقول الحمراء في النموذج',
     'visits' => 'مرة',
     'Favorites' => 'المفضلة',
     'Hello' => 'مرحبا',
@@ -355,8 +355,8 @@ return [
     'Save' => 'حفظ',
     'All Ads' => 'جميع اعلانات',
     'Sort by' => 'ترتيب حسب',
-    'salary_low_to_high' => 'الراتب: من الأدنى إلى الأعلى',
-    'salary_high_to_low' => 'الراتب: من الأعلى إلى الأدنى',
+    'price_low_to_high' => 'الراتب: من الأقل إلى الأعلى',
+    'price_high_to_low' => 'الراتب: من الأعلى إلى الأقل',
     'Relevance' => 'ملاءمة',
     'Date' => 'تاريخ',
     'around_x_distance' => 'حول :distance :unit',
@@ -1025,23 +1025,4 @@ return [
     'enter_minimum_chars' => 'Enter at least ${threshold} characters to find cities',
     'no_results_for' => 'No results found for: ${query}',
     'unknown_error' => 'Unknown Error.',
-    'formValidation' => [
-        'formErrorMessage' => 'This form contains invalid data.',
-        'defaultErrors' => [
-            'required' => 'This field is required',
-            'validator' => 'This field is not valid',
-        ],
-        'errors' => [
-            'alphanumeric' => 'Enter an alphanumeric value',
-            'numeric' => 'Enter a positive numeric value',
-            'email' => 'Enter a valid email address',
-            'url' => 'Enter a valid URL',
-            'username' => 'Enter an alphanumeric with underscores, 3-16 characters',
-            'password' => 'Enter a strong password requirements',
-            'date' => 'Enter a valid date (YYYY-MM-DD) format',
-            'time' => 'Enter a valid time (HH 24-hour) format',
-            'cardExpiry' => 'Enter a valid card expiry',
-            'cardCvc' => 'Enter a valid card CVC',
-        ],
-    ],
 ];

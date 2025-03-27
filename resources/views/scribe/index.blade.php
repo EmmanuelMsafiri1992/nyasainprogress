@@ -31029,7 +31029,7 @@ vary: Origin
             &quot;password_max_length&quot;: &quot;60&quot;
         },
         &quot;social_auth&quot;: {
-            &quot;social_auth_enabled&quot;: &quot;1&quot;
+            &quot;social_login_activation&quot;: &quot;1&quot;
         },
         &quot;social_link&quot;: {
             &quot;facebook_page_url&quot;: &quot;#&quot;,

@@ -71,7 +71,7 @@
 	{{-- include select2 js--}}
 	<script src="{{ asset('assets/plugins/select2/js/select2.js') }}"></script>
 	<script>
-		onDocumentReady((event) => {
+		jQuery(document).ready(function ($) {
 			// trigger select2 for each untriggered select2 box
 			$('.select2').each(function (i, obj) {
 				if (!$(obj).data("select2")) {
@@ -87,7 +87,7 @@
 	</script>
 	
 	<script>
-		onDocumentReady((event) => {
+		jQuery(document).ready(function ($) {
 			$("select[name=filter_{{ $filter->name }}]").change(function () {
 				var value = $(this).val();
 				var parameter = '{{ $filter->name }}';

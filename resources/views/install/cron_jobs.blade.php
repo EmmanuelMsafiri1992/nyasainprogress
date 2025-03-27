@@ -1,12 +1,13 @@
 @extends('install.layouts.master')
-@section('title', trans('messages.cron_jobs_title'))
+
+@section('title', trans('messages.cron_jobs'))
 
 @section('content')
 	
 	@include('elements._cron_jobs')
 	
 	<div class="text-end">
-		<a href="{{ data_get($stepUrl, 'finish') }}" class="btn btn-primary bg-teal">
+		<a href="{{ $installUrl . '/finish' }}" class="btn btn-primary bg-teal">
 			{!! trans('messages.next') !!} <i class="fa-solid fa-chevron-right position-right"></i>
 		</a>
 	</div>
@@ -14,4 +15,5 @@
 @endsection
 
 @section('after_scripts')
+	<script type="text/javascript" src="{{ url()->asset('assets/plugins/forms/styling/uniform.min.js') }}"></script>
 @endsection

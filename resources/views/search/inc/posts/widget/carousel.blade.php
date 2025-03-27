@@ -68,55 +68,56 @@
 @section('after_scripts')
 	@parent
 	<script>
-		onDocumentReady((event) => {
-			{{-- Check if RTL or LTR --}}
-			let isRTLEnabled = (document.documentElement.getAttribute('dir') === 'rtl');
-			
-			{{-- Carousel Parameters --}}
-			{{-- Documentation: https://owlcarousel2.github.io/OwlCarousel2/ --}}
-			let carouselItems = {{ $totalPosts ?? 0 }};
-			let carouselAutoplay = {{ data_get($sectionOptions, 'autoplay') ?? 'false' }};
-			let carouselAutoplayTimeout = {{ (int)(data_get($sectionOptions, 'autoplay_timeout') ?? 1500) }};
-			let carouselLang = {
-				'navText': {
-					'prev': "{{ t('prev') }}",
-					'next': "{{ t('next') }}"
-				}
-			};
-			
-			{{-- Featured Listings Carousel --}}
-			let carouselObject = $('.featured-list-slider.{{ $carouselEl }}');
-			let responsiveObject = {
-				0: {
-					items: 1,
-					nav: true
-				},
-				576: {
-					items: 2,
-					nav: false
-				},
-				768: {
-					items: 3,
-					nav: false
-				},
-				992: {
-					items: 5,
-					nav: false,
-					loop: (carouselItems > 5)
-				}
-			};
-			carouselObject.owlCarousel({
-				rtl: isRTLEnabled,
+		{{-- Check if RTL or LTR --}}
+		let rtlIsEnabled = false;
+		if ($('html').attr('dir') === 'rtl') {
+			rtlIsEnabled = true;
+		}
+		
+		{{-- Carousel Parameters --}}
+		{{-- Documentation: https://owlcarousel2.github.io/OwlCarousel2/ --}}
+		let carouselItems = {{ $totalPosts ?? 0 }};
+		let carouselAutoplay = {{ data_get($sectionOptions, 'autoplay') ?? 'false' }};
+		let carouselAutoplayTimeout = {{ (int)(data_get($sectionOptions, 'autoplay_timeout') ?? 1500) }};
+		let carouselLang = {
+			'navText': {
+				'prev': "{{ t('prev') }}",
+				'next': "{{ t('next') }}"
+			}
+		};
+		
+		{{-- Featured Listings Carousel --}}
+		let carouselObject = $('.featured-list-slider.{{ $carouselEl }}');
+		let responsiveObject = {
+			0: {
+				items: 1,
+				nav: true
+			},
+			576: {
+				items: 2,
+				nav: false
+			},
+			768: {
+				items: 3,
+				nav: false
+			},
+			992: {
+				items: 5,
 				nav: false,
-				navText: [carouselLang.navText.prev, carouselLang.navText.next],
-				loop: true,
-				responsiveClass: true,
-				responsive: responsiveObject,
-				autoWidth: true,
-				autoplay: carouselAutoplay,
-				autoplayTimeout: carouselAutoplayTimeout,
-				autoplayHoverPause: true
-			});
+				loop: (carouselItems > 5)
+			}
+		};
+		carouselObject.owlCarousel({
+			rtl: rtlIsEnabled,
+			nav: false,
+			navText: [carouselLang.navText.prev, carouselLang.navText.next],
+			loop: true,
+			responsiveClass: true,
+			responsive: responsiveObject,
+			autoWidth: true,
+			autoplay: carouselAutoplay,
+			autoplayTimeout: carouselAutoplayTimeout,
+			autoplayHoverPause: true
 		});
 	</script>
 @endsection

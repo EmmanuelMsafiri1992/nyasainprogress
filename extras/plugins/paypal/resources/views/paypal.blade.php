@@ -19,10 +19,51 @@
 @section('after_scripts')
     @parent
     <script>
-        onDocumentReady((event) => {
-            const params = {hasForm: false, hasLocalAction: false};
+        $(document).ready(function ()
+        {
+            var selectedPackage = $('input[name=package_id]:checked').val();
+            var packagePrice = getPackagePrice(selectedPackage);
+            var paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
             
-            loadPaymentGateway('paypal', params);
+            /* Check Payment Method */
+            checkPaymentMethodForPaypal(paymentMethod, packagePrice);
+            
+            $('#paymentMethodId').on('change', function () {
+                paymentMethod = $(this).find('option:selected').data('name');
+                checkPaymentMethodForPaypal(paymentMethod, packagePrice);
+            });
+            $('.package-selection').on('click', function () {
+                selectedPackage = $(this).val();
+                packagePrice = getPackagePrice(selectedPackage);
+                paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
+                checkPaymentMethodForPaypal(paymentMethod, packagePrice);
+            });
+            
+            /* Send Payment Request */
+            $('#submitPayableForm').on('click', function (e)
+            {
+                e.preventDefault();
+                
+                paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
+                
+                if (paymentMethod !== 'paypal' || packagePrice <= 0) {
+                    return false;
+                }
+                
+                $('#payableForm').submit();
+                
+                /* Prevent form from submitting */
+                return false;
+            });
         });
+        
+        function checkPaymentMethodForPaypal(paymentMethod, packagePrice)
+        {
+            if (paymentMethod === 'paypal' && packagePrice > 0) {
+                $('#paypalPayment').show();
+            } else {
+                $('#paypalPayment').hide();
+            }
+        }
     </script>
 @endsection

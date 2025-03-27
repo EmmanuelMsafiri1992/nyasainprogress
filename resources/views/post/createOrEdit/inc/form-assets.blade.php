@@ -70,7 +70,15 @@
 
 @push('after_scripts_stack')
 	@include('layouts.inc.tools.wysiwyg.js')
-	@include('common.js.payment-scripts')
+	
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validate/1.13.1/jquery.validate.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery.payment/1.2.3/jquery.payment.min.js') }}"></script>
+	@php
+		$jqValidateLangFilePath = 'assets/plugins/forms/validation/localization/messages_'.config('app.locale').'.min.js';
+	@endphp
+	@if (file_exists(public_path() . '/' . $jqValidateLangFilePath))
+		<script src="{{ url($jqValidateLangFilePath) }}" type="text/javascript"></script>
+	@endif
 	
 	<script src="{{ url('assets/plugins/bootstrap-fileinput/js/plugins/sortable.min.js') }}" type="text/javascript"></script>
 	<script src="{{ url('assets/plugins/bootstrap-fileinput/js/fileinput.min.js') }}" type="text/javascript"></script>
@@ -100,6 +108,7 @@
 		
 		/* Company */
 		var postCompanyId = '{{ old('company_id', ($postCompanyId ?? 0)) }}';
+		getCompany(postCompanyId);
 		
 		/* Locations */
 		var countryCode = '{{ old('country_code', $countryCode) }}';
@@ -114,28 +123,23 @@
 		@endif
 	</script>
 	<script>
-		onDocumentReady((event) => {
+		$(document).ready(function() {
 			/* Company */
-			getCompany(postCompanyId);
-			const companyIdEl = document.getElementById('companyId');
-			if (companyIdEl) {
-				$(companyIdEl).on('click', (e) => getCompany(e.target.value));
-				$(companyIdEl).on('change', (e) => getCompany(e.target.value));
-			}
+			$('#companyId').bind('click, change', function() {
+				postCompanyId = $(this).val();
+				getCompany(postCompanyId);
+			});
 			
 			/* Company logo's button */
-			const companyFormLinkEl = document.getElementById('companyFormLink');
-			if (companyFormLinkEl) {
-				companyFormLinkEl.addEventListener('click', (e) => {
-					let companyLink = e.target.getAttribute('href');
-					if (companyLink.indexOf('/new/') !== -1) {
-						e.preventDefault();
-						getCompany(0);
-						
-						return false;
-					}
-				});
-			}
+			$('#companyFormLink').bind('click', function(e) {
+				let companyLink = $(this).attr('href');
+				if (companyLink.indexOf('/new/') !== -1) {
+					e.preventDefault();
+					getCompany(0);
+					
+					return false;
+				}
+			});
 			
 			{{-- select2: If error occured, apply Bootstrap's error class --}}
 			@if (config('settings.listing_form.city_selection') == 'select')
@@ -201,7 +205,9 @@
 			@if ($errors->has('tags.*'))
 				$('select[name^="tags"]').next('.select2.select2-container').addClass('is-invalid');
 			@endif
-			
+		});
+		
+		$(function() {
 			/*
 			 * start_date field
 			 * https://www.daterangepicker.com/#options

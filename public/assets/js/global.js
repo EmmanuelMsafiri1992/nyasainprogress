@@ -1,24 +1,11 @@
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 preventPageLoadingInIframe();
 
-onDocumentReady((event) => {
+$(document).ready(function() {
 	/* Confirm Actions Links */
 	$(document).on('click', '.confirm-simple-action', function(e) {
-		e.preventDefault(); /* Prevents submission or reloading */
+		e.preventDefault(); /* prevents a submitting or reloading */
 		
 		try {
 			let showCancelInfo = false;
@@ -40,9 +27,10 @@ onDocumentReady((event) => {
  * Open Login Modal
  */
 function openLoginModal() {
-	const quickLoginEl = document.getElementById('quickLogin');
-	if (quickLoginEl) {
-		const loginModal = new bootstrap.Modal(quickLoginEl, {});
+	let quickLoginEl = document.getElementById('quickLogin');
+	
+	if (typeof (quickLoginEl) !== 'undefined' && quickLoginEl !== null) {
+		let loginModal = new bootstrap.Modal(quickLoginEl, {});
 		loginModal.show();
 	}
 }
@@ -212,7 +200,7 @@ function bsModalAlert(error, errorTitle = null) {
 	const modalTitleEl = document.getElementById("errorModalTitle");
 	const modalBodyEl = document.getElementById("errorModalBody");
 	
-	if (!isDomElement(modalEl) || !isDomElement(modalTitleEl) || !isDomElement(modalBodyEl)) {
+	if (isElNotDefined(modalEl) || isElNotDefined(modalTitleEl) || isElNotDefined(modalBodyEl)) {
 		return false;
 	}
 	

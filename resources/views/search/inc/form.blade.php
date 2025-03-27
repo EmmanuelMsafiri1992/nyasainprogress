@@ -107,7 +107,7 @@
 					</div>
 					
 					<div class="col-xl-2 col-md-2 col-sm-12 col-12">
-						<button type="submit" class="btn btn-block btn-primary">
+						<button class="btn btn-block btn-primary">
 							<i class="fa-solid fa-magnifying-glass"></i> <strong>{{ t('find') }}</strong>
 						</button>
 					</div>
@@ -120,4 +120,14 @@
 
 @section('after_scripts')
 	@parent
+	<script>
+		$(document).ready(function () {
+			$('#locSearch').on('change', function () {
+				if ($(this).val() == '') {
+					$('#lSearch').val('');
+					$('#rSearch').val('');
+				}
+			});
+		});
+	</script>
 @endsection

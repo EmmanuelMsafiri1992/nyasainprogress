@@ -49,7 +49,7 @@
 	{{-- include select2 js--}}
 	<script type="text/javascript" src="{{ asset('assets/plugins/datepicker/1.9.0/bootstrap-datepicker.js') }}"></script>
 	<script>
-		onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			var dateInput = $('#datepicker-{{ $filterSlug }}').datepicker({
 					autoclose: true,
 					format: 'yyyy-mm-dd',

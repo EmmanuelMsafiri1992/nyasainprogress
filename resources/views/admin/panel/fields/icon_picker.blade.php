@@ -39,12 +39,7 @@
 @endphp
 
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder">
-        {!! $field['label'] !!}
-        @if (isset($field['required']) && $field['required'])
-            <span class="text-danger">*</span>
-        @endif
-    </label>
+    <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
 
     <div>
@@ -230,7 +225,7 @@
         
         {{-- Iconpicker - set hidden input value --}}
         <script>
-            onDocumentReady((event) => {
+            jQuery(document).ready(function($) {
                 $('button[role=iconpicker]').on('change', function(e) {
                     $(this).siblings('input[type=hidden]').val(e.icon);
                 });

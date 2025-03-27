@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Api\Post\List\Search;
 
@@ -155,15 +142,15 @@ trait SidebarTrait
 			],
 			[
 				'condition'  => true,
-				'isSelected' => (request()->input('orderBy') == 'salaryAsc'),
-				'query'      => ['orderBy' => 'salaryAsc'],
-				'label'      => t('salary_low_to_high'),
+				'isSelected' => (request()->input('orderBy') == 'priceAsc'),
+				'query'      => ['orderBy' => 'priceAsc'],
+				'label'      => t('price_low_to_high'),
 			],
 			[
 				'condition'  => true,
-				'isSelected' => (request()->input('orderBy') == 'salaryDesc'),
-				'query'      => ['orderBy' => 'salaryDesc'],
-				'label'      => t('salary_high_to_low'),
+				'isSelected' => (request()->input('orderBy') == 'priceDesc'),
+				'query'      => ['orderBy' => 'priceDesc'],
+				'label'      => t('price_high_to_low'),
 			],
 			[
 				'condition'  => request()->filled('q'),

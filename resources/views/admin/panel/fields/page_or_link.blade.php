@@ -14,12 +14,7 @@
     $active_pages = $page_model::all();
 @endphp
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder">
-        {!! $field['label'] !!}
-        @if (isset($field['required']) && $field['required'])
-            <span class="text-danger">*</span>
-        @endif
-    </label>
+    <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
     <div class="clearfix"></div>
 
@@ -30,11 +25,11 @@
             @include('admin.panel.inc.field_attributes')
             >
 
-            @if ($field['allows_null'])
+            @if (isset($field['allows_null']) && $field['allows_null']==true)
                 <option value="">-</option>
             @endif
 
-            @if (!empty($field['options']))
+            @if (isset($field['options']) && !empty($field['options']))
                 @foreach ($field['options'] as $key => $value)
                     <option value="{{ $key }}"
                         @if (isset($field['value']) && $key==$field['value'])
@@ -123,8 +118,8 @@
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
     @push('crud_fields_scripts')
         <script>
-            onDocumentReady((event) => {
-                
+            jQuery(document).ready(function($) {
+
                 $("#page_or_link_select").change(function(e) {
                     $(".page_or_link_value input").attr('disabled', 'disabled');
                     $(".page_or_link_value select").attr('disabled', 'disabled');

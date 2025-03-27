@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Install\Traits\Install;
 
@@ -24,11 +11,9 @@ trait EnvTrait
 	/**
 	 * Write configuration values to file
 	 *
-	 * @param array $siteInfo
-	 * @param array $databaseInfo
 	 * @return void
 	 */
-	private function writeEnv(array $siteInfo = [], array $databaseInfo = []): void
+	private function writeEnv(): void
 	{
 		// Get .env file path
 		$filePath = base_path('.env');
@@ -51,23 +36,20 @@ trait EnvTrait
 		// API Token (for API calls)
 		$apiToken = generateApiToken();
 		
-		// Get site & database info
-		$siteInfo = !empty($siteInfo) ? $siteInfo : (array)session('siteInfo');
-		$databaseInfo = !empty($databaseInfo) ? $databaseInfo : (array)session('databaseInfo');
+		// Get database & site info
+		$database = session('database');
+		$siteInfo = session('siteInfo');
 		
-		// Get the purchase code
-		$purchaseCode = data_get($siteInfo, 'settings.app.purchase_code');
-		
-		// Get database parameters
-		// $dbConnection = $databaseInfo['connection'] ?? 'mysql';
+		// Get DB Infos
+		// $dbConnection = $database['connection'] ?? 'mysql';
 		$dbConnection = 'mysql';
-		$dbHost = $databaseInfo['host'] ?? '';
-		$dbPort = $databaseInfo['port'] ?? '';
-		$dbSocket = $databaseInfo['socket'] ?? '';
-		$dbPrefix = $databaseInfo['prefix'] ?? '';
-		$dbDatabase = $databaseInfo['database'] ?? '';
-		$dbUsername = isset($databaseInfo['username']) ? addcslashes($databaseInfo['username'], '"') : '';
-		$dbPassword = isset($databaseInfo['password']) ? addcslashes($databaseInfo['password'], '"') : '';
+		$dbHost = $database['host'] ?? '';
+		$dbPort = $database['port'] ?? '';
+		$dbDatabase = $database['database'] ?? '';
+		$dbUsername = isset($database['username']) ? addcslashes($database['username'], '"') : '';
+		$dbPassword = isset($database['password']) ? addcslashes($database['password'], '"') : '';
+		$dbSocket = $database['socket'] ?? '';
+		$dbPrefix = $database['prefix'] ?? '';
 		$dbCharset = config('larapen.core.database.charset.default', 'utf8mb4');
 		$dbCollation = config('larapen.core.database.collation.default', 'utf8mb4_unicode_ci');
 		/*
@@ -96,6 +78,7 @@ trait EnvTrait
 		}
 		*/
 		
+		$purchaseCode = $siteInfo['purchase_code'] ?? '';
 		$timezone = config('app.timezone', 'UTC');
 		$forceHttps = str_starts_with($this->baseUrl, 'https://') ? 'true' : 'false';
 		
@@ -113,13 +96,13 @@ trait EnvTrait
 		$content .= 'FORCE_HTTPS=' . $forceHttps . "\n";
 		$content .= "\n";
 		$content .= 'DB_CONNECTION=' . $dbConnection . "\n";
-		$content .= 'DB_SOCKET=' . $dbSocket . "\n";
 		$content .= 'DB_URL=' . $dbUrl . "\n";
 		$content .= 'DB_HOST=' . $dbHost . "\n";
 		$content .= 'DB_PORT=' . $dbPort . "\n";
 		$content .= 'DB_DATABASE=' . $dbDatabase . "\n";
 		$content .= 'DB_USERNAME="' . $dbUsername . '"' . "\n";
 		$content .= 'DB_PASSWORD="' . $dbPassword . '"' . "\n";
+		$content .= 'DB_SOCKET=' . $dbSocket . "\n";
 		$content .= 'DB_TABLES_PREFIX=' . $dbPrefix . "\n";
 		$content .= 'DB_CHARSET=' . $dbCharset . "\n";
 		$content .= 'DB_COLLATION=' . $dbCollation . "\n";

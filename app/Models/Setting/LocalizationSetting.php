@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -102,6 +89,9 @@ class LocalizationSetting
 				'name'              => 'geoip_activation',
 				'label'             => trans('admin.geoip_activation_label'),
 				'type'              => 'checkbox_switch',
+				'attributes'        => [
+					'id' => 'geoipActivation',
+				],
 				'hint'              => trans('admin.geoip_activation_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
@@ -114,6 +104,9 @@ class LocalizationSetting
 				'label'             => trans('admin.geoip_driver_label'),
 				'type'              => 'select2_from_array',
 				'options'           => $geoipDrivers,
+				'attributes'        => [
+					'id' => 'geoipDriver',
+				],
 				'hint'              => trans('admin.geoip_driver_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
@@ -410,6 +403,9 @@ class LocalizationSetting
 				'attribute'         => 'name',
 				'model'             => '\App\Models\Country',
 				'allows_null'       => true,
+				'attributes'        => [
+					'id' => 'defaultCountry',
+				],
 				'hint'              => trans('admin.default_country_code_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
@@ -523,8 +519,85 @@ class LocalizationSetting
 			],
 		]);
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields, [
-			'geoipDriversSelectorsJson' => $geoipDriversSelectorsJson,
+		$fields = array_merge($fields, [
+			[
+				'name'  => 'javascript',
+				'type'  => 'custom_html',
+				'value' => '<script>
+let geoipDriversSelectors = ' . $geoipDriversSelectorsJson . ';
+let geoipDriversSelectorsList = Object.values(geoipDriversSelectors);
+
+onDocumentReady((event) => {
+	/* Driver Selection (select2) */
+	let driverElSelector = "#geoipDriver";
+	let driverEl = document.querySelector(driverElSelector);
+	getDriverFields(driverEl);
+	/* Vanilla JS is not used since the select2 plugin is built with jQuery */
+	$(driverElSelector).on("change", function (event) {
+		getDriverFields(this);
+	});
+	
+	/* GeoIP Service Activation (checkbox) */
+	let geoipActivationEl = document.querySelector("#geoipActivation");
+	geoipActivationEl.addEventListener("change", (event) => {
+		unsetDefaultCountry(event.target);
+	});
+	
+	/* Default Country Selection (select2) */
+	/* Vanilla JS is not used since the select2 plugin is built with jQuery */
+	let defaultCountryJQueryEl = $("#defaultCountry");
+	defaultCountryJQueryEl.on("change", function (event) {
+		toggleGeolocation(this);
+	});
+}, true);
+
+function getDriverFields(driverEl) {
+	setElementsVisibility("hide", geoipDriversSelectorsList);
+	setElementsVisibility("show", geoipDriversSelectors[driverEl.value] ?? "");
+}
+
+function unsetDefaultCountry(geoipActivationEl) {
+	let defaultCountryEl = document.querySelector("#defaultCountry");
+	
+	if (geoipActivationEl.checked) {
+		defaultCountryEl.value = "";
+		/*
+		 * Trigger Change event when the Input value changed programmatically (for select2)
+		 * https://stackoverflow.com/a/36084475
+		 */
+		defaultCountryEl.dispatchEvent(new Event("change"));
+		
+		let alertMessage = "' . trans('admin.activating_geolocation') . '";
+		pnAlert(alertMessage, "info");
+	} else {
+		/* Focus on the Default Country field */
+		defaultCountryEl.focus();
+		
+		let alertMessage = "' . trans('admin.disabling_geolocation') . '";
+		pnAlert(alertMessage, "notice");
+	}
+}
+
+function toggleGeolocation(defaultCountryEl) {
+	let geoipActivationEl = document.querySelector("#geoipActivation");
+	
+	if (geoipActivationEl.checked && defaultCountryEl.value != "") {
+		geoipActivationEl.checked = false;
+		
+		let alertMessage = "' . trans('admin.specifying_default_country') . '";
+		pnAlert(alertMessage, "info");
+	}
+	if (!geoipActivationEl.checked && defaultCountryEl.value == "") {
+		geoipActivationEl.checked = true;
+		
+		let alertMessage = "' . trans('admin.removing_default_country') . '";
+		pnAlert(alertMessage, "notice");
+	}
+}
+</script>',
+			],
 		]);
+		
+		return $fields;
 	}
 }

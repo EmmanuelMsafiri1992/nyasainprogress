@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Admin;
 
@@ -114,25 +101,22 @@ class HomeSectionController extends PanelController
 	{
 		$section = HomeSection::find(request()->segment(3));
 		if (!empty($section)) {
-			// Get the right Setting class
-			$classKey = $section->method ?? '';
-			
-			// Get class name
-			$className = str($classKey)->camel()->ucfirst();
-			
-			// Get class full qualified name (i.e. with namespace)
-			$namespace = '\App\Models\HomeSection\\';
-			$class = $className->prepend($namespace)->toString();
-			
-			// If the class doesn't exist in the core app, try to get it from add-ons
-			if (!class_exists($class)) {
-				$namespace = plugin_namespace($classKey) . '\app\Models\HomeSection\\';
-				$class = $className->prepend($namespace)->toString();
-			}
-			
-			if (class_exists($class)) {
-				if (method_exists($class, 'passedValidation')) {
-					$request = $class::passedValidation($request);
+			// Get the right Setting
+			$sectionClassName = str($section->method)->camel()->ucfirst();
+			$sectionNamespace = '\App\Models\HomeSection\\';
+			$sectionClass = $sectionNamespace . $sectionClassName;
+			if (class_exists($sectionClass)) {
+				if (method_exists($sectionClass, 'passedValidation')) {
+					$request = $sectionClass::passedValidation($request);
+				}
+			} else {
+				$sectionNamespace = plugin_namespace($section->method) . '\app\Models\Setting\\';
+				$sectionClass = $sectionNamespace . $sectionClassName;
+				// Get the plugin's setting
+				if (class_exists($sectionClass)) {
+					if (method_exists($sectionClass, 'passedValidation')) {
+						$request = $sectionClass::passedValidation($request);
+					}
 				}
 			}
 		}

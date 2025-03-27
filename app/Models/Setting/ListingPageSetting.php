@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -59,9 +46,7 @@ class ListingPageSetting
 	
 	public static function getFields($diskName)
 	{
-		$fields = [];
-		
-		$fields = array_merge($fields, [
+		$fields = [
 			[
 				'name'  => 'phone_number_sep',
 				'type'  => 'custom_html',
@@ -91,30 +76,16 @@ class ListingPageSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
+			
 			[
 				'name'  => 'dates_sep',
 				'type'  => 'custom_html',
 				'value' => trans('admin.dates_title'),
 			],
 			[
-				'name'              => 'hide_date',
-				'label'             => trans('admin.hide_date_label'),
-				'type'              => 'checkbox_switch',
-				'hint'              => trans('admin.details_hide_date_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6',
-				],
-			],
-			[
 				'name'  => 'php_specific_date_format',
 				'type'  => 'custom_html',
 				'value' => trans('admin.php_specific_date_format_info'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 date-field',
-				],
 			],
 			[
 				'name'              => 'date_from_now',
@@ -126,17 +97,43 @@ class ListingPageSetting
 					'languagesUrl' => admin_url('languages'),
 				]),
 				'wrapperAttributes' => [
-					'class' => 'col-md-12 date-field',
+					'class' => 'col-md-12',
 				
 				],
 			],
-		]);
-		
-		$fields = array_merge($fields, [
+			[
+				'name'              => 'hide_date',
+				'label'             => trans('admin.hide_date_label'),
+				'type'              => 'checkbox_switch',
+				'hint'              => trans('admin.details_hide_date_hint'),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6',
+				
+				],
+			],
+			
 			[
 				'name'  => 'others_sep',
 				'type'  => 'custom_html',
 				'value' => trans('admin.others_sep_value'),
+			],
+			[
+				'name'              => 'guest_can_contact_authors',
+				'label'             => trans('admin.guest_can_contact_authors_label'),
+				'type'              => 'checkbox_switch',
+				'hint'              => trans('admin.guest_can_contact_authors_hint'),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6',
+				],
+			],
+			[
+				'name'              => 'auth_required_to_report_abuse',
+				'label'             => trans('admin.auth_required_to_report_abuse_label'),
+				'type'              => 'checkbox_switch',
+				'hint'              => trans('admin.auth_required_to_report_abuse_hint'),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6',
+				],
 			],
 			[
 				'name'              => 'similar_listings',
@@ -158,31 +155,9 @@ class ListingPageSetting
 				'type'              => 'checkbox_switch',
 				'hint'              => trans('admin.similar_listings_in_carousel_hint'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 mt-3 similar-listings-field',
-				],
-				'newline'           => true,
-			],
-			[
-				'name'              => 'guest_can_contact_authors',
-				'label'             => trans('admin.guest_can_contact_authors_label'),
-				'type'              => 'checkbox_switch',
-				'hint'              => trans('admin.guest_can_contact_authors_hint'),
-				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
 			],
-			[
-				'name'              => 'auth_required_to_report_abuse',
-				'label'             => trans('admin.auth_required_to_report_abuse_label'),
-				'type'              => 'checkbox_switch',
-				'hint'              => trans('admin.auth_required_to_report_abuse_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6',
-				],
-			],
-		]);
-		
-		$fields = array_merge($fields, [
 			[
 				'name'  => 'external_services_sep',
 				'type'  => 'custom_html',
@@ -206,8 +181,8 @@ class ListingPageSetting
 					'class' => 'col-md-6',
 				],
 			],
-		]);
+		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields);
+		return $fields;
 	}
 }

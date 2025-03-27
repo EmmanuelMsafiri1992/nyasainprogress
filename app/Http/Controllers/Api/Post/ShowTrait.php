@@ -1,9 +1,9 @@
 <?php
 /*
- * JobClass - Job Board Web Application
+ * LaraClassifier - Classified Ads Web Application
  * Copyright (c) BeDigit. All Rights Reserved
  *
- * Website: https://laraclassifier.com/jobclass
+ * Website: https://laraclassifier.com
  * Author: BeDigit | https://bedigit.com
  *
  * LICENSE

@@ -134,7 +134,7 @@
 
 @section('after_scripts')
 	<script>
-		onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			$('#language_switch').change(function() {
 				window.location.href = $(this).val();
 			})

@@ -21,10 +21,7 @@
 				</button>
 			</div>
 			
-			@php
-				$actionUrl = url('account/messages/posts/' . data_get($post, 'id'));
-			@endphp
-			<form role="form" method="POST" action="{{ $actionUrl }}" enctype="multipart/form-data">
+			<form role="form" method="POST" action="{{ url('account/messages/posts/' . data_get($post, 'id')) }}" enctype="multipart/form-data">
 				{!! csrf_field() !!}
 				@honeypot
 				<div class="modal-body">
@@ -57,9 +54,8 @@
 						@endphp
 						<div class="mb-3 required">
 							<label class="control-label" for="name">{{ t('Name') }} <sup>*</sup></label>
-							<div class="input-group{{ $fromNameError }}">
-								<input id="fromName"
-								       name="name"
+							<div class="input-group">
+								<input id="fromName" name="name"
 									   type="text"
 									   class="form-control{{ $fromNameError }}"
 									   placeholder="{{ t('your_name') }}"
@@ -75,20 +71,17 @@
 					@else
 						@php
 							$fromEmailError = (isset($errors) && $errors->has('email')) ? ' is-invalid' : '';
-							$emailRequiredClass = ($authFieldValue == 'email') ? ' required' : '';
 						@endphp
-						<div class="mb-3{{ $emailRequiredClass }}">
+						<div class="mb-3 required">
 							<label class="control-label" for="email">{{ t('email') }}
 								@if ($authFieldValue == 'email')
 									<sup>*</sup>
 								@endif
 							</label>
-							<div class="input-group{{ $fromEmailError }}">
+							<div class="input-group">
 								<span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-								<input id="fromEmail"
-								       name="email"
+								<input id="fromEmail" name="email"
 									   type="text"
-									   data-valid-type="email"
 									   class="form-control{{ $fromEmailError }}"
 									   placeholder="{{ t('eg_email') }}"
 									   value="{{ old('email', $authUser->email ?? null) }}"
@@ -108,16 +101,14 @@
 							$phoneCountryValue = $authUser->phone_country ?? config('country.code');
 							$phoneValue = phoneE164($phoneValue, $phoneCountryValue);
 							$phoneValueOld = phoneE164(old('phone', $phoneValue), old('phone_country', $phoneCountryValue));
-							$phoneRequiredClass = ($authFieldValue == 'phone') ? ' required' : '';
 						@endphp
-						<div class="mb-3{{ $phoneRequiredClass }}">
+						<div class="mb-3 required">
 							<label class="control-label" for="phone">{{ t('phone_number') }}
 								@if ($authFieldValue == 'phone')
 									<sup>*</sup>
 								@endif
 							</label>
-							<input id="fromPhone"
-							       name="phone"
+							<input id="fromPhone" name="phone"
 								   type="tel"
 								   maxlength="60"
 								   class="form-control m-phone{{ $fromPhoneError }}"
@@ -132,26 +123,21 @@
 					<input name="auth_field" type="hidden" value="{{ $authFieldValue }}">
 					
 					{{-- body --}}
-					@php
-						$bodyError = (isset($errors) && $errors->has('body')) ? ' is-invalid' : '';
-					@endphp
+					<?php $bodyError = (isset($errors) && $errors->has('body')) ? ' is-invalid' : ''; ?>
 					<div class="mb-3 required">
 						<label class="control-label" for="body">
 							{{ t('Message') }} <span class="text-count">(500 max)</span> <sup>*</sup>
 						</label>
-						<textarea id="body"
-						          name="body"
-						          rows="5"
-						          class="form-control required{{ $bodyError }}"
-						          style="min-height: 150px;"
-						          placeholder="{{ t('your_message_here') }}"
+						<textarea id="body" name="body"
+							rows="5"
+							class="form-control required{{ $bodyError }}"
+							style="height: 150px;"
+							placeholder="{{ t('your_message_here') }}"
 						>{{ old('body') }}</textarea>
 					</div>
 					
 					{{-- filename --}}
-					@php
-						$resumeIdError = (isset($errors) && $errors->has('resume_id')) ? ' is-invalid' : '';
-					@endphp
+					<?php $resumeIdError = (isset($errors) && $errors->has('resume_id')) ? ' is-invalid' : ''; ?>
 					<div class="mb-2">
 						<label class="control-label" for="filename">{{ t('Resume') }} </label>
 						<div class="form-text text-muted">{!! t('Select a Resume') !!}</div>
@@ -169,8 +155,7 @@
 											: (!empty($lastResume) ? data_get($lastResume, 'id') : 0);
 									@endphp
 									<div class="form-check pt-2">
-										<input id="resumeId{{ $iResumeId }}"
-										       name="resume_id"
+										<input id="resumeId{{ $iResumeId }}" name="resume_id"
 											   value="{{ $iResumeId }}"
 											   type="radio"
 											   class="form-check-input{{ $resumeIdError }}" @checked($selectedResume == $iResumeId)
@@ -260,24 +245,19 @@
 		@endphp
 		let lastResumeId = {{ $lastResumeId }};
 		
-		onDocumentReady((event) => {
-			{{-- Re-open the modal if error occured --}}
+		$(document).ready(function () {
 			@if (isset($errors) && $errors->any())
 				@if ($errors->any() && old('messageForm')=='1')
-					const applyJobEl = document.getElementById('applyJob');
-					if (applyJobEl) {
-						let quickLogin = new bootstrap.Modal(applyJobEl, {});
-						quickLogin.show();
-					}
+					{{-- Re-open the modal if error occured --}}
+					let quickLogin = new bootstrap.Modal(document.getElementById('applyJob'), {});
+					quickLogin.show();
 				@endif
 			@endif
 			
 			{{-- Resume --}}
 			getResume(lastResumeId);
-			const resumeIdInputEls = document.querySelectorAll('#resumeId input');
-			resumeIdInputEls.forEach((input) => {
-				input.addEventListener('click', (event) => getResume(event.target.value));
-				input.addEventListener('change', (event) => getResume(event.target.value));
+			$('#resumeId input').bind('click, change', function() {
+				getResume($(this).val());
 			});
 		});
 	</script>

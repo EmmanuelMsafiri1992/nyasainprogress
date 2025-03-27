@@ -1,0 +1,756 @@
+PS C:\laragon\www\v14slight> php artisan route:list
+
+  GET|HEAD        / ............................................................................................................... Web\Public\HomeController@index
+  GET|HEAD        _debugbar/assets/javascript ......................................................... debugbar.assets.js › Barryvdh\Debugbar › AssetController@js
+  GET|HEAD        _debugbar/assets/stylesheets ...................................................... debugbar.assets.css › Barryvdh\Debugbar › AssetController@css
+  DELETE          _debugbar/cache/{key}/{tags?} ................................................ debugbar.cache.delete › Barryvdh\Debugbar › CacheController@delete
+  GET|HEAD        _debugbar/clockwork/{id} ............................................... debugbar.clockwork › Barryvdh\Debugbar › OpenHandlerController@clockwork
+  GET|HEAD        _debugbar/open .......................................................... debugbar.openhandler › Barryvdh\Debugbar › OpenHandlerController@handle
+  POST            _debugbar/queries/explain .............................................. debugbar.queries.explain › Barryvdh\Debugbar › QueriesController@explain
+  POST            _ignition/execute-solution ........................................ ignition.executeSolution › Spatie\LaravelIgnition › ExecuteSolutionController
+  GET|HEAD        _ignition/health-check .................................................... ignition.healthCheck › Spatie\LaravelIgnition › HealthCheckController
+  POST            _ignition/update-config ................................................. ignition.updateConfig › Spatie\LaravelIgnition › UpdateConfigController
+  GET|HEAD        account ................................................................................................. Web\Public\Account\EditController@index
+  PUT             account ......................................................................................... Web\Public\Account\EditController@updateDetails
+  GET|HEAD        account/close .......................................................................................... Web\Public\Account\CloseController@index
+  POST            account/close ......................................................................................... Web\Public\Account\CloseController@submit
+  GET|HEAD        account/companies .................................................................................... Web\Public\Account\CompanyController@index  
+  POST            account/companies .................................................................................... Web\Public\Account\CompanyController@store  
+  GET|HEAD        account/companies/create ............................................................................ Web\Public\Account\CompanyController@create  
+  POST            account/companies/delete ........................................................................... Web\Public\Account\CompanyController@destroy  
+  GET|HEAD        account/companies/{id} ................................................................................ Web\Public\Account\CompanyController@show  
+  PUT             account/companies/{id} .............................................................................. Web\Public\Account\CompanyController@update  
+  GET|HEAD        account/companies/{id}/delete ...................................................................... Web\Public\Account\CompanyController@destroy  
+  GET|HEAD        account/companies/{id}/edit ........................................................................... Web\Public\Account\CompanyController@edit  
+  GET|HEAD        account/messages .................................................................................... Web\Public\Account\MessagesController@index  
+  POST            account/messages .................................................................................... Web\Public\Account\MessagesController@store  
+  POST            account/messages/actions .......................................................................... Web\Public\Account\MessagesController@actions  
+  POST            account/messages/check-new ....................................................................... Web\Public\Account\MessagesController@checkNew  
+  POST            account/messages/delete ........................................................................... Web\Public\Account\MessagesController@destroy  
+  POST            account/messages/posts/{id} ......................................................................... Web\Public\Account\MessagesController@store  
+  GET|HEAD        account/messages/{id} ................................................................................ Web\Public\Account\MessagesController@show  
+  PUT             account/messages/{id} .............................................................................. Web\Public\Account\MessagesController@update  
+  GET|HEAD        account/messages/{id}/actions ..................................................................... Web\Public\Account\MessagesController@actions  
+  GET|HEAD        account/messages/{id}/delete ...................................................................... Web\Public\Account\MessagesController@destroy  
+  PUT             account/photo ..................................................................................... Web\Public\Account\EditController@updatePhoto  
+  PUT             account/photo/delete .............................................................................. Web\Public\Account\EditController@deletePhoto  
+  GET|HEAD        account/posts/archived/{id}/repost ............................................................. Web\Public\Account\PostsController@archivedPosts  
+  GET|HEAD        account/posts/list/{id}/offline ........................................................................ Web\Public\Account\PostsController@index  
+  GET|HEAD        account/posts/{pagePath} ............................................................................. Web\Public\Account\PostsController@getPage  
+  POST            account/posts/{pagePath}/delete ...................................................................... Web\Public\Account\PostsController@destroy  
+  GET|HEAD        account/posts/{pagePath}/{id}/delete ................................................................. Web\Public\Account\PostsController@destroy  
+  GET|HEAD        account/resumes ....................................................................................... Web\Public\Account\ResumeController@index  
+  POST            account/resumes ....................................................................................... Web\Public\Account\ResumeController@store  
+  GET|HEAD        account/resumes/create ............................................................................... Web\Public\Account\ResumeController@create  
+  POST            account/resumes/delete .............................................................................. Web\Public\Account\ResumeController@destroy  
+  GET|HEAD        account/resumes/{id} ................................................................................... Web\Public\Account\ResumeController@show  
+  PUT             account/resumes/{id} ................................................................................. Web\Public\Account\ResumeController@update  
+  GET|HEAD        account/resumes/{id}/delete ......................................................................... Web\Public\Account\ResumeController@destroy  
+  GET|HEAD        account/resumes/{id}/edit .............................................................................. Web\Public\Account\ResumeController@edit  
+  GET|HEAD        account/saved-searches ......................................................................... Web\Public\Account\SavedSearchesController@index  
+  POST            account/saved-searches/delete ................................................................ Web\Public\Account\SavedSearchesController@destroy  
+  GET|HEAD        account/saved-searches/{id} ..................................................................... Web\Public\Account\SavedSearchesController@show  
+  GET|HEAD        account/saved-searches/{id}/delete ........................................................... Web\Public\Account\SavedSearchesController@destroy  
+  PUT             account/settings ................................................................................ Web\Public\Account\EditController@updateDetails  
+  GET|HEAD        account/subscription .......................................................................... Web\Public\Account\SubscriptionController@getForm  
+  POST            account/subscription ......................................................................... Web\Public\Account\SubscriptionController@postForm  
+  GET|HEAD        account/transactions/promotion .................................................................. Web\Public\Account\TransactionsController@index  
+  GET|HEAD        account/transactions/subscription ............................................................... Web\Public\Account\TransactionsController@index  
+  GET|HEAD        account/{id}/payment/cancel ............................................................. Web\Public\Account\SubscriptionController@paymentCancel  
+  GET|HEAD        account/{id}/payment/success ...................................................... Web\Public\Account\SubscriptionController@paymentConfirmation  
+  POST            account/{id}/payment/success ...................................................... Web\Public\Account\SubscriptionController@paymentConfirmation  
+  GET|HEAD        admin .................................................................................................... Web\Admin\DashboardController@redirect  
+  GET|HEAD        admin/account .................................................................................................. Web\Admin\UserController@account  
+  GET|HEAD        admin/actions/clear_cache ................................................................................. Web\Admin\ActionController@clearCache  
+  GET|HEAD        admin/actions/clear_images_thumbnails .......................................................... Web\Admin\ActionController@clearImagesThumbnails  
+  GET|HEAD        admin/actions/maintenance/{mode} ......................................................................... Web\Admin\ActionController@maintenance
+  GET|HEAD        admin/admins1/{admin1Code}/admins2 ................................ crud.admins1/{admin1Code}/admins2.index › Web\Admin\SubAdmin2Controller@index  
+  POST            admin/admins1/{admin1Code}/admins2 ................................ crud.admins1/{admin1Code}/admins2.store › Web\Admin\SubAdmin2Controller@store  
+  POST            admin/admins1/{admin1Code}/admins2/bulk_actions ....... crud.admins1/{admin1Code}/admins2.bulkActions › Web\Admin\SubAdmin2Controller@bulkActions  
+  GET|HEAD        admin/admins1/{admin1Code}/admins2/create ....................... crud.admins1/{admin1Code}/admins2.create › Web\Admin\SubAdmin2Controller@create  
+  GET|HEAD        admin/admins1/{admin1Code}/admins2/reorder/{lang?} ............ crud.admins1/{admin1Code}/admins2.reorder › Web\Admin\SubAdmin2Controller@reorder  
+  POST            admin/admins1/{admin1Code}/admins2/reorder/{lang?} ... crud.admins1/{admin1Code}/admins2.save.reorder › Web\Admin\SubAdmin2Controller@saveReorder  
+  POST            admin/admins1/{admin1Code}/admins2/search ....................... crud.admins1/{admin1Code}/admins2.search › Web\Admin\SubAdmin2Controller@search  
+  GET|HEAD        admin/admins1/{admin1Code}/admins2/{admins2} ........................ crud.admins1/{admin1Code}/admins2.show › Web\Admin\SubAdmin2Controller@show  
+  PUT|PATCH       admin/admins1/{admin1Code}/admins2/{admins2} .................... crud.admins1/{admin1Code}/admins2.update › Web\Admin\SubAdmin2Controller@update  
+  DELETE          admin/admins1/{admin1Code}/admins2/{admins2} .................. crud.admins1/{admin1Code}/admins2.destroy › Web\Admin\SubAdmin2Controller@destroy  
+  GET|HEAD        admin/admins1/{admin1Code}/admins2/{admins2}/edit ................... crud.admins1/{admin1Code}/admins2.edit › Web\Admin\SubAdmin2Controller@edit  
+  GET|HEAD        admin/admins1/{admin1Code}/admins2/{id}/details . crud.admins1/{admin1Code}/admins2.showDetailsRow › Web\Admin\SubAdmin2Controller@showDetailsRow  
+  GET|HEAD        admin/admins1/{admin1Code}/admins2/{id}/revisions . crud.admins1/{admin1Code}/admins2.listRevisions › Web\Admin\SubAdmin2Controller@listRevisions  
+  POST            admin/admins1/{admin1Code}/admins2/{id}/revisions/{revisionId}/restore crud.admins1/{admin1Code}/admins2.restoreRevision › Web\Admin\SubAdmin2Co…  
+  GET|HEAD        admin/admins1/{admin1Code}/cities ....................................... crud.admins1/{admin1Code}/cities.index › Web\Admin\CityController@index  
+  POST            admin/admins1/{admin1Code}/cities ....................................... crud.admins1/{admin1Code}/cities.store › Web\Admin\CityController@store  
+  POST            admin/admins1/{admin1Code}/cities/bulk_actions .............. crud.admins1/{admin1Code}/cities.bulkActions › Web\Admin\CityController@bulkActions  
+  GET|HEAD        admin/admins1/{admin1Code}/cities/create .............................. crud.admins1/{admin1Code}/cities.create › Web\Admin\CityController@create  
+  GET|HEAD        admin/admins1/{admin1Code}/cities/reorder/{lang?} ................... crud.admins1/{admin1Code}/cities.reorder › Web\Admin\CityController@reorder  
+  POST            admin/admins1/{admin1Code}/cities/reorder/{lang?} .......... crud.admins1/{admin1Code}/cities.save.reorder › Web\Admin\CityController@saveReorder  
+  POST            admin/admins1/{admin1Code}/cities/search .............................. crud.admins1/{admin1Code}/cities.search › Web\Admin\CityController@search  
+  GET|HEAD        admin/admins1/{admin1Code}/cities/{city} .................................. crud.admins1/{admin1Code}/cities.show › Web\Admin\CityController@show  
+  PUT|PATCH       admin/admins1/{admin1Code}/cities/{city} .............................. crud.admins1/{admin1Code}/cities.update › Web\Admin\CityController@update  
+  DELETE          admin/admins1/{admin1Code}/cities/{city} ............................ crud.admins1/{admin1Code}/cities.destroy › Web\Admin\CityController@destroy  
+  GET|HEAD        admin/admins1/{admin1Code}/cities/{city}/edit ............................. crud.admins1/{admin1Code}/cities.edit › Web\Admin\CityController@edit  
+  GET|HEAD        admin/admins1/{admin1Code}/cities/{id}/details ........ crud.admins1/{admin1Code}/cities.showDetailsRow › Web\Admin\CityController@showDetailsRow  
+  GET|HEAD        admin/admins1/{admin1Code}/cities/{id}/revisions ........ crud.admins1/{admin1Code}/cities.listRevisions › Web\Admin\CityController@listRevisions  
+  POST            admin/admins1/{admin1Code}/cities/{id}/revisions/{revisionId}/restore crud.admins1/{admin1Code}/cities.restoreRevision › Web\Admin\CityControlle…  
+  GET|HEAD        admin/admins2/{admin2Code}/cities ....................................... crud.admins2/{admin2Code}/cities.index › Web\Admin\CityController@index  
+  POST            admin/admins2/{admin2Code}/cities ....................................... crud.admins2/{admin2Code}/cities.store › Web\Admin\CityController@store  
+  POST            admin/admins2/{admin2Code}/cities/bulk_actions .............. crud.admins2/{admin2Code}/cities.bulkActions › Web\Admin\CityController@bulkActions  
+  GET|HEAD        admin/admins2/{admin2Code}/cities/create .............................. crud.admins2/{admin2Code}/cities.create › Web\Admin\CityController@create  
+  GET|HEAD        admin/admins2/{admin2Code}/cities/reorder/{lang?} ................... crud.admins2/{admin2Code}/cities.reorder › Web\Admin\CityController@reorder  
+  POST            admin/admins2/{admin2Code}/cities/reorder/{lang?} .......... crud.admins2/{admin2Code}/cities.save.reorder › Web\Admin\CityController@saveReorder  
+  POST            admin/admins2/{admin2Code}/cities/search .............................. crud.admins2/{admin2Code}/cities.search › Web\Admin\CityController@search  
+  GET|HEAD        admin/admins2/{admin2Code}/cities/{city} .................................. crud.admins2/{admin2Code}/cities.show › Web\Admin\CityController@show  
+  PUT|PATCH       admin/admins2/{admin2Code}/cities/{city} .............................. crud.admins2/{admin2Code}/cities.update › Web\Admin\CityController@update  
+  DELETE          admin/admins2/{admin2Code}/cities/{city} ............................ crud.admins2/{admin2Code}/cities.destroy › Web\Admin\CityController@destroy  
+  GET|HEAD        admin/admins2/{admin2Code}/cities/{city}/edit ............................. crud.admins2/{admin2Code}/cities.edit › Web\Admin\CityController@edit  
+  GET|HEAD        admin/admins2/{admin2Code}/cities/{id}/details ........ crud.admins2/{admin2Code}/cities.showDetailsRow › Web\Admin\CityController@showDetailsRow  
+  GET|HEAD        admin/admins2/{admin2Code}/cities/{id}/revisions ........ crud.admins2/{admin2Code}/cities.listRevisions › Web\Admin\CityController@listRevisions  
+  POST            admin/admins2/{admin2Code}/cities/{id}/revisions/{revisionId}/restore crud.admins2/{admin2Code}/cities.restoreRevision › Web\Admin\CityControlle…  
+  GET|HEAD        admin/advertisings .............................................................. crud.advertisings.index › Web\Admin\AdvertisingController@index  
+  POST            admin/advertisings .............................................................. crud.advertisings.store › Web\Admin\AdvertisingController@store  
+  POST            admin/advertisings/bulk_actions ..................................... crud.advertisings.bulkActions › Web\Admin\AdvertisingController@bulkActions  
+  GET|HEAD        admin/advertisings/create ..................................................... crud.advertisings.create › Web\Admin\AdvertisingController@create  
+  GET|HEAD        admin/advertisings/reorder/{lang?} .......................................... crud.advertisings.reorder › Web\Admin\AdvertisingController@reorder  
+  POST            admin/advertisings/reorder/{lang?} ................................. crud.advertisings.save.reorder › Web\Admin\AdvertisingController@saveReorder  
+  POST            admin/advertisings/search ..................................................... crud.advertisings.search › Web\Admin\AdvertisingController@search  
+  GET|HEAD        admin/advertisings/{advertising} .................................................. crud.advertisings.show › Web\Admin\AdvertisingController@show  
+  PUT|PATCH       admin/advertisings/{advertising} .............................................. crud.advertisings.update › Web\Admin\AdvertisingController@update  
+  DELETE          admin/advertisings/{advertising} ............................................ crud.advertisings.destroy › Web\Admin\AdvertisingController@destroy  
+  GET|HEAD        admin/advertisings/{advertising}/edit ............................................. crud.advertisings.edit › Web\Admin\AdvertisingController@edit  
+  GET|HEAD        admin/advertisings/{id}/details ............................... crud.advertisings.showDetailsRow › Web\Admin\AdvertisingController@showDetailsRow  
+  GET|HEAD        admin/advertisings/{id}/revisions ............................... crud.advertisings.listRevisions › Web\Admin\AdvertisingController@listRevisions  
+  POST            admin/advertisings/{id}/revisions/{revisionId}/restore ...... crud.advertisings.restoreRevision › Web\Admin\AdvertisingController@restoreRevision  
+  POST            admin/ajax/{table}/{field} ............................................................................... Web\Admin\InlineRequestController@make  
+  GET|HEAD        admin/backups .................................................................................................. Web\Admin\BackupController@index  
+  PUT             admin/backups/create .......................................................................................... Web\Admin\BackupController@create  
+  DELETE          admin/backups/delete .......................................................................................... Web\Admin\BackupController@delete  
+  GET|HEAD        admin/backups/download ...................................................................................... Web\Admin\BackupController@download  
+  GET|HEAD        admin/blacklists .................................................................... crud.blacklists.index › Web\Admin\BlacklistController@index  
+  POST            admin/blacklists .................................................................... crud.blacklists.store › Web\Admin\BlacklistController@store  
+  GET|HEAD        admin/blacklists/add ...................................................................................... Web\Admin\BlacklistController@banUser  
+  POST            admin/blacklists/bulk_actions ........................................... crud.blacklists.bulkActions › Web\Admin\BlacklistController@bulkActions  
+  GET|HEAD        admin/blacklists/create ........................................................... crud.blacklists.create › Web\Admin\BlacklistController@create  
+  GET|HEAD        admin/blacklists/reorder/{lang?} ................................................ crud.blacklists.reorder › Web\Admin\BlacklistController@reorder  
+  POST            admin/blacklists/reorder/{lang?} ....................................... crud.blacklists.save.reorder › Web\Admin\BlacklistController@saveReorder  
+  POST            admin/blacklists/search ........................................................... crud.blacklists.search › Web\Admin\BlacklistController@search  
+  GET|HEAD        admin/blacklists/{blacklist} .......................................................... crud.blacklists.show › Web\Admin\BlacklistController@show  
+  PUT|PATCH       admin/blacklists/{blacklist} ...................................................... crud.blacklists.update › Web\Admin\BlacklistController@update  
+  DELETE          admin/blacklists/{blacklist} .................................................... crud.blacklists.destroy › Web\Admin\BlacklistController@destroy
+  GET|HEAD        admin/blacklists/{blacklist}/edit ..................................................... crud.blacklists.edit › Web\Admin\BlacklistController@edit  
+  GET|HEAD        admin/blacklists/{id}/details ..................................... crud.blacklists.showDetailsRow › Web\Admin\BlacklistController@showDetailsRow  
+  GET|HEAD        admin/blacklists/{id}/revisions ..................................... crud.blacklists.listRevisions › Web\Admin\BlacklistController@listRevisions  
+  POST            admin/blacklists/{id}/revisions/{revisionId}/restore ............ crud.blacklists.restoreRevision › Web\Admin\BlacklistController@restoreRevision  
+  GET|HEAD        admin/captcha/{config?} ............................................................................ Larapen\Captcha\CaptchaController@getCaptcha  
+  GET|HEAD        admin/categories ..................................................................... crud.categories.index › Web\Admin\CategoryController@index  
+  POST            admin/categories ..................................................................... crud.categories.store › Web\Admin\CategoryController@store  
+  POST            admin/categories/bulk_actions ............................................ crud.categories.bulkActions › Web\Admin\CategoryController@bulkActions  
+  GET|HEAD        admin/categories/create ............................................................ crud.categories.create › Web\Admin\CategoryController@create  
+  GET|HEAD        admin/categories/rebuild-nested-set-nodes .................................................... Web\Admin\CategoryController@rebuildNestedSetNodes  
+  GET|HEAD        admin/categories/reorder/{lang?} ................................................. crud.categories.reorder › Web\Admin\CategoryController@reorder  
+  POST            admin/categories/reorder/{lang?} ........................................ crud.categories.save.reorder › Web\Admin\CategoryController@saveReorder  
+  POST            admin/categories/search ............................................................ crud.categories.search › Web\Admin\CategoryController@search  
+  GET|HEAD        admin/categories/{catId}/subcategories ......................... crud.categories/{catId}/subcategories.index › Web\Admin\CategoryController@index  
+  POST            admin/categories/{catId}/subcategories ......................... crud.categories/{catId}/subcategories.store › Web\Admin\CategoryController@store  
+  POST            admin/categories/{catId}/subcategories/bulk_actions crud.categories/{catId}/subcategories.bulkActions › Web\Admin\CategoryController@bulkActions   
+  GET|HEAD        admin/categories/{catId}/subcategories/create ................ crud.categories/{catId}/subcategories.create › Web\Admin\CategoryController@create  
+  GET|HEAD        admin/categories/{catId}/subcategories/reorder/{lang?} ..... crud.categories/{catId}/subcategories.reorder › Web\Admin\CategoryController@reorder  
+  POST            admin/categories/{catId}/subcategories/reorder/{lang?} crud.categories/{catId}/subcategories.save.reorder › Web\Admin\CategoryController@saveReo…  
+  POST            admin/categories/{catId}/subcategories/search ................ crud.categories/{catId}/subcategories.search › Web\Admin\CategoryController@search  
+  GET|HEAD        admin/categories/{catId}/subcategories/{id}/details crud.categories/{catId}/subcategories.showDetailsRow › Web\Admin\CategoryController@showDeta…  
+  GET|HEAD        admin/categories/{catId}/subcategories/{id}/revisions crud.categories/{catId}/subcategories.listRevisions › Web\Admin\CategoryController@listRev…  
+  POST            admin/categories/{catId}/subcategories/{id}/revisions/{revisionId}/restore crud.categories/{catId}/subcategories.restoreRevision › Web\Admin\Cat…  
+  GET|HEAD        admin/categories/{catId}/subcategories/{subcategory} ............. crud.categories/{catId}/subcategories.show › Web\Admin\CategoryController@show  
+  PUT|PATCH       admin/categories/{catId}/subcategories/{subcategory} ......... crud.categories/{catId}/subcategories.update › Web\Admin\CategoryController@update  
+  DELETE          admin/categories/{catId}/subcategories/{subcategory} ....... crud.categories/{catId}/subcategories.destroy › Web\Admin\CategoryController@destroy  
+  GET|HEAD        admin/categories/{catId}/subcategories/{subcategory}/edit ........ crud.categories/{catId}/subcategories.edit › Web\Admin\CategoryController@edit  
+  GET|HEAD        admin/categories/{category} ............................................................ crud.categories.show › Web\Admin\CategoryController@show  
+  PUT|PATCH       admin/categories/{category} ........................................................ crud.categories.update › Web\Admin\CategoryController@update  
+  DELETE          admin/categories/{category} ...................................................... crud.categories.destroy › Web\Admin\CategoryController@destroy  
+  GET|HEAD        admin/categories/{category}/edit ....................................................... crud.categories.edit › Web\Admin\CategoryController@edit  
+  GET|HEAD        admin/categories/{id}/details ...................................... crud.categories.showDetailsRow › Web\Admin\CategoryController@showDetailsRow  
+  GET|HEAD        admin/categories/{id}/revisions ...................................... crud.categories.listRevisions › Web\Admin\CategoryController@listRevisions  
+  POST            admin/categories/{id}/revisions/{revisionId}/restore ............. crud.categories.restoreRevision › Web\Admin\CategoryController@restoreRevision  
+  GET|HEAD        admin/cities ................................................................................. crud.cities.index › Web\Admin\CityController@index  
+  POST            admin/cities ................................................................................. crud.cities.store › Web\Admin\CityController@store  
+  POST            admin/cities/bulk_actions ........................................................ crud.cities.bulkActions › Web\Admin\CityController@bulkActions  
+  GET|HEAD        admin/cities/create ........................................................................ crud.cities.create › Web\Admin\CityController@create  
+  GET|HEAD        admin/cities/reorder/{lang?} ............................................................. crud.cities.reorder › Web\Admin\CityController@reorder  
+  POST            admin/cities/reorder/{lang?} .................................................... crud.cities.save.reorder › Web\Admin\CityController@saveReorder  
+  POST            admin/cities/search ........................................................................ crud.cities.search › Web\Admin\CityController@search  
+  GET|HEAD        admin/cities/{city} ............................................................................ crud.cities.show › Web\Admin\CityController@show  
+  PUT|PATCH       admin/cities/{city} ........................................................................ crud.cities.update › Web\Admin\CityController@update  
+  DELETE          admin/cities/{city} ...................................................................... crud.cities.destroy › Web\Admin\CityController@destroy  
+  GET|HEAD        admin/cities/{city}/edit ....................................................................... crud.cities.edit › Web\Admin\CityController@edit  
+  GET|HEAD        admin/cities/{id}/details .................................................. crud.cities.showDetailsRow › Web\Admin\CityController@showDetailsRow  
+  GET|HEAD        admin/cities/{id}/revisions .................................................. crud.cities.listRevisions › Web\Admin\CityController@listRevisions  
+  POST            admin/cities/{id}/revisions/{revisionId}/restore ......................... crud.cities.restoreRevision › Web\Admin\CityController@restoreRevision  
+  GET|HEAD        admin/common/js/intl-tel-input/countries.js ........................................................... Web\Admin\FileController@intlTelInputData  
+  GET|HEAD        admin/companies ........................................................................ crud.companies.index › Web\Admin\CompanyController@index  
+  POST            admin/companies ........................................................................ crud.companies.store › Web\Admin\CompanyController@store  
+  POST            admin/companies/bulk_actions ............................................... crud.companies.bulkActions › Web\Admin\CompanyController@bulkActions  
+  GET|HEAD        admin/companies/create ............................................................... crud.companies.create › Web\Admin\CompanyController@create  
+  GET|HEAD        admin/companies/reorder/{lang?} .................................................... crud.companies.reorder › Web\Admin\CompanyController@reorder  
+  POST            admin/companies/reorder/{lang?} ........................................... crud.companies.save.reorder › Web\Admin\CompanyController@saveReorder  
+  POST            admin/companies/search ............................................................... crud.companies.search › Web\Admin\CompanyController@search  
+  GET|HEAD        admin/companies/{company} ................................................................ crud.companies.show › Web\Admin\CompanyController@show  
+  PUT|PATCH       admin/companies/{company} ............................................................ crud.companies.update › Web\Admin\CompanyController@update  
+  DELETE          admin/companies/{company} .......................................................... crud.companies.destroy › Web\Admin\CompanyController@destroy  
+  GET|HEAD        admin/companies/{company}/edit ........................................................... crud.companies.edit › Web\Admin\CompanyController@edit  
+  GET|HEAD        admin/companies/{id}/details ......................................... crud.companies.showDetailsRow › Web\Admin\CompanyController@showDetailsRow  
+  GET|HEAD        admin/companies/{id}/revisions ......................................... crud.companies.listRevisions › Web\Admin\CompanyController@listRevisions  
+  POST            admin/companies/{id}/revisions/{revisionId}/restore ................ crud.companies.restoreRevision › Web\Admin\CompanyController@restoreRevision  
+  GET|HEAD        admin/countries ........................................................................ crud.countries.index › Web\Admin\CountryController@index  
+  POST            admin/countries ........................................................................ crud.countries.store › Web\Admin\CountryController@store  
+  POST            admin/countries/bulk_actions ............................................... crud.countries.bulkActions › Web\Admin\CountryController@bulkActions  
+  GET|HEAD        admin/countries/create ............................................................... crud.countries.create › Web\Admin\CountryController@create  
+  GET|HEAD        admin/countries/reorder/{lang?} .................................................... crud.countries.reorder › Web\Admin\CountryController@reorder  
+  POST            admin/countries/reorder/{lang?} ........................................... crud.countries.save.reorder › Web\Admin\CountryController@saveReorder  
+  POST            admin/countries/search ............................................................... crud.countries.search › Web\Admin\CountryController@search  
+  GET|HEAD        admin/countries/{countryCode}/admins1 .......................... crud.countries/{countryCode}/admins1.index › Web\Admin\SubAdmin1Controller@index  
+  POST            admin/countries/{countryCode}/admins1 .......................... crud.countries/{countryCode}/admins1.store › Web\Admin\SubAdmin1Controller@store  
+  POST            admin/countries/{countryCode}/admins1/bulk_actions . crud.countries/{countryCode}/admins1.bulkActions › Web\Admin\SubAdmin1Controller@bulkActions  
+  GET|HEAD        admin/countries/{countryCode}/admins1/create ................. crud.countries/{countryCode}/admins1.create › Web\Admin\SubAdmin1Controller@create  
+  GET|HEAD        admin/countries/{countryCode}/admins1/reorder/{lang?} ...... crud.countries/{countryCode}/admins1.reorder › Web\Admin\SubAdmin1Controller@reorder  
+  POST            admin/countries/{countryCode}/admins1/reorder/{lang?} crud.countries/{countryCode}/admins1.save.reorder › Web\Admin\SubAdmin1Controller@saveReor…  
+  POST            admin/countries/{countryCode}/admins1/search ................. crud.countries/{countryCode}/admins1.search › Web\Admin\SubAdmin1Controller@search  
+  GET|HEAD        admin/countries/{countryCode}/admins1/{admins1} .................. crud.countries/{countryCode}/admins1.show › Web\Admin\SubAdmin1Controller@show  
+  PUT|PATCH       admin/countries/{countryCode}/admins1/{admins1} .............. crud.countries/{countryCode}/admins1.update › Web\Admin\SubAdmin1Controller@update  
+  DELETE          admin/countries/{countryCode}/admins1/{admins1} ............ crud.countries/{countryCode}/admins1.destroy › Web\Admin\SubAdmin1Controller@destroy  
+  GET|HEAD        admin/countries/{countryCode}/admins1/{admins1}/edit ............. crud.countries/{countryCode}/admins1.edit › Web\Admin\SubAdmin1Controller@edit  
+  GET|HEAD        admin/countries/{countryCode}/admins1/{id}/details crud.countries/{countryCode}/admins1.showDetailsRow › Web\Admin\SubAdmin1Controller@showDetai…  
+  GET|HEAD        admin/countries/{countryCode}/admins1/{id}/revisions crud.countries/{countryCode}/admins1.listRevisions › Web\Admin\SubAdmin1Controller@listRevi…  
+  POST            admin/countries/{countryCode}/admins1/{id}/revisions/{revisionId}/restore crud.countries/{countryCode}/admins1.restoreRevision › Web\Admin\SubAd…  
+  GET|HEAD        admin/countries/{countryCode}/cities ................................. crud.countries/{countryCode}/cities.index › Web\Admin\CityController@index  
+  POST            admin/countries/{countryCode}/cities ................................. crud.countries/{countryCode}/cities.store › Web\Admin\CityController@store  
+  POST            admin/countries/{countryCode}/cities/bulk_actions ........ crud.countries/{countryCode}/cities.bulkActions › Web\Admin\CityController@bulkActions  
+  GET|HEAD        admin/countries/{countryCode}/cities/create ........................ crud.countries/{countryCode}/cities.create › Web\Admin\CityController@create  
+  GET|HEAD        admin/countries/{countryCode}/cities/reorder/{lang?} ............. crud.countries/{countryCode}/cities.reorder › Web\Admin\CityController@reorder  
+  POST            admin/countries/{countryCode}/cities/reorder/{lang?} .... crud.countries/{countryCode}/cities.save.reorder › Web\Admin\CityController@saveReorder  
+  POST            admin/countries/{countryCode}/cities/search ........................ crud.countries/{countryCode}/cities.search › Web\Admin\CityController@search  
+  GET|HEAD        admin/countries/{countryCode}/cities/{city} ............................ crud.countries/{countryCode}/cities.show › Web\Admin\CityController@show  
+  PUT|PATCH       admin/countries/{countryCode}/cities/{city} ........................ crud.countries/{countryCode}/cities.update › Web\Admin\CityController@update  
+  DELETE          admin/countries/{countryCode}/cities/{city} ...................... crud.countries/{countryCode}/cities.destroy › Web\Admin\CityController@destroy  
+  GET|HEAD        admin/countries/{countryCode}/cities/{city}/edit ....................... crud.countries/{countryCode}/cities.edit › Web\Admin\CityController@edit  
+  GET|HEAD        admin/countries/{countryCode}/cities/{id}/details .. crud.countries/{countryCode}/cities.showDetailsRow › Web\Admin\CityController@showDetailsRow  
+  GET|HEAD        admin/countries/{countryCode}/cities/{id}/revisions .. crud.countries/{countryCode}/cities.listRevisions › Web\Admin\CityController@listRevisions  
+  POST            admin/countries/{countryCode}/cities/{id}/revisions/{revisionId}/restore crud.countries/{countryCode}/cities.restoreRevision › Web\Admin\CityCon…  
+  GET|HEAD        admin/countries/{country} ................................................................ crud.countries.show › Web\Admin\CountryController@show  
+  PUT|PATCH       admin/countries/{country} ............................................................ crud.countries.update › Web\Admin\CountryController@update  
+  DELETE          admin/countries/{country} .......................................................... crud.countries.destroy › Web\Admin\CountryController@destroy  
+  GET|HEAD        admin/countries/{country}/edit ........................................................... crud.countries.edit › Web\Admin\CountryController@edit  
+  GET|HEAD        admin/countries/{id}/details ......................................... crud.countries.showDetailsRow › Web\Admin\CountryController@showDetailsRow  
+  GET|HEAD        admin/countries/{id}/revisions ......................................... crud.countries.listRevisions › Web\Admin\CountryController@listRevisions  
+  POST            admin/countries/{id}/revisions/{revisionId}/restore ................ crud.countries.restoreRevision › Web\Admin\CountryController@restoreRevision  
+  GET|HEAD        admin/currencies ..................................................................... crud.currencies.index › Web\Admin\CurrencyController@index  
+  POST            admin/currencies ..................................................................... crud.currencies.store › Web\Admin\CurrencyController@store
+  POST            admin/currencies/bulk_actions ............................................ crud.currencies.bulkActions › Web\Admin\CurrencyController@bulkActions  
+  GET|HEAD        admin/currencies/create ............................................................ crud.currencies.create › Web\Admin\CurrencyController@create  
+  GET|HEAD        admin/currencies/reorder/{lang?} ................................................. crud.currencies.reorder › Web\Admin\CurrencyController@reorder  
+  POST            admin/currencies/reorder/{lang?} ........................................ crud.currencies.save.reorder › Web\Admin\CurrencyController@saveReorder  
+  POST            admin/currencies/search ............................................................ crud.currencies.search › Web\Admin\CurrencyController@search  
+  GET|HEAD        admin/currencies/{currency} ............................................................ crud.currencies.show › Web\Admin\CurrencyController@show  
+  PUT|PATCH       admin/currencies/{currency} ........................................................ crud.currencies.update › Web\Admin\CurrencyController@update  
+  DELETE          admin/currencies/{currency} ...................................................... crud.currencies.destroy › Web\Admin\CurrencyController@destroy  
+  GET|HEAD        admin/currencies/{currency}/edit ....................................................... crud.currencies.edit › Web\Admin\CurrencyController@edit  
+  GET|HEAD        admin/currencies/{id}/details ...................................... crud.currencies.showDetailsRow › Web\Admin\CurrencyController@showDetailsRow  
+  GET|HEAD        admin/currencies/{id}/revisions ...................................... crud.currencies.listRevisions › Web\Admin\CurrencyController@listRevisions  
+  POST            admin/currencies/{id}/revisions/{revisionId}/restore ............. crud.currencies.restoreRevision › Web\Admin\CurrencyController@restoreRevision  
+  GET|HEAD        admin/dashboard ......................................................................................... Web\Admin\DashboardController@dashboard  
+  GET|HEAD        admin/homepage ...................................................................... crud.homepage.index › Web\Admin\HomeSectionController@index  
+  POST            admin/homepage ...................................................................... crud.homepage.store › Web\Admin\HomeSectionController@store  
+  POST            admin/homepage/bulk_actions ............................................. crud.homepage.bulkActions › Web\Admin\HomeSectionController@bulkActions  
+  GET|HEAD        admin/homepage/create ............................................................. crud.homepage.create › Web\Admin\HomeSectionController@create  
+  GET|HEAD        admin/homepage/find/{method} ............................................................................... Web\Admin\HomeSectionController@find  
+  GET|HEAD        admin/homepage/reorder/{lang?} .................................................. crud.homepage.reorder › Web\Admin\HomeSectionController@reorder  
+  POST            admin/homepage/reorder/{lang?} ......................................... crud.homepage.save.reorder › Web\Admin\HomeSectionController@saveReorder  
+  GET|HEAD        admin/homepage/reset/all/{action} ...................................................................... Web\Admin\HomeSectionController@resetAll  
+  POST            admin/homepage/search ............................................................. crud.homepage.search › Web\Admin\HomeSectionController@search  
+  GET|HEAD        admin/homepage/{homepage} ............................................................. crud.homepage.show › Web\Admin\HomeSectionController@show  
+  PUT|PATCH       admin/homepage/{homepage} ......................................................... crud.homepage.update › Web\Admin\HomeSectionController@update  
+  DELETE          admin/homepage/{homepage} ....................................................... crud.homepage.destroy › Web\Admin\HomeSectionController@destroy  
+  GET|HEAD        admin/homepage/{homepage}/edit ........................................................ crud.homepage.edit › Web\Admin\HomeSectionController@edit  
+  GET|HEAD        admin/homepage/{id}/details ....................................... crud.homepage.showDetailsRow › Web\Admin\HomeSectionController@showDetailsRow  
+  GET|HEAD        admin/homepage/{id}/revisions ....................................... crud.homepage.listRevisions › Web\Admin\HomeSectionController@listRevisions  
+  POST            admin/homepage/{id}/revisions/{revisionId}/restore .............. crud.homepage.restoreRevision › Web\Admin\HomeSectionController@restoreRevision  
+  GET|HEAD        admin/languages ....................................................................... crud.languages.index › Web\Admin\LanguageController@index  
+  POST            admin/languages ....................................................................... crud.languages.store › Web\Admin\LanguageController@store  
+  POST            admin/languages/bulk_actions .............................................. crud.languages.bulkActions › Web\Admin\LanguageController@bulkActions  
+  GET|HEAD        admin/languages/create .............................................................. crud.languages.create › Web\Admin\LanguageController@create  
+  GET|HEAD        admin/languages/reorder/{lang?} ................................................... crud.languages.reorder › Web\Admin\LanguageController@reorder  
+  POST            admin/languages/reorder/{lang?} .......................................... crud.languages.save.reorder › Web\Admin\LanguageController@saveReorder  
+  POST            admin/languages/search .............................................................. crud.languages.search › Web\Admin\LanguageController@search  
+  GET|HEAD        admin/languages/sync_files .......................................................................... Web\Admin\LanguageController@syncFilesLines  
+  GET|HEAD        admin/languages/texts/{lang?}/{file?} .................................................................... Web\Admin\LanguageController@showTexts  
+  POST            admin/languages/texts/{lang}/{file} .................................................................... Web\Admin\LanguageController@updateTexts  
+  GET|HEAD        admin/languages/{id}/details ........................................ crud.languages.showDetailsRow › Web\Admin\LanguageController@showDetailsRow  
+  GET|HEAD        admin/languages/{id}/revisions ........................................ crud.languages.listRevisions › Web\Admin\LanguageController@listRevisions  
+  POST            admin/languages/{id}/revisions/{revisionId}/restore ............... crud.languages.restoreRevision › Web\Admin\LanguageController@restoreRevision  
+  GET|HEAD        admin/languages/{language} .............................................................. crud.languages.show › Web\Admin\LanguageController@show  
+  PUT|PATCH       admin/languages/{language} .......................................................... crud.languages.update › Web\Admin\LanguageController@update  
+  DELETE          admin/languages/{language} ........................................................ crud.languages.destroy › Web\Admin\LanguageController@destroy  
+  GET|HEAD        admin/languages/{language}/edit ......................................................... crud.languages.edit › Web\Admin\LanguageController@edit  
+  GET|HEAD        admin/login ................................................................................ login › Web\Admin\Auth\LoginController@showLoginForm  
+  POST            admin/login ................................................................................................ Web\Admin\Auth\LoginController@login  
+  GET|HEAD        admin/logout ..................................................................................... logout › Web\Admin\Auth\LoginController@logout  
+  GET|HEAD        admin/meta_tags ........................................................................ crud.meta_tags.index › Web\Admin\MetaTagController@index  
+  POST            admin/meta_tags ........................................................................ crud.meta_tags.store › Web\Admin\MetaTagController@store  
+  POST            admin/meta_tags/bulk_actions ............................................... crud.meta_tags.bulkActions › Web\Admin\MetaTagController@bulkActions  
+  GET|HEAD        admin/meta_tags/create ............................................................... crud.meta_tags.create › Web\Admin\MetaTagController@create  
+  GET|HEAD        admin/meta_tags/reorder/{lang?} .................................................... crud.meta_tags.reorder › Web\Admin\MetaTagController@reorder  
+  POST            admin/meta_tags/reorder/{lang?} ........................................... crud.meta_tags.save.reorder › Web\Admin\MetaTagController@saveReorder  
+  POST            admin/meta_tags/search ............................................................... crud.meta_tags.search › Web\Admin\MetaTagController@search  
+  GET|HEAD        admin/meta_tags/{id}/details ......................................... crud.meta_tags.showDetailsRow › Web\Admin\MetaTagController@showDetailsRow  
+  GET|HEAD        admin/meta_tags/{id}/revisions ......................................... crud.meta_tags.listRevisions › Web\Admin\MetaTagController@listRevisions  
+  POST            admin/meta_tags/{id}/revisions/{revisionId}/restore ................ crud.meta_tags.restoreRevision › Web\Admin\MetaTagController@restoreRevision  
+  GET|HEAD        admin/meta_tags/{meta_tag} ............................................................... crud.meta_tags.show › Web\Admin\MetaTagController@show  
+  PUT|PATCH       admin/meta_tags/{meta_tag} ........................................................... crud.meta_tags.update › Web\Admin\MetaTagController@update  
+  DELETE          admin/meta_tags/{meta_tag} ......................................................... crud.meta_tags.destroy › Web\Admin\MetaTagController@destroy  
+  GET|HEAD        admin/meta_tags/{meta_tag}/edit .......................................................... crud.meta_tags.edit › Web\Admin\MetaTagController@edit  
+  GET|HEAD        admin/packages/promotion ...................................................... crud.packages/promotion.index › Web\Admin\PackageController@index  
+  POST            admin/packages/promotion ...................................................... crud.packages/promotion.store › Web\Admin\PackageController@store  
+  POST            admin/packages/promotion/bulk_actions ............................. crud.packages/promotion.bulkActions › Web\Admin\PackageController@bulkActions  
+  GET|HEAD        admin/packages/promotion/create ............................................. crud.packages/promotion.create › Web\Admin\PackageController@create  
+  GET|HEAD        admin/packages/promotion/reorder/{lang?} .................................. crud.packages/promotion.reorder › Web\Admin\PackageController@reorder  
+  POST            admin/packages/promotion/reorder/{lang?} ......................... crud.packages/promotion.save.reorder › Web\Admin\PackageController@saveReorder  
+  POST            admin/packages/promotion/search ............................................. crud.packages/promotion.search › Web\Admin\PackageController@search  
+  GET|HEAD        admin/packages/promotion/{id}/details ....................... crud.packages/promotion.showDetailsRow › Web\Admin\PackageController@showDetailsRow  
+  GET|HEAD        admin/packages/promotion/{id}/revisions ....................... crud.packages/promotion.listRevisions › Web\Admin\PackageController@listRevisions  
+  POST            admin/packages/promotion/{id}/revisions/{revisionId}/restore crud.packages/promotion.restoreRevision › Web\Admin\PackageController@restoreRevisi…  
+  GET|HEAD        admin/packages/promotion/{promotion} ............................................ crud.packages/promotion.show › Web\Admin\PackageController@show  
+  PUT|PATCH       admin/packages/promotion/{promotion} ........................................ crud.packages/promotion.update › Web\Admin\PackageController@update  
+  DELETE          admin/packages/promotion/{promotion} ...................................... crud.packages/promotion.destroy › Web\Admin\PackageController@destroy  
+  GET|HEAD        admin/packages/promotion/{promotion}/edit ....................................... crud.packages/promotion.edit › Web\Admin\PackageController@edit  
+  GET|HEAD        admin/packages/subscription ................................................ crud.packages/subscription.index › Web\Admin\PackageController@index  
+  POST            admin/packages/subscription ................................................ crud.packages/subscription.store › Web\Admin\PackageController@store  
+  POST            admin/packages/subscription/bulk_actions ....................... crud.packages/subscription.bulkActions › Web\Admin\PackageController@bulkActions  
+  GET|HEAD        admin/packages/subscription/create ....................................... crud.packages/subscription.create › Web\Admin\PackageController@create  
+  GET|HEAD        admin/packages/subscription/reorder/{lang?} ............................ crud.packages/subscription.reorder › Web\Admin\PackageController@reorder  
+  POST            admin/packages/subscription/reorder/{lang?} ................... crud.packages/subscription.save.reorder › Web\Admin\PackageController@saveReorder  
+  POST            admin/packages/subscription/search ....................................... crud.packages/subscription.search › Web\Admin\PackageController@search  
+  GET|HEAD        admin/packages/subscription/{id}/details ................. crud.packages/subscription.showDetailsRow › Web\Admin\PackageController@showDetailsRow  
+  GET|HEAD        admin/packages/subscription/{id}/revisions ................. crud.packages/subscription.listRevisions › Web\Admin\PackageController@listRevisions  
+  POST            admin/packages/subscription/{id}/revisions/{revisionId}/restore crud.packages/subscription.restoreRevision › Web\Admin\PackageController@restore…  
+  GET|HEAD        admin/packages/subscription/{subscription} ................................... crud.packages/subscription.show › Web\Admin\PackageController@show  
+  PUT|PATCH       admin/packages/subscription/{subscription} ............................... crud.packages/subscription.update › Web\Admin\PackageController@update  
+  DELETE          admin/packages/subscription/{subscription} ............................. crud.packages/subscription.destroy › Web\Admin\PackageController@destroy  
+  GET|HEAD        admin/packages/subscription/{subscription}/edit .............................. crud.packages/subscription.edit › Web\Admin\PackageController@edit  
+  GET|HEAD        admin/pages ................................................................................... crud.pages.index › Web\Admin\PageController@index  
+  POST            admin/pages ................................................................................... crud.pages.store › Web\Admin\PageController@store  
+  POST            admin/pages/bulk_actions .......................................................... crud.pages.bulkActions › Web\Admin\PageController@bulkActions  
+  GET|HEAD        admin/pages/create .......................................................................... crud.pages.create › Web\Admin\PageController@create  
+  GET|HEAD        admin/pages/reorder/{lang?} ............................................................... crud.pages.reorder › Web\Admin\PageController@reorder  
+  POST            admin/pages/reorder/{lang?} ...................................................... crud.pages.save.reorder › Web\Admin\PageController@saveReorder  
+  POST            admin/pages/search .......................................................................... crud.pages.search › Web\Admin\PageController@search  
+  GET|HEAD        admin/pages/{id}/details .................................................... crud.pages.showDetailsRow › Web\Admin\PageController@showDetailsRow  
+  GET|HEAD        admin/pages/{id}/revisions .................................................... crud.pages.listRevisions › Web\Admin\PageController@listRevisions  
+  POST            admin/pages/{id}/revisions/{revisionId}/restore ........................... crud.pages.restoreRevision › Web\Admin\PageController@restoreRevision  
+  GET|HEAD        admin/pages/{page} .............................................................................. crud.pages.show › Web\Admin\PageController@show  
+  PUT|PATCH       admin/pages/{page} .......................................................................... crud.pages.update › Web\Admin\PageController@update  
+  DELETE          admin/pages/{page} ........................................................................ crud.pages.destroy › Web\Admin\PageController@destroy  
+  GET|HEAD        admin/pages/{page}/edit ......................................................................... crud.pages.edit › Web\Admin\PageController@edit  
+  POST            admin/password/email ................................................ password.email › Web\Admin\Auth\ForgotPasswordController@sendResetLinkEmail  
+  GET|HEAD        admin/password/reset ............................................. password.request › Web\Admin\Auth\ForgotPasswordController@showLinkRequestForm  
+  GET|HEAD        admin/payment_methods ...................................................... crud.payment_methods.index › Web\Admin\PaymentMethodController@index  
+  POST            admin/payment_methods ...................................................... crud.payment_methods.store › Web\Admin\PaymentMethodController@store  
+  POST            admin/payment_methods/bulk_actions ............................. crud.payment_methods.bulkActions › Web\Admin\PaymentMethodController@bulkActions  
+  GET|HEAD        admin/payment_methods/create ............................................. crud.payment_methods.create › Web\Admin\PaymentMethodController@create  
+  GET|HEAD        admin/payment_methods/reorder/{lang?} .................................. crud.payment_methods.reorder › Web\Admin\PaymentMethodController@reorder  
+  POST            admin/payment_methods/reorder/{lang?} ......................... crud.payment_methods.save.reorder › Web\Admin\PaymentMethodController@saveReorder  
+  POST            admin/payment_methods/search ............................................. crud.payment_methods.search › Web\Admin\PaymentMethodController@search  
+  GET|HEAD        admin/payment_methods/{id}/details ....................... crud.payment_methods.showDetailsRow › Web\Admin\PaymentMethodController@showDetailsRow  
+  GET|HEAD        admin/payment_methods/{id}/revisions ....................... crud.payment_methods.listRevisions › Web\Admin\PaymentMethodController@listRevisions  
+  POST            admin/payment_methods/{id}/revisions/{revisionId}/restore crud.payment_methods.restoreRevision › Web\Admin\PaymentMethodController@restoreRevisi…  
+  GET|HEAD        admin/payment_methods/{payment_method} ....................................... crud.payment_methods.show › Web\Admin\PaymentMethodController@show  
+  PUT|PATCH       admin/payment_methods/{payment_method} ................................... crud.payment_methods.update › Web\Admin\PaymentMethodController@update  
+  DELETE          admin/payment_methods/{payment_method} ................................. crud.payment_methods.destroy › Web\Admin\PaymentMethodController@destroy  
+  GET|HEAD        admin/payment_methods/{payment_method}/edit .................................. crud.payment_methods.edit › Web\Admin\PaymentMethodController@edit  
+  GET|HEAD        admin/payments/promotion ...................................................... crud.payments/promotion.index › Web\Admin\PaymentController@index  
+  POST            admin/payments/promotion ...................................................... crud.payments/promotion.store › Web\Admin\PaymentController@store  
+  POST            admin/payments/promotion/bulk_actions ............................. crud.payments/promotion.bulkActions › Web\Admin\PaymentController@bulkActions  
+  GET|HEAD        admin/payments/promotion/create ............................................. crud.payments/promotion.create › Web\Admin\PaymentController@create  
+  GET|HEAD        admin/payments/promotion/reorder/{lang?} .................................. crud.payments/promotion.reorder › Web\Admin\PaymentController@reorder  
+  POST            admin/payments/promotion/reorder/{lang?} ......................... crud.payments/promotion.save.reorder › Web\Admin\PaymentController@saveReorder  
+  POST            admin/payments/promotion/search ............................................. crud.payments/promotion.search › Web\Admin\PaymentController@search  
+  GET|HEAD        admin/payments/promotion/{id}/details ....................... crud.payments/promotion.showDetailsRow › Web\Admin\PaymentController@showDetailsRow  
+  GET|HEAD        admin/payments/promotion/{id}/revisions ....................... crud.payments/promotion.listRevisions › Web\Admin\PaymentController@listRevisions
+  POST            admin/payments/promotion/{id}/revisions/{revisionId}/restore crud.payments/promotion.restoreRevision › Web\Admin\PaymentController@restoreRevisi…  
+  GET|HEAD        admin/payments/promotion/{promotion} ............................................ crud.payments/promotion.show › Web\Admin\PaymentController@show  
+  PUT|PATCH       admin/payments/promotion/{promotion} ........................................ crud.payments/promotion.update › Web\Admin\PaymentController@update  
+  DELETE          admin/payments/promotion/{promotion} ...................................... crud.payments/promotion.destroy › Web\Admin\PaymentController@destroy  
+  GET|HEAD        admin/payments/promotion/{promotion}/edit ....................................... crud.payments/promotion.edit › Web\Admin\PaymentController@edit  
+  GET|HEAD        admin/payments/subscription ................................................ crud.payments/subscription.index › Web\Admin\PaymentController@index  
+  POST            admin/payments/subscription ................................................ crud.payments/subscription.store › Web\Admin\PaymentController@store  
+  POST            admin/payments/subscription/bulk_actions ....................... crud.payments/subscription.bulkActions › Web\Admin\PaymentController@bulkActions  
+  GET|HEAD        admin/payments/subscription/create ....................................... crud.payments/subscription.create › Web\Admin\PaymentController@create  
+  GET|HEAD        admin/payments/subscription/reorder/{lang?} ............................ crud.payments/subscription.reorder › Web\Admin\PaymentController@reorder  
+  POST            admin/payments/subscription/reorder/{lang?} ................... crud.payments/subscription.save.reorder › Web\Admin\PaymentController@saveReorder  
+  POST            admin/payments/subscription/search ....................................... crud.payments/subscription.search › Web\Admin\PaymentController@search  
+  GET|HEAD        admin/payments/subscription/{id}/details ................. crud.payments/subscription.showDetailsRow › Web\Admin\PaymentController@showDetailsRow  
+  GET|HEAD        admin/payments/subscription/{id}/revisions ................. crud.payments/subscription.listRevisions › Web\Admin\PaymentController@listRevisions  
+  POST            admin/payments/subscription/{id}/revisions/{revisionId}/restore crud.payments/subscription.restoreRevision › Web\Admin\PaymentController@restore…  
+  GET|HEAD        admin/payments/subscription/{subscription} ................................... crud.payments/subscription.show › Web\Admin\PaymentController@show  
+  PUT|PATCH       admin/payments/subscription/{subscription} ............................... crud.payments/subscription.update › Web\Admin\PaymentController@update  
+  DELETE          admin/payments/subscription/{subscription} ............................. crud.payments/subscription.destroy › Web\Admin\PaymentController@destroy  
+  GET|HEAD        admin/payments/subscription/{subscription}/edit .............................. crud.payments/subscription.edit › Web\Admin\PaymentController@edit  
+  GET|HEAD        admin/permissions ................................................................. crud.permissions.index › Web\Admin\PermissionController@index  
+  POST            admin/permissions ................................................................. crud.permissions.store › Web\Admin\PermissionController@store  
+  POST            admin/permissions/bulk_actions ........................................ crud.permissions.bulkActions › Web\Admin\PermissionController@bulkActions  
+  GET|HEAD        admin/permissions/create ........................................................ crud.permissions.create › Web\Admin\PermissionController@create  
+  GET|HEAD        admin/permissions/create_default_entries .................................................... Web\Admin\PermissionController@createDefaultEntries  
+  GET|HEAD        admin/permissions/reorder/{lang?} ............................................. crud.permissions.reorder › Web\Admin\PermissionController@reorder  
+  POST            admin/permissions/reorder/{lang?} .................................... crud.permissions.save.reorder › Web\Admin\PermissionController@saveReorder  
+  POST            admin/permissions/search ........................................................ crud.permissions.search › Web\Admin\PermissionController@search  
+  GET|HEAD        admin/permissions/{id}/details .................................. crud.permissions.showDetailsRow › Web\Admin\PermissionController@showDetailsRow  
+  GET|HEAD        admin/permissions/{id}/revisions .................................. crud.permissions.listRevisions › Web\Admin\PermissionController@listRevisions  
+  POST            admin/permissions/{id}/revisions/{revisionId}/restore ......... crud.permissions.restoreRevision › Web\Admin\PermissionController@restoreRevision  
+  GET|HEAD        admin/permissions/{permission} ...................................................... crud.permissions.show › Web\Admin\PermissionController@show  
+  PUT|PATCH       admin/permissions/{permission} .................................................. crud.permissions.update › Web\Admin\PermissionController@update  
+  DELETE          admin/permissions/{permission} ................................................ crud.permissions.destroy › Web\Admin\PermissionController@destroy  
+  GET|HEAD        admin/permissions/{permission}/edit ................................................. crud.permissions.edit › Web\Admin\PermissionController@edit  
+  GET|HEAD        admin/pictures .......................................................................... crud.pictures.index › Web\Admin\PictureController@index  
+  POST            admin/pictures .......................................................................... crud.pictures.store › Web\Admin\PictureController@store  
+  POST            admin/pictures/bulk_actions ................................................. crud.pictures.bulkActions › Web\Admin\PictureController@bulkActions  
+  GET|HEAD        admin/pictures/create ................................................................. crud.pictures.create › Web\Admin\PictureController@create  
+  GET|HEAD        admin/pictures/reorder/{lang?} ...................................................... crud.pictures.reorder › Web\Admin\PictureController@reorder  
+  POST            admin/pictures/reorder/{lang?} ............................................. crud.pictures.save.reorder › Web\Admin\PictureController@saveReorder  
+  POST            admin/pictures/search ................................................................. crud.pictures.search › Web\Admin\PictureController@search  
+  GET|HEAD        admin/pictures/{id}/details ........................................... crud.pictures.showDetailsRow › Web\Admin\PictureController@showDetailsRow  
+  GET|HEAD        admin/pictures/{id}/revisions ........................................... crud.pictures.listRevisions › Web\Admin\PictureController@listRevisions  
+  POST            admin/pictures/{id}/revisions/{revisionId}/restore .................. crud.pictures.restoreRevision › Web\Admin\PictureController@restoreRevision  
+  GET|HEAD        admin/pictures/{picture} .................................................................. crud.pictures.show › Web\Admin\PictureController@show  
+  PUT|PATCH       admin/pictures/{picture} .............................................................. crud.pictures.update › Web\Admin\PictureController@update  
+  DELETE          admin/pictures/{picture} ............................................................ crud.pictures.destroy › Web\Admin\PictureController@destroy  
+  GET|HEAD        admin/pictures/{picture}/edit ............................................................. crud.pictures.edit › Web\Admin\PictureController@edit  
+  GET|HEAD        admin/plugins .................................................................................................. Web\Admin\PluginController@index  
+  GET|HEAD        admin/plugins/{plugin}/delete ................................................................................. Web\Admin\PluginController@delete  
+  GET|HEAD        admin/plugins/{plugin}/install .................................................................... Web\Admin\PluginController@installWithoutCode  
+  POST            admin/plugins/{plugin}/install/code .................................................................. Web\Admin\PluginController@installWithCode  
+  GET|HEAD        admin/plugins/{plugin}/uninstall ........................................................................... Web\Admin\PluginController@uninstall  
+  GET|HEAD        admin/post_types ..................................................................... crud.post_types.index › Web\Admin\PostTypeController@index  
+  POST            admin/post_types ..................................................................... crud.post_types.store › Web\Admin\PostTypeController@store  
+  POST            admin/post_types/bulk_actions ............................................ crud.post_types.bulkActions › Web\Admin\PostTypeController@bulkActions  
+  GET|HEAD        admin/post_types/create ............................................................ crud.post_types.create › Web\Admin\PostTypeController@create  
+  GET|HEAD        admin/post_types/reorder/{lang?} ................................................. crud.post_types.reorder › Web\Admin\PostTypeController@reorder  
+  POST            admin/post_types/reorder/{lang?} ........................................ crud.post_types.save.reorder › Web\Admin\PostTypeController@saveReorder  
+  POST            admin/post_types/search ............................................................ crud.post_types.search › Web\Admin\PostTypeController@search  
+  GET|HEAD        admin/post_types/{id}/details ...................................... crud.post_types.showDetailsRow › Web\Admin\PostTypeController@showDetailsRow  
+  GET|HEAD        admin/post_types/{id}/revisions ...................................... crud.post_types.listRevisions › Web\Admin\PostTypeController@listRevisions  
+  POST            admin/post_types/{id}/revisions/{revisionId}/restore ............. crud.post_types.restoreRevision › Web\Admin\PostTypeController@restoreRevision  
+  GET|HEAD        admin/post_types/{post_type} ........................................................... crud.post_types.show › Web\Admin\PostTypeController@show  
+  PUT|PATCH       admin/post_types/{post_type} ....................................................... crud.post_types.update › Web\Admin\PostTypeController@update  
+  DELETE          admin/post_types/{post_type} ..................................................... crud.post_types.destroy › Web\Admin\PostTypeController@destroy  
+  GET|HEAD        admin/post_types/{post_type}/edit ...................................................... crud.post_types.edit › Web\Admin\PostTypeController@edit  
+  GET|HEAD        admin/posts ................................................................................... crud.posts.index › Web\Admin\PostController@index  
+  POST            admin/posts ................................................................................... crud.posts.store › Web\Admin\PostController@store  
+  POST            admin/posts/bulk_actions .......................................................... crud.posts.bulkActions › Web\Admin\PostController@bulkActions  
+  GET|HEAD        admin/posts/create .......................................................................... crud.posts.create › Web\Admin\PostController@create  
+  GET|HEAD        admin/posts/reorder/{lang?} ............................................................... crud.posts.reorder › Web\Admin\PostController@reorder  
+  POST            admin/posts/reorder/{lang?} ...................................................... crud.posts.save.reorder › Web\Admin\PostController@saveReorder  
+  POST            admin/posts/search .......................................................................... crud.posts.search › Web\Admin\PostController@search  
+  GET|HEAD        admin/posts/{id}/details .................................................... crud.posts.showDetailsRow › Web\Admin\PostController@showDetailsRow  
+  GET|HEAD        admin/posts/{id}/revisions .................................................... crud.posts.listRevisions › Web\Admin\PostController@listRevisions  
+  POST            admin/posts/{id}/revisions/{revisionId}/restore ........................... crud.posts.restoreRevision › Web\Admin\PostController@restoreRevision  
+  GET|HEAD        admin/posts/{id}/verify/resend/email ........................................................... Web\Admin\PostController@reSendEmailVerification  
+  GET|HEAD        admin/posts/{id}/verify/resend/sms ............................................................. Web\Admin\PostController@reSendPhoneVerification  
+  GET|HEAD        admin/posts/{post} .............................................................................. crud.posts.show › Web\Admin\PostController@show  
+  PUT|PATCH       admin/posts/{post} .......................................................................... crud.posts.update › Web\Admin\PostController@update  
+  DELETE          admin/posts/{post} ........................................................................ crud.posts.destroy › Web\Admin\PostController@destroy  
+  GET|HEAD        admin/posts/{post}/edit ......................................................................... crud.posts.edit › Web\Admin\PostController@edit  
+  GET|HEAD        admin/report_types ............................................................... crud.report_types.index › Web\Admin\ReportTypeController@index  
+  POST            admin/report_types ............................................................... crud.report_types.store › Web\Admin\ReportTypeController@store  
+  POST            admin/report_types/bulk_actions ...................................... crud.report_types.bulkActions › Web\Admin\ReportTypeController@bulkActions  
+  GET|HEAD        admin/report_types/create ...................................................... crud.report_types.create › Web\Admin\ReportTypeController@create  
+  GET|HEAD        admin/report_types/reorder/{lang?} ........................................... crud.report_types.reorder › Web\Admin\ReportTypeController@reorder  
+  POST            admin/report_types/reorder/{lang?} .................................. crud.report_types.save.reorder › Web\Admin\ReportTypeController@saveReorder  
+  POST            admin/report_types/search ...................................................... crud.report_types.search › Web\Admin\ReportTypeController@search  
+  GET|HEAD        admin/report_types/{id}/details ................................ crud.report_types.showDetailsRow › Web\Admin\ReportTypeController@showDetailsRow  
+  GET|HEAD        admin/report_types/{id}/revisions ................................ crud.report_types.listRevisions › Web\Admin\ReportTypeController@listRevisions  
+  POST            admin/report_types/{id}/revisions/{revisionId}/restore ....... crud.report_types.restoreRevision › Web\Admin\ReportTypeController@restoreRevision  
+  GET|HEAD        admin/report_types/{report_type} ................................................... crud.report_types.show › Web\Admin\ReportTypeController@show  
+  PUT|PATCH       admin/report_types/{report_type} ............................................... crud.report_types.update › Web\Admin\ReportTypeController@update  
+  DELETE          admin/report_types/{report_type} ............................................. crud.report_types.destroy › Web\Admin\ReportTypeController@destroy  
+  GET|HEAD        admin/report_types/{report_type}/edit .............................................. crud.report_types.edit › Web\Admin\ReportTypeController@edit  
+  GET|HEAD        admin/roles ................................................................................... crud.roles.index › Web\Admin\RoleController@index  
+  POST            admin/roles ................................................................................... crud.roles.store › Web\Admin\RoleController@store  
+  POST            admin/roles/bulk_actions .......................................................... crud.roles.bulkActions › Web\Admin\RoleController@bulkActions  
+  GET|HEAD        admin/roles/create .......................................................................... crud.roles.create › Web\Admin\RoleController@create  
+  GET|HEAD        admin/roles/reorder/{lang?} ............................................................... crud.roles.reorder › Web\Admin\RoleController@reorder  
+  POST            admin/roles/reorder/{lang?} ...................................................... crud.roles.save.reorder › Web\Admin\RoleController@saveReorder  
+  POST            admin/roles/search .......................................................................... crud.roles.search › Web\Admin\RoleController@search  
+  GET|HEAD        admin/roles/{id}/details .................................................... crud.roles.showDetailsRow › Web\Admin\RoleController@showDetailsRow
+  GET|HEAD        admin/roles/{id}/revisions .................................................... crud.roles.listRevisions › Web\Admin\RoleController@listRevisions  
+  POST            admin/roles/{id}/revisions/{revisionId}/restore ........................... crud.roles.restoreRevision › Web\Admin\RoleController@restoreRevision  
+  GET|HEAD        admin/roles/{role} .............................................................................. crud.roles.show › Web\Admin\RoleController@show  
+  PUT|PATCH       admin/roles/{role} .......................................................................... crud.roles.update › Web\Admin\RoleController@update  
+  DELETE          admin/roles/{role} ........................................................................ crud.roles.destroy › Web\Admin\RoleController@destroy  
+  GET|HEAD        admin/roles/{role}/edit ......................................................................... crud.roles.edit › Web\Admin\RoleController@edit  
+  GET|HEAD        admin/salary_types ............................................................... crud.salary_types.index › Web\Admin\SalaryTypeController@index  
+  POST            admin/salary_types ............................................................... crud.salary_types.store › Web\Admin\SalaryTypeController@store  
+  POST            admin/salary_types/bulk_actions ...................................... crud.salary_types.bulkActions › Web\Admin\SalaryTypeController@bulkActions  
+  GET|HEAD        admin/salary_types/create ...................................................... crud.salary_types.create › Web\Admin\SalaryTypeController@create  
+  GET|HEAD        admin/salary_types/reorder/{lang?} ........................................... crud.salary_types.reorder › Web\Admin\SalaryTypeController@reorder  
+  POST            admin/salary_types/reorder/{lang?} .................................. crud.salary_types.save.reorder › Web\Admin\SalaryTypeController@saveReorder  
+  POST            admin/salary_types/search ...................................................... crud.salary_types.search › Web\Admin\SalaryTypeController@search  
+  GET|HEAD        admin/salary_types/{id}/details ................................ crud.salary_types.showDetailsRow › Web\Admin\SalaryTypeController@showDetailsRow  
+  GET|HEAD        admin/salary_types/{id}/revisions ................................ crud.salary_types.listRevisions › Web\Admin\SalaryTypeController@listRevisions  
+  POST            admin/salary_types/{id}/revisions/{revisionId}/restore ....... crud.salary_types.restoreRevision › Web\Admin\SalaryTypeController@restoreRevision  
+  GET|HEAD        admin/salary_types/{salary_type} ................................................... crud.salary_types.show › Web\Admin\SalaryTypeController@show  
+  PUT|PATCH       admin/salary_types/{salary_type} ............................................... crud.salary_types.update › Web\Admin\SalaryTypeController@update  
+  DELETE          admin/salary_types/{salary_type} ............................................. crud.salary_types.destroy › Web\Admin\SalaryTypeController@destroy  
+  GET|HEAD        admin/salary_types/{salary_type}/edit .............................................. crud.salary_types.edit › Web\Admin\SalaryTypeController@edit  
+  GET|HEAD        admin/settings .......................................................................... crud.settings.index › Web\Admin\SettingController@index  
+  POST            admin/settings .......................................................................... crud.settings.store › Web\Admin\SettingController@store  
+  POST            admin/settings/bulk_actions ................................................. crud.settings.bulkActions › Web\Admin\SettingController@bulkActions  
+  GET|HEAD        admin/settings/create ................................................................. crud.settings.create › Web\Admin\SettingController@create  
+  GET|HEAD        admin/settings/find/{key} ...................................................................................... Web\Admin\SettingController@find  
+  GET|HEAD        admin/settings/reorder/{lang?} ...................................................... crud.settings.reorder › Web\Admin\SettingController@reorder  
+  POST            admin/settings/reorder/{lang?} ............................................. crud.settings.save.reorder › Web\Admin\SettingController@saveReorder  
+  GET|HEAD        admin/settings/reset/{key} .................................................................................... Web\Admin\SettingController@reset  
+  POST            admin/settings/search ................................................................. crud.settings.search › Web\Admin\SettingController@search  
+  GET|HEAD        admin/settings/{id}/details ........................................... crud.settings.showDetailsRow › Web\Admin\SettingController@showDetailsRow  
+  GET|HEAD        admin/settings/{id}/revisions ........................................... crud.settings.listRevisions › Web\Admin\SettingController@listRevisions  
+  POST            admin/settings/{id}/revisions/{revisionId}/restore .................. crud.settings.restoreRevision › Web\Admin\SettingController@restoreRevision  
+  GET|HEAD        admin/settings/{setting} .................................................................. crud.settings.show › Web\Admin\SettingController@show  
+  PUT|PATCH       admin/settings/{setting} .............................................................. crud.settings.update › Web\Admin\SettingController@update  
+  DELETE          admin/settings/{setting} ............................................................ crud.settings.destroy › Web\Admin\SettingController@destroy  
+  GET|HEAD        admin/settings/{setting}/edit ............................................................. crud.settings.edit › Web\Admin\SettingController@edit  
+  GET|HEAD        admin/system .............................................................................................. Web\Admin\SystemController@systemInfo  
+  GET|HEAD        admin/users ................................................................................... crud.users.index › Web\Admin\UserController@index  
+  POST            admin/users ................................................................................... crud.users.store › Web\Admin\UserController@store  
+  POST            admin/users/bulk_actions .......................................................... crud.users.bulkActions › Web\Admin\UserController@bulkActions  
+  GET|HEAD        admin/users/create .......................................................................... crud.users.create › Web\Admin\UserController@create  
+  GET|HEAD        admin/users/reorder/{lang?} ............................................................... crud.users.reorder › Web\Admin\UserController@reorder  
+  POST            admin/users/reorder/{lang?} ...................................................... crud.users.save.reorder › Web\Admin\UserController@saveReorder  
+  POST            admin/users/search .......................................................................... crud.users.search › Web\Admin\UserController@search  
+  GET|HEAD        admin/users/{id}/details .................................................... crud.users.showDetailsRow › Web\Admin\UserController@showDetailsRow  
+  GET|HEAD        admin/users/{id}/revisions .................................................... crud.users.listRevisions › Web\Admin\UserController@listRevisions  
+  POST            admin/users/{id}/revisions/{revisionId}/restore ........................... crud.users.restoreRevision › Web\Admin\UserController@restoreRevision  
+  GET|HEAD        admin/users/{id}/verify/resend/email ........................................................... Web\Admin\UserController@reSendEmailVerification  
+  GET|HEAD        admin/users/{id}/verify/resend/sms ............................................................. Web\Admin\UserController@reSendPhoneVerification  
+  GET|HEAD        admin/users/{user} .............................................................................. crud.users.show › Web\Admin\UserController@show  
+  PUT|PATCH       admin/users/{user} .......................................................................... crud.users.update › Web\Admin\UserController@update  
+  DELETE          admin/users/{user} ........................................................................ crud.users.destroy › Web\Admin\UserController@destroy  
+  GET|HEAD        admin/users/{user}/edit ......................................................................... crud.users.edit › Web\Admin\UserController@edit  
+  POST            ajax/categories/select ..................................................................... Web\Public\Ajax\CategoryController@getCategoriesHtml  
+  GET|HEAD        ajax/countries/{countryCode}/admins/{adminType} ............................................. Web\Public\Ajax\Location\SelectController@getAdmins  
+  GET|HEAD        ajax/countries/{countryCode}/admins/{adminType}/{adminCode}/cities .......................... Web\Public\Ajax\Location\SelectController@getCities  
+  POST            ajax/countries/{countryCode}/cities/autocomplete .......................................... Web\Public\Ajax\Location\AutoCompleteController@index  
+  GET|HEAD        ajax/countries/{countryCode}/cities/{id} .............................................. Web\Public\Ajax\Location\SelectController@getSelectedCity  
+  POST            ajax/locations/{countryCode}/admins/{adminType} .............................................. Web\Public\Ajax\Location\ModalController@getAdmins  
+  POST            ajax/locations/{countryCode}/admins/{adminType}/{adminCode}/cities ........................... Web\Public\Ajax\Location\ModalController@getCities  
+  POST            ajax/locations/{countryCode}/cities .......................................................... Web\Public\Ajax\Location\ModalController@getCities  
+  POST            ajax/post/phone ......................................................................................... Web\Public\Ajax\PostController@getPhone  
+  POST            ajax/save/post .......................................................................................... Web\Public\Ajax\PostController@savePost  
+  POST            ajax/save/search ...................................................................................... Web\Public\Ajax\PostController@saveSearch  
+  POST            ajax/user/dark-mode .................................................................................. Web\Public\Ajax\UserController@setDarkMode  
+  POST            api/auth/login ...................................................................................... auth.login › Api\Auth\LoginController@login  
+  GET|HEAD        api/auth/logout/{userId} .......................................................................... auth.logout › Api\Auth\LoginController@logout  
+  POST            api/auth/password/email ................................................... auth.password.email › Api\Auth\ForgotPasswordController@sendResetLink  
+  POST            api/auth/password/reset ............................................................ auth.password.reset › Api\Auth\ResetPasswordController@reset  
+  POST            api/auth/password/token ................................................... auth.password.token › Api\Auth\ResetPasswordController@sendResetToken  
+  GET|HEAD        api/auth/{provider} .............................................................................. Api\Auth\SocialController@getProviderTargetUrl  
+  GET|HEAD        api/auth/{provider}/callback ................................................................... Api\Auth\SocialController@handleProviderCallback  
+  GET|HEAD        api/captcha ............................................................................... captcha.getCaptcha › Api\CaptchaController@getCaptcha  
+  GET|HEAD        api/categories .................................................................................. categories.index › Api\CategoryController@index  
+  GET|HEAD        api/categories/{slugOrId} ......................................................................... categories.show › Api\CategoryController@show  
+  GET|HEAD        api/cities/{id} ........................................................................................... cities.show › Api\CityController@show  
+  GET|HEAD        api/companies ..................................................................................... companies.index › Api\CompanyController@index  
+  POST            api/companies ..................................................................................... companies.store › Api\CompanyController@store  
+  DELETE          api/companies/{ids} ........................................................................... companies.destroy › Api\CompanyController@destroy  
+  GET|HEAD        api/companies/{id} .................................................................................. companies.show › Api\CompanyController@show  
+  PUT             api/companies/{id} .............................................................................. companies.update › Api\CompanyController@update  
+  POST            api/contact ............................................................................................ contact › Api\ContactController@sendForm  
+  GET|HEAD        api/countries ..................................................................................... countries.index › Api\CountryController@index  
+  GET|HEAD        api/countries/{code} ................................................................................ countries.show › Api\CountryController@show  
+  GET|HEAD        api/countries/{countryCode}/cities ...................................................................... cities.index › Api\CityController@index  
+  GET|HEAD        api/countries/{countryCode}/subAdmins1 ......................................................... subAdmins1.index › Api\SubAdmin1Controller@index  
+  GET|HEAD        api/countries/{countryCode}/subAdmins2 ......................................................... subAdmins2.index › Api\SubAdmin2Controller@index  
+  GET|HEAD        api/genders .......................................................................................... genders.index › Api\GenderController@index  
+  GET|HEAD        api/genders/{id} ....................................................................................... genders.show › Api\GenderController@show  
+  GET|HEAD        api/homeSections ........................................................................... homeSections.index › Api\HomeSectionController@index  
+  GET|HEAD        api/homeSections/{method} .................................................................... homeSections.show › Api\HomeSectionController@show  
+  GET|HEAD        api/languages .................................................................................... languages.index › Api\LanguageController@index  
+  GET|HEAD        api/languages/{code} ............................................................................... languages.show › Api\LanguageController@show  
+  GET|HEAD        api/packages/promotion ................................................................... packages.promotion.index › Api\PackageController@index  
+  GET|HEAD        api/packages/subscription ............................................................. packages.subscription.index › Api\PackageController@index  
+  GET|HEAD        api/packages/{id} .................................................................................... packages.show › Api\PackageController@show  
+  GET|HEAD        api/pages ................................................................................................ pages.index › Api\PageController@index  
+  GET|HEAD        api/pages/{slugOrId} ....................................................................................... pages.show › Api\PageController@show  
+  GET|HEAD        api/password/verify/{field}/{token?} ............................................................. Api\Auth\ForgotPasswordController@verification  
+  GET|HEAD        api/password/{id}/verify/resend/email ................................................. Api\Auth\ForgotPasswordController@reSendEmailVerification  
+  GET|HEAD        api/password/{id}/verify/resend/sms ................................................... Api\Auth\ForgotPasswordController@reSendPhoneVerification  
+  GET|HEAD        api/paymentMethods ..................................................................... paymentMethods.index › Api\PaymentMethodController@index  
+  GET|HEAD        api/paymentMethods/{id} .................................................................. paymentMethods.show › Api\PaymentMethodController@show  
+  POST            api/payments ....................................................................................... payments.store › Api\PaymentController@store  
+  GET|HEAD        api/payments/promotion ................................................................... payments.promotion.index › Api\PaymentController@index  
+  GET|HEAD        api/payments/promotion/posts/{postId}/payments ..................................................... posts.payments › Api\PaymentController@index  
+  GET|HEAD        api/payments/subscription ............................................................. payments.subscription.index › Api\PaymentController@index  
+  GET|HEAD        api/payments/subscription/users/{userId}/payments .................................................. users.payments › Api\PaymentController@index  
+  GET|HEAD        api/payments/{id} .................................................................................... payments.show › Api\PaymentController@show  
+  GET|HEAD        api/postTypes .................................................................................... postTypes.index › Api\PostTypeController@index  
+  GET|HEAD        api/postTypes/{id} ................................................................................. postTypes.show › Api\PostTypeController@show  
+  GET|HEAD        api/posts ................................................................................................ posts.index › Api\PostController@index  
+  POST            api/posts ................................................................................................ posts.store › Api\PostController@store  
+  GET|HEAD        api/posts/verify/{field}/{token?} ............................................................................... Api\PostController@verification  
+  DELETE          api/posts/{ids} ...................................................................................... posts.destroy › Api\PostController@destroy  
+  GET|HEAD        api/posts/{id} ............................................................................................. posts.show › Api\PostController@show  
+  PUT             api/posts/{id} ......................................................................................... posts.update › Api\PostController@update  
+  PUT             api/posts/{id}/offline ............................................................................... posts.offline › Api\PostController@offline  
+  POST            api/posts/{id}/report ........................................................................... posts.report › Api\ContactController@sendReport  
+  PUT             api/posts/{id}/repost .................................................................................. posts.repost › Api\PostController@repost  
+  POST            api/posts/{id}/sendByEmail ............................................................ posts.sendByEmail › Api\ContactController@sendPostByEmail  
+  GET|HEAD        api/posts/{id}/verify/resend/email ................................................................... Api\PostController@reSendEmailVerification  
+  GET|HEAD        api/posts/{id}/verify/resend/sms ..................................................................... Api\PostController@reSendPhoneVerification  
+  GET|HEAD        api/reportTypes .............................................................................. reportTypes.index › Api\ReportTypeController@index
+  GET|HEAD        api/reportTypes/{id} ........................................................................... reportTypes.show › Api\ReportTypeController@show  
+  GET|HEAD        api/resumes .......................................................................................... resumes.index › Api\ResumeController@index  
+  POST            api/resumes .......................................................................................... resumes.store › Api\ResumeController@store  
+  DELETE          api/resumes/{ids} ................................................................................ resumes.destroy › Api\ResumeController@destroy  
+  GET|HEAD        api/resumes/{id} ....................................................................................... resumes.show › Api\ResumeController@show  
+  PUT             api/resumes/{id} ................................................................................... resumes.update › Api\ResumeController@update  
+  GET|HEAD        api/salaryTypes .............................................................................. salaryTypes.index › Api\SalaryTypeController@index  
+  GET|HEAD        api/salaryTypes/{id} ........................................................................... salaryTypes.show › Api\SalaryTypeController@show  
+  POST            api/savedPosts ................................................................................. savedPosts.store › Api\SavedPostController@store  
+  GET|HEAD        api/savedPosts ................................................................................. savedPosts.index › Api\SavedPostController@index  
+  DELETE          api/savedPosts/{ids} ....................................................................... savedPosts.destroy › Api\SavedPostController@destroy  
+  POST            api/savedSearches ......................................................................... savedSearches.store › Api\SavedSearchController@store  
+  GET|HEAD        api/savedSearches ......................................................................... savedSearches.index › Api\SavedSearchController@index  
+  DELETE          api/savedSearches/{ids} ............................................................... savedSearches.destroy › Api\SavedSearchController@destroy  
+  GET|HEAD        api/savedSearches/{id} ...................................................................... savedSearches.show › Api\SavedSearchController@show  
+  GET|HEAD        api/settings ....................................................................................... settings.index › Api\SettingController@index  
+  GET|HEAD        api/settings/{key} ................................................................................... settings.show › Api\SettingController@show  
+  GET|HEAD        api/subAdmins1/{code} ............................................................................ subAdmins1.show › Api\SubAdmin1Controller@show  
+  GET|HEAD        api/subAdmins2/{code} ............................................................................ subAdmins2.show › Api\SubAdmin2Controller@show  
+  POST            api/threads .......................................................................................... threads.store › Api\ThreadController@store  
+  GET|HEAD        api/threads .......................................................................................... threads.index › Api\ThreadController@index  
+  POST            api/threads/bulkUpdate/{ids?} .............................................................. threads.bulkUpdate › Api\ThreadController@bulkUpdate  
+  DELETE          api/threads/{ids} ................................................................................ threads.destroy › Api\ThreadController@destroy  
+  GET|HEAD        api/threads/{id} ....................................................................................... threads.show › Api\ThreadController@show  
+  PUT             api/threads/{id} ................................................................................... threads.update › Api\ThreadController@update  
+  GET|HEAD        api/threads/{threadId}/messages ........................................................ threadMessages.index › Api\ThreadMessageController@index  
+  GET|HEAD        api/threads/{threadId}/messages/{id} ..................................................... threadMessages.show › Api\ThreadMessageController@show  
+  GET|HEAD        api/userTypes .................................................................................... userTypes.index › Api\UserTypeController@index  
+  GET|HEAD        api/userTypes/{id} ................................................................................. userTypes.show › Api\UserTypeController@show  
+  GET|HEAD        api/users ................................................................................................ users.index › Api\UserController@index  
+  POST            api/users ................................................................................................ users.store › Api\UserController@store  
+  GET|HEAD        api/users/verify/{field}/{token?} ............................................................................... Api\UserController@verification  
+  GET|HEAD        api/users/{id} ............................................................................................. users.show › Api\UserController@show  
+  PUT             api/users/{id} ......................................................................................... users.update › Api\UserController@update  
+  DELETE          api/users/{id} ....................................................................................... users.destroy › Api\UserController@destroy  
+  PUT             api/users/{id}/dark-mode ................................................................. users.darkMode.update › Api\UserController@setDarkMode  
+  PUT             api/users/{id}/photo ........................................................................ users.photo.update › Api\UserController@updatePhoto  
+  GET|HEAD        api/users/{id}/photo/delete ................................................................. users.photo.delete › Api\UserController@removePhoto  
+  GET|HEAD        api/users/{id}/stats ..................................................................................... users.stats › Api\UserController@stats  
+  GET|HEAD        api/users/{id}/verify/resend/email ................................................................... Api\UserController@reSendEmailVerification  
+  GET|HEAD        api/users/{id}/verify/resend/sms ..................................................................... Api\UserController@reSendPhoneVerification  
+  ANY             api/{any} ............................................................................................................................. any.other  
+  GET|HEAD        auth/{provider} ............................................................................. Web\Public\Auth\SocialController@redirectToProvider  
+  GET|HEAD        auth/{provider}/callback ................................................................ Web\Public\Auth\SocialController@handleProviderCallback  
+  GET|HEAD        captcha/api/{config?} ........................................................................... Larapen\Captcha\CaptchaController@getCaptchaApi  
+  GET|HEAD        captcha/{config?} .................................................................................. Larapen\Captcha\CaptchaController@getCaptcha  
+  GET|HEAD        category/{catSlug} ................................................................................... Web\Public\Search\CategoryController@index  
+  GET|HEAD        category/{catSlug}/{subCatSlug} ...................................................................... Web\Public\Search\CategoryController@index  
+  GET|HEAD        common/css/style.css ......................................................................................... Web\Public\FileController@cssStyle  
+  GET|HEAD        common/file ......................................................................................... Web\Public\FileController@watchMediaContent  
+  GET|HEAD        common/js/fileinput/locales/{code}.js ....................................................... Web\Public\FileController@bootstrapFileinputLocales  
+  GET|HEAD        common/js/intl-tel-input/countries.js ................................................................ Web\Public\FileController@intlTelInputData  
+  GET|HEAD        companies ............................................................................................. Web\Public\Search\CompanyController@index  
+  GET|HEAD        companies/{id}/jobs ................................................................................. Web\Public\Search\CompanyController@profile  
+  GET|HEAD        contact ............................................................................................... Web\Public\Page\ContactController@getForm  
+  POST            contact .............................................................................................. Web\Public\Page\ContactController@postForm  
+  GET|HEAD        countries .................................................................................................. Web\Public\CountriesController@index  
+  GET|HEAD        create ......................................................................... Web\Public\Post\CreateOrEdit\SingleStep\CreateController@getForm  
+  POST            create ........................................................................ Web\Public\Post\CreateOrEdit\SingleStep\CreateController@postForm  
+  GET|HEAD        create/finish ................................................................... Web\Public\Post\CreateOrEdit\SingleStep\CreateController@finish  
+  GET|HEAD        create/payment/cancel .................................................... Web\Public\Post\CreateOrEdit\SingleStep\CreateController@paymentCancel  
+  GET|HEAD        create/payment/success ............................................. Web\Public\Post\CreateOrEdit\SingleStep\CreateController@paymentConfirmation  
+  POST            create/payment/success ............................................. Web\Public\Post\CreateOrEdit\SingleStep\CreateController@paymentConfirmation  
+  GET|HEAD        docs/api ................................................................................................................................. scribe  
+  GET|HEAD        docs/api.openapi ................................................................................................................. scribe.openapi  
+  GET|HEAD        docs/api.postman ................................................................................................................. scribe.postman  
+  GET|HEAD        edit/{id} ........................................................................ Web\Public\Post\CreateOrEdit\SingleStep\EditController@getForm  
+  PUT             edit/{id} ....................................................................... Web\Public\Post\CreateOrEdit\SingleStep\EditController@postForm  
+  GET|HEAD        edit/{id}/payment/cancel ................................................... Web\Public\Post\CreateOrEdit\SingleStep\EditController@paymentCancel  
+  GET|HEAD        edit/{id}/payment/success ............................................ Web\Public\Post\CreateOrEdit\SingleStep\EditController@paymentConfirmation  
+  POST            edit/{id}/payment/success ............................................ Web\Public\Post\CreateOrEdit\SingleStep\EditController@paymentConfirmation  
+  GET|HEAD        feed .............................................................................................. feeds.main › Larapen\Feed\Http\FeedController  
+  GET|HEAD        impersonate/leave ............................................... impersonate.leave › Larapen\Impersonate\Controllers\ImpersonateController@leave  
+  GET|HEAD        impersonate/take/{id} .................................................. impersonate › Larapen\Impersonate\Controllers\ImpersonateController@take  
+  GET|HEAD        install .................................................................................................. Web\Install\InstallController@starting  
+  GET|HEAD        install/cron_jobs ........................................................................................ Web\Install\InstallController@cronJobs  
+  GET|HEAD        install/database ......................................................................................... Web\Install\InstallController@database  
+  POST            install/database ......................................................................................... Web\Install\InstallController@database  
+  GET|HEAD        install/database_import ............................................................................ Web\Install\InstallController@databaseImport  
+  GET|HEAD        install/finish ............................................................................................. Web\Install\InstallController@finish  
+  GET|HEAD        install/site_info ........................................................................................ Web\Install\InstallController@siteInfo  
+  POST            install/site_info ........................................................................................ Web\Install\InstallController@siteInfo  
+  GET|HEAD        install/system_compatibility .................................................................. Web\Install\InstallController@systemCompatibility  
+  GET|HEAD        jobs/{city}/{id} ......................................................................................... Web\Public\Search\CityController@index  
+  GET|HEAD        latest-jobs ............................................................................................ Web\Public\Search\SearchController@index  
+  GET|HEAD        locale/{code} ...................................................................................... Web\Public\Locale\LocaleController@setLocale  
+  GET|HEAD        login ............................................................................................. Web\Public\Auth\LoginController@showLoginForm  
+  POST            login ..................................................................................................... Web\Public\Auth\LoginController@login  
+  GET|HEAD        logout ................................................................................................... Web\Public\Auth\LoginController@logout  
+  GET|HEAD        page/{slug} ................................................................................................. Web\Public\Page\CmsController@index  
+  POST            password/email ........................................................................... Web\Public\Auth\ForgotPasswordController@sendResetLink  
+  GET|HEAD        password/reset ..................................................................... Web\Public\Auth\ForgotPasswordController@showLinkRequestForm  
+  POST            password/reset .................................................................................... Web\Public\Auth\ResetPasswordController@reset  
+  GET|HEAD        password/reset/{token} .................................................................... Web\Public\Auth\ResetPasswordController@showResetForm  
+  GET|HEAD        password/token ..................................................................... Web\Public\Auth\ResetPasswordController@showTokenRequestForm  
+  POST            password/token ........................................................................... Web\Public\Auth\ResetPasswordController@sendResetToken  
+  GET|HEAD        password/verify/{field}/{token?} .......................................................... Web\Public\Auth\ForgotPasswordController@verification  
+  POST            password/verify/{field}/{token?} .......................................................... Web\Public\Auth\ForgotPasswordController@verification  
+  GET|HEAD        password/{id}/verify/resend/email .............................................. Web\Public\Auth\ForgotPasswordController@reSendEmailVerification  
+  GET|HEAD        password/{id}/verify/resend/sms ................................................ Web\Public\Auth\ForgotPasswordController@reSendPhoneVerification  
+  GET|HEAD        plugins/{pluginName}/assets/{type}/{file} .......................................................................................................  
+  GET|HEAD        plugins/{pluginName}/images/{filename} ..........................................................................................................  
+  GET|HEAD        posts/create ............................................................... Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@getPostStep  
+  POST            posts/create .............................................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@postPostStep  
+  POST            posts/create/finish ............................................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@finish  
+  GET|HEAD        posts/create/finish ............................................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@finish  
+  GET|HEAD        posts/create/payment .................................................... Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@getPaymentStep  
+  POST            posts/create/payment ................................................... Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@postPaymentStep  
+  GET|HEAD        posts/create/payment/cancel .............................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@paymentCancel  
+  GET|HEAD        posts/create/payment/success ....................................... Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@paymentConfirmation  
+  POST            posts/create/payment/success ....................................... Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@paymentConfirmation  
+  GET|HEAD        posts/verify/{field}/{token?} ............................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@verification  
+  POST            posts/verify/{field}/{token?} ............................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@verification  
+  GET|HEAD        posts/{hashableId}/report ....................................................................... Web\Public\Post\ReportController@showReportForm  
+  POST            posts/{hashableId}/report ........................................................................... Web\Public\Post\ReportController@sendReport  
+  GET|HEAD        posts/{id}/edit .................................................................. Web\Public\Post\CreateOrEdit\MultiSteps\EditController@getForm  
+  PUT             posts/{id}/edit ................................................................. Web\Public\Post\CreateOrEdit\MultiSteps\EditController@postForm  
+  GET|HEAD        posts/{id}/payment ............................................................ Web\Public\Post\CreateOrEdit\MultiSteps\PaymentController@getForm  
+  POST            posts/{id}/payment ........................................................... Web\Public\Post\CreateOrEdit\MultiSteps\PaymentController@postForm
+  GET|HEAD        posts/{id}/payment/cancel ............................................... Web\Public\Post\CreateOrEdit\MultiSteps\PaymentController@paymentCancel  
+  GET|HEAD        posts/{id}/payment/success ........................................ Web\Public\Post\CreateOrEdit\MultiSteps\PaymentController@paymentConfirmation  
+  POST            posts/{id}/payment/success ........................................ Web\Public\Post\CreateOrEdit\MultiSteps\PaymentController@paymentConfirmation  
+  GET|HEAD        posts/{id}/verify/resend/email ................................. Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@reSendEmailVerification  
+  GET|HEAD        posts/{id}/verify/resend/sms ................................... Web\Public\Post\CreateOrEdit\MultiSteps\CreateController@reSendPhoneVerification  
+  GET|HEAD        pricing ................................................................................................. Web\Public\Page\PricingController@index  
+  GET|HEAD        profile/{username} ..................................................................................... Web\Public\Search\UserController@profile  
+  GET|HEAD        recaptcha/validate ........................................................ Larapen\ReCaptcha\app\Http\Controllers\ReCaptchaController@validateV3  
+  GET|HEAD        register ................................................................................ Web\Public\Auth\RegisterController@showRegistrationForm  
+  POST            register ............................................................................................ Web\Public\Auth\RegisterController@register  
+  GET|HEAD        register/finish ....................................................................................... Web\Public\Auth\RegisterController@finish  
+  GET|HEAD        sanctum/csrf-cookie ........................................................... sanctum.csrf-cookie › Laravel\Sanctum › CsrfCookieController@show  
+  POST            send-by-email .................................................................................... Web\Public\Search\SearchController@sendByEmail  
+  GET|HEAD        sitemap ...................................................................................................... Web\Public\SitemapController@index  
+  GET|HEAD        sitemaps.xml .......................................................................... Web\Public\SitemapsController@getAllCountriesSitemapIndex  
+  GET|HEAD        tag/{tag} ................................................................................................. Web\Public\Search\TagController@index  
+  GET|HEAD        upgrade ...................................................................................................... Web\Install\UpdateController@index  
+  POST            upgrade/run .................................................................................................... Web\Install\UpdateController@run  
+  GET|HEAD        users/verify/{field}/{token?} ................................................................... Web\Public\Auth\RegisterController@verification  
+  POST            users/verify/{field}/{token?} ................................................................... Web\Public\Auth\RegisterController@verification  
+  GET|HEAD        users/{id}/jobs .......................................................................................... Web\Public\Search\UserController@index  
+  GET|HEAD        users/{id}/verify/resend/email ....................................................... Web\Public\Auth\RegisterController@reSendEmailVerification  
+  GET|HEAD        users/{id}/verify/resend/sms ......................................................... Web\Public\Auth\RegisterController@reSendPhoneVerification  
+  GET|HEAD        {countryCode}/sitemaps.xml ............................................................... Web\Public\SitemapsController@getSitemapIndexByCountry  
+  GET|HEAD        {countryCode}/sitemaps/categories.xml ............................................... Web\Public\SitemapsController@getCategoriesSitemapByCountry  
+  GET|HEAD        {countryCode}/sitemaps/cities.xml ....................................................... Web\Public\SitemapsController@getCitiesSitemapByCountry  
+  GET|HEAD        {countryCode}/sitemaps/pages.xml ......................................................... Web\Public\SitemapsController@getPagesSitemapByCountry  
+  GET|HEAD        {countryCode}/sitemaps/posts.xml ...................................................... Web\Public\SitemapsController@getListingsSitemapByCountry  
+  GET|HEAD        {slug}/{hashableId} ........................................................................................ Web\Public\Post\ShowController@index  
+
+                                                                                                                                               Showing [750] routes  
+
+PS C:\laragon\www\v14slight>

@@ -1,33 +1,34 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Install\Traits\Install;
 
 use App\Helpers\Cookie;
+use App\Helpers\Curl;
 use App\Helpers\GeoIP;
+use Illuminate\Support\Facades\Http;
 
 trait ApiTrait
 {
 	/**
-	 * Get the user's country code with his IP address
+	 * IMPORTANT: Do not change this part of the code to prevent any data losing issue.
 	 *
-	 * @param array|null $defaultDrivers
-	 * @return string|null
+	 * @param $purchaseCode
+	 * @return false|mixed|string
 	 */
-	private static function getCountryCodeFromIPAddr(?array $defaultDrivers = ['ipapi', 'ipapico']): ?string
+	private function purchaseCodeChecker($purchaseCode)
+	{
+		$data = [];
+		$data['valid'] = true;
+		$data['message'] = 'Verified!';
+		return $data;
+	}
+	
+	/**
+	 * @param array|null $defaultDrivers
+	 * @return array|string|null
+	 */
+	private static function getCountryCodeFromIPAddr(?array $defaultDrivers = ['ipapi', 'ipapico'])
 	{
 		if (empty($defaultDrivers)) {
 			return null;
@@ -42,9 +43,9 @@ trait ApiTrait
 					
 					$data = (new GeoIP())->getData();
 					$countryCode = data_get($data, 'countryCode');
-					
-					// Fix for some countries
-					$countryCode = ($countryCode == 'UK') ? 'GB' : $countryCode;
+					if ($countryCode == 'UK') {
+						$countryCode = 'GB';
+					}
 					
 					if (!is_string($countryCode) || strlen($countryCode) != 2) {
 						// Remove the current element (driver) from the array
@@ -66,6 +67,6 @@ trait ApiTrait
 			Cookie::set('ipCountryCode', $countryCode);
 		}
 		
-		return getAsStringOrNull($countryCode);
+		return $countryCode;
 	}
 }

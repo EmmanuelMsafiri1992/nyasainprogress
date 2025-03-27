@@ -1,8 +1,8 @@
 /*
- * JobClass - Job Board Web Application
+ * LaraClassifier - Classified Ads Web Application
  * Copyright (c) BeDigit. All Rights Reserved
  *
- * Website: https://laraclassifier.com/jobclass
+ * Website: https://laraclassifier.com
  * Author: BeDigit | https://bedigit.com
  *
  * LICENSE
@@ -59,7 +59,7 @@ onDocumentReady(function (event) {
 	const _tokenEl = document.querySelector("input[name=_token]");
 	const tooltipTriggerEl = document.querySelector("#locSearch.tooltipHere");
 	
-	if (!isDomElement(inputEl) || !isDomElement(lSearchEl)) {
+	if (isElNotDefined(inputEl) || isElNotDefined(lSearchEl)) {
 		return false;
 	}
 	
@@ -177,7 +177,7 @@ onDocumentReady(function (event) {
 	// Open Event
 	inputEl.addEventListener("open", (event) => addOpenAutoCompleteListener(event, autoCompleteJS));
 	
-});
+}, true);
 
 /**
  * Add open autocomplete event to the DOM element listener
@@ -199,7 +199,7 @@ function addOpenAutoCompleteListener(event, autoCompleteJS) {
  * @returns {boolean}
  */
 function displayLoadingMessage(listEl) {
-	if (!isDomElement(listEl)) {
+	if (isElNotDefined(listEl)) {
 		return false;
 	}
 	
@@ -216,7 +216,7 @@ function displayLoadingMessage(listEl) {
  * @param listEl
  */
 function adjustSuggestionsElStyle(inputEl, listEl) {
-	if (!isDomElement(inputEl) || !isDomElement(listEl)) {
+	if (isElNotDefined(inputEl) || isElNotDefined(listEl)) {
 		return false;
 	}
 	
@@ -250,7 +250,7 @@ function adjustSuggestionsElStyle(inputEl, listEl) {
  * @returns {boolean}
  */
 function hideSuggestionsElWhenAreaTextIsFilled(listEl, results, query) {
-	if (!isDomElement(listEl) || !isDefined(results) || !isDefined(query)) {
+	if (isElNotDefined(listEl) || !isDefined(results) || !isDefined(query)) {
 		return false;
 	}
 	
@@ -357,7 +357,7 @@ function selectElement(event, inputEl, lSearchEl, tooltipTriggerEl) {
  * @param rSearchEl
  */
 function emptyHiddenFields(inputEl, lSearchEl, rSearchEl = null) {
-	if (!isDomElement(inputEl)) {
+	if (isElNotDefined(inputEl)) {
 		return false;
 	}
 	

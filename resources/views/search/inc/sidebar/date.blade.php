@@ -36,22 +36,19 @@ $clearFilterBtn = \App\Helpers\UrlGen::getDateFilterClearLink($cat ?? null, $cit
 	@parent
 	
 	<script>
-		onDocumentReady((event) => {
-			const postedDateEls = document.querySelectorAll('input[type=radio][name=postedDate]');
-			if (postedDateEls.length > 0) {
-				postedDateEls.forEach((element) => {
-					element.addEventListener('click', (e) => {
-						const queryStringEl = document.getElementById('postedQueryString');
-						
-						let queryString = queryStringEl.value;
-						queryString += (queryString !== '') ? '&' : '';
-						queryString = queryString + 'postedDate=' + e.target.value;
-						
-						let searchUrl = baseUrl + '?' + queryString;
-						redirect(searchUrl);
-					});
-				});
-			}
+		$(document).ready(function ()
+		{
+			$('input[type=radio][name=postedDate]').click(function() {
+				let postedQueryString = $('#postedQueryString').val();
+				
+				if (postedQueryString !== '') {
+					postedQueryString = postedQueryString + '&';
+				}
+				postedQueryString = postedQueryString + 'postedDate=' + $(this).val();
+				
+				let searchUrl = baseUrl + '?' + postedQueryString;
+				redirect(searchUrl);
+			});
 		});
 	</script>
 @endsection

@@ -1,11 +1,6 @@
 {{-- CKeditor --}}
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder">
-        {!! $field['label'] !!}
-        @if (isset($field['required']) && $field['required'])
-            <span class="text-danger">*</span>
-        @endif
-    </label>
+    <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
     <textarea
     	id="ckeditor-{{ $field['name'] }}"
@@ -38,30 +33,30 @@
 
 {{-- FIELD JS - will be loaded in the after_scripts section --}}
 @push('crud_fields_scripts')
-    @php
-        $editorLocale = '';
-		if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . getLangTag(config('app.locale')) . '.js')) {
-			$editorLocale = getLangTag(config('app.locale'));
-		}
-		if (empty($editorLocale)) {
-			if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . config('lang.tag') . '.js')) {
-				$editorLocale = config('lang.tag');
-			}
-		}
-		if (empty($editorLocale)) {
-			if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . strtolower(config('lang.tag')) . '.js')) {
-				$editorLocale = strtolower(config('lang.tag'));
-			}
-		}
-		if (empty($editorLocale)) {
-			$editorLocale = 'en';
-		}
-    @endphp
+    <?php
+    $editorLocale = '';
+    if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . getLangTag(config('app.locale')) . '.js')) {
+        $editorLocale = getLangTag(config('app.locale'));
+    }
+    if (empty($editorLocale)) {
+        if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . config('lang.tag') . '.js')) {
+            $editorLocale = config('lang.tag');
+        }
+    }
+    if (empty($editorLocale)) {
+        if (file_exists(public_path() . '/assets/plugins/ckeditor/translations/' . strtolower(config('lang.tag')) . '.js')) {
+            $editorLocale = strtolower(config('lang.tag'));
+        }
+    }
+    if (empty($editorLocale)) {
+        $editorLocale = 'en';
+    }
+    ?>
     @if ($editorLocale != 'en')
         <script src="{{ asset('assets/plugins/ckeditor/translations/' . $editorLocale . '.js') }}"></script>
     @endif
 <script>
-    onDocumentReady((event) => {
+    jQuery(document).ready(function($) {
         ClassicEditor.create(document.querySelector('textarea[name="{{ $field['name'] }}"].ckeditor'), {
             language: '{{ $editorLocale }}',
             toolbar: {

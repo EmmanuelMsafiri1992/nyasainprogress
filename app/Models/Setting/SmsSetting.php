@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -24,23 +11,9 @@ class SmsSetting
 {
 	public static function getValues($value, $disk)
 	{
-		$enablePhoneAsAuthField = $value['enable_phone_as_auth_field'] ?? '0';
-		$phoneVerification = $value['phone_verification'] ?? '0';
-		$smsConfirmationReceiving = $value['confirmation'] ?? '0';
-		$smsMessageReceiving = $value['messenger_notifications'] ?? '0';
-		
-		$smsSendingIsRequired = (
-			$enablePhoneAsAuthField == '1'
-			&& ($phoneVerification == '1' || $smsConfirmationReceiving == '1' || $smsMessageReceiving == '1')
-		);
-		$phoneValidator = $smsSendingIsRequired ? 'isPossibleMobileNumber' : 'isPossiblePhoneNumber';
-		
 		if (empty($value)) {
 			
-			$value['enable_phone_as_auth_field'] = '0';
-			$value['default_auth_field'] = 'email';
 			$value['phone_of_countries'] = 'local';
-			$value['phone_validator'] = $phoneValidator;
 			
 			$value['vonage_key'] = env('VONAGE_KEY', '');
 			$value['vonage_secret'] = env('VONAGE_SECRET', '');
@@ -60,17 +33,8 @@ class SmsSetting
 			
 		} else {
 			
-			if (!array_key_exists('enable_phone_as_auth_field', $value)) {
-				$value['enable_phone_as_auth_field'] = '0';
-			}
-			if (!array_key_exists('default_auth_field', $value)) {
-				$value['default_auth_field'] = 'email';
-			}
 			if (!array_key_exists('phone_of_countries', $value)) {
 				$value['phone_of_countries'] = 'local';
-			}
-			if (!array_key_exists('phone_validator', $value)) {
-				$value['phone_validator'] = $phoneValidator;
 			}
 			
 			if (!array_key_exists('enable_phone_as_auth_field', $value)) {
@@ -144,72 +108,29 @@ class SmsSetting
 				'name'              => 'enable_phone_as_auth_field',
 				'label'             => trans('admin.enable_phone_as_auth_field_label'),
 				'type'              => 'checkbox_switch',
-				'hint'              => trans('admin.card_light_inverse', [
-					'content' => trans('admin.enable_phone_as_auth_field_hint', [
-						'phone_verification_label' => trans('admin.phone_verification_label'),
-					]),
+				'attributes'        => [
+					'id' => 'phoneAsAuthField',
+				],
+				'hint'              => trans('admin.enable_phone_as_auth_field_hint', [
+					'phone_verification_label' => trans('admin.phone_verification_label'),
 				]),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6 mt-3',
 				],
 			],
 			[
-				'name'              => 'default_auth_field',
-				'label'             => trans('admin.default_auth_field_label'),
-				'type'              => 'select2_from_array',
-				'options'           => [
-					'email' => t('email_address'),
-					'phone' => t('phone_number'),
-				],
-				'default'           => 'email',
-				'hint'              => trans('admin.card_light_inverse', [
-					'content' => trans('admin.default_auth_field_hint', [
-						'enable_phone_as_auth_field_label' => trans('admin.enable_phone_as_auth_field_label'),
-						'email'                            => t('email_address'),
-						'phone'                            => t('phone_number'),
-					]),
-				]),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6 auth-field-el',
-				],
-				'newline'           => true,
-			],
-		];
-		
-		$phoneOfCountriesOptions = [
-			'local'     => trans('admin.phone_of_countries_op_1'),
-			'activated' => trans('admin.phone_of_countries_op_2'),
-			'all'       => trans('admin.phone_of_countries_op_3'),
-		];
-		$phoneValidatorOptions = [
-			'none'                   => trans('admin.phone_validator_op_0'),
-			'isValidMobileNumber'    => trans('admin.phone_validator_op_1'),
-			'isPossibleMobileNumber' => trans('admin.phone_validator_op_2'),
-			'isValidPhoneNumber'     => trans('admin.phone_validator_op_3'),
-			'isPossiblePhoneNumber'  => trans('admin.phone_validator_op_4'),
-		];
-		$fields = array_merge($fields, [
-			[
 				'name'              => 'phone_of_countries',
 				'label'             => trans('admin.phone_of_countries_label'),
 				'type'              => 'select2_from_array',
-				'options'           => $phoneOfCountriesOptions,
-				'hint'              => trans('admin.card_light_inverse', [
-					'content' => trans('admin.phone_of_countries_hint', $phoneOfCountriesOptions),
-				]),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6',
+				'options'           => [
+					'local'     => trans('admin.phone_of_countries_op_1'),
+					'activated' => trans('admin.phone_of_countries_op_2'),
+					'all'       => trans('admin.phone_of_countries_op_3'),
 				],
-			],
-			[
-				'name'              => 'phone_validator',
-				'label'             => trans('admin.phone_validator_label'),
-				'type'              => 'select2_from_array',
-				'options'           => $phoneValidatorOptions,
-				'hint'              => trans('admin.card_light_inverse', [
-					'content' => trans('admin.phone_validator_hint', array_merge($phoneValidatorOptions, [
-						'enable_phone_as_auth_field_label' => trans('admin.enable_phone_as_auth_field_label'),
-					])),
+				'hint'              => trans('admin.phone_of_countries_hint', [
+					'local'     => trans('admin.phone_of_countries_op_1'),
+					'activated' => trans('admin.phone_of_countries_op_2'),
+					'all'       => trans('admin.phone_of_countries_op_3'),
 				]),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
@@ -217,28 +138,19 @@ class SmsSetting
 			],
 			
 			[
-				'name'              => 'default_auth_field_sep',
-				'type'              => 'custom_html',
-				'value'             => '<hr style="border: 1px dashed #EFEFEF;" class="my-3">',
-				'wrapperAttributes' => [
-					'class' => 'col-12',
-				],
-			],
-		]);
-		
-		// driver
-		$fields = array_merge($fields, [
-			[
 				'name'              => 'driver',
 				'label'             => trans('admin.SMS Driver'),
 				'type'              => 'select2_from_array',
 				'options'           => $smsDrivers,
+				'attributes'        => [
+					'id' => 'driver',
+				],
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
 				'newline'           => true,
 			],
-		]);
+		];
 		
 		// vonage
 		if (array_key_exists('vonage', $smsDrivers)) {
@@ -263,7 +175,6 @@ class SmsSetting
 					'name'              => 'vonage_key',
 					'label'             => trans('admin.Vonage Key'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 vonage',
 					],
@@ -272,7 +183,6 @@ class SmsSetting
 					'name'              => 'vonage_secret',
 					'label'             => trans('admin.Vonage Secret'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 vonage',
 					],
@@ -281,7 +191,6 @@ class SmsSetting
 					'name'              => 'vonage_application_id',
 					'label'             => trans('admin.vonage_application_id'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 vonage',
 					],
@@ -290,7 +199,6 @@ class SmsSetting
 					'name'              => 'vonage_from',
 					'label'             => trans('admin.Vonage From'),
 					'type'              => 'text',
-					'required'          => true,
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 vonage',
 					],
@@ -321,7 +229,6 @@ class SmsSetting
 					'name'              => 'twilio_username',
 					'label'             => trans('admin.twilio_username_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.twilio_username_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 twilio',
@@ -331,7 +238,6 @@ class SmsSetting
 					'name'              => 'twilio_password',
 					'label'             => trans('admin.twilio_password_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.twilio_password_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 twilio',
@@ -341,7 +247,6 @@ class SmsSetting
 					'name'              => 'twilio_account_sid',
 					'label'             => trans('admin.twilio_account_sid_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.twilio_account_sid_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 twilio',
@@ -351,7 +256,6 @@ class SmsSetting
 					'name'              => 'twilio_auth_token',
 					'label'             => trans('admin.twilio_auth_token_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.twilio_auth_token_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 twilio',
@@ -361,7 +265,6 @@ class SmsSetting
 					'name'              => 'twilio_from',
 					'label'             => trans('admin.twilio_from_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.twilio_from_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 twilio',
@@ -380,7 +283,6 @@ class SmsSetting
 					'name'              => 'twilio_sms_service_sid',
 					'label'             => trans('admin.twilio_sms_service_sid_label'),
 					'type'              => 'text',
-					'required'          => true,
 					'hint'              => trans('admin.twilio_sms_service_sid_hint'),
 					'wrapperAttributes' => [
 						'class' => 'col-md-6 twilio',
@@ -415,6 +317,9 @@ class SmsSetting
 				'name'              => 'driver_test',
 				'label'             => trans('admin.driver_test_label'),
 				'type'              => 'checkbox_switch',
+				'attributes'        => [
+					'id' => 'driverTest',
+				],
 				'hint'              => trans('admin.sms_driver_test_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6 mt-2',
@@ -425,11 +330,83 @@ class SmsSetting
 				'label'             => trans('admin.sms_to_label'),
 				'type'              => 'tel',
 				'default'           => config('settings.app.phone_number'),
-				'required'          => true,
+				'attributes'        => [
+					'id' => 'smsTo',
+				],
 				'hint'              => trans('admin.sms_to_hint', ['option' => trans('admin.driver_test_label')]),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6 driver-test',
 				],
+			],
+		]);
+		
+		$fields = array_merge($fields, [
+			[
+				'name'  => 'javascript',
+				'type'  => 'custom_html',
+				'value' => '<script>
+let smsDriversSelectors = ' . $smsDriversSelectorsJson . ';
+let smsDriversSelectorsList = Object.values(smsDriversSelectors);
+
+onDocumentReady(function(event) {
+	/* Driver Selection (select2) */
+	let driverElSelector = "#driver";
+	let driverEl = document.querySelector(driverElSelector);
+	getDriverFields(driverEl);
+	/* Vanilla JS is not used since the select2 plugin is built with jQuery */
+	$(driverElSelector).on("change", function (event) {
+		getDriverFields(this);
+	});
+	
+	/* Driver Test Checking (checkbox) */
+	let driverTestEl = document.querySelector("#driverTest");
+	applyDriverTestChanges(driverTestEl, event.type);
+	driverTestEl.addEventListener("change", (event) => {
+		applyDriverTestChanges(event.target, event.type);
+	});
+	
+	/* SMS To (input[type=tel]) */
+	let smsToEl = document.querySelector("#smsTo");
+	smsToEl.addEventListener("blur", (event) => {
+		applyDriverTestChanges(driverTestEl, event.type);
+	});
+}, true);
+
+function getDriverFields(driverEl) {
+	setElementsVisibility("hide", smsDriversSelectorsList);
+	setElementsVisibility("show", smsDriversSelectors[driverEl.value] ?? "");
+}
+
+function applyDriverTestChanges(driverTestEl, eventType) {
+	let driverTestElSelector = ".driver-test";
+	let smsToEl = document.querySelector("#smsTo");
+	
+	if (driverTestEl.checked) {
+		setElementsVisibility("show", driverTestElSelector);
+		
+		if (eventType !== "DOMContentLoaded") {
+			const smsToValue = smsToEl.value;
+			if (smsToValue != "") {
+				const fnAlertMessage = () => {
+					return `' . trans('admin.sms_to_activated') . '`
+				};
+				pnAlert(fnAlertMessage(), "info");
+			} else {
+				let alertMessage = "' . trans('admin.sms_to_admin_activated') . '";
+				pnAlert(alertMessage, "info");
+			}
+		}
+	}
+	if (!driverTestEl.checked) {
+		setElementsVisibility("hide", driverTestElSelector);
+		
+		if (eventType !== "DOMContentLoaded") {
+			let alertMessage = "' . trans('admin.sms_to_disabled') . '";
+			pnAlert(alertMessage, "info");
+		}
+	}
+}
+</script>',
 			],
 		]);
 		
@@ -443,9 +420,8 @@ class SmsSetting
 				'name'  => 'phone_verification',
 				'label' => trans('admin.phone_verification_label'),
 				'type'  => 'checkbox_switch',
-				'hint'  => trans('admin.phone_verification_hint', [
-						'email_verification_label' => trans('admin.email_verification_label'),
-					]) . '<br>' . trans('admin.sms_sending_requirements'),
+				'hint'  => trans('admin.phone_verification_hint', ['email_verification_label' => trans('admin.email_verification_label')])
+					. '<br>' . trans('admin.sms_sending_requirements'),
 			],
 			[
 				'name'  => 'confirmation',
@@ -459,10 +435,67 @@ class SmsSetting
 				'type'  => 'checkbox_switch',
 				'hint'  => trans('admin.messenger_notifications_hint') . '<br>' . trans('admin.sms_sending_requirements'),
 			],
+			
+			[
+				'name'              => 'default_auth_field_sep',
+				'type'              => 'custom_html',
+				'value'             => '<hr style="border: 1px dashed #EFEFEF;" class="my-3">',
+				'wrapperAttributes' => [
+					'class' => 'col-12 auth-field-el',
+				],
+			],
+			[
+				'name'              => 'default_auth_field',
+				'label'             => trans('admin.default_auth_field_label'),
+				'type'              => 'select_from_array',
+				'options'           => [
+					'email' => t('email_address'),
+					'phone' => t('phone_number'),
+				],
+				'default'           => 'email',
+				'attributes'        => [
+					'id' => 'defaultAuthField',
+				],
+				'hint'              => trans('admin.default_auth_field_hint', [
+					'enable_phone_as_auth_field_label' => trans('admin.enable_phone_as_auth_field_label'),
+					'email'                            => t('email_address'),
+					'phone'                            => t('phone_number'),
+				]),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6 auth-field-el',
+				],
+			],
 		]);
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields, [
-			'smsDriversSelectorsJson' => $smsDriversSelectorsJson,
+		$fields = array_merge($fields, [
+			[
+				'name'  => 'javascript_auth_field',
+				'type'  => 'custom_html',
+				'value' => '<script>
+onDocumentReady((event) => {
+	let phoneAsAuthFieldEl = document.querySelector("#phoneAsAuthField");
+	enablePhoneNumberAsAuthField(phoneAsAuthFieldEl);
+	phoneAsAuthFieldEl.addEventListener("change", (event) => {
+		enablePhoneNumberAsAuthField(event.target);
+	});
+});
+
+function enablePhoneNumberAsAuthField(phoneAsAuthFieldEl) {
+	if (phoneAsAuthFieldEl.checked) {
+		setElementsVisibility("show", ".auth-field-el");
+	} else {
+		setDefaultAuthField();
+		setElementsVisibility("hide", ".auth-field-el");
+	}
+}
+function setDefaultAuthField(defaultValue = "email") {
+	let defaultAuthFieldEl = document.querySelector("#defaultAuthField");
+	defaultAuthFieldEl.value = defaultValue;
+}
+</script>',
+			],
 		]);
+		
+		return $fields;
 	}
 }

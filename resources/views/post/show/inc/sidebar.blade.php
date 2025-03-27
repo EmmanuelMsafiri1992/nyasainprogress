@@ -1,8 +1,4 @@
 @php
-	$authUser = auth()->check() ? auth()->user() : null;
-	$authUserId = !empty($authUser) ? $authUser->getAuthIdentifier() : 0;
-	$authUserTypeId = (!empty($authUser) && !empty($authUser->user_type_id)) ? $authUser->user_type_id : 0;
-	
 	$post ??= [];
 	$user ??= [];
 	$countPackages ??= 0;
@@ -59,8 +55,8 @@
 					@endif
 				</div>
 				<div class="user-posts-action">
-					@if (!empty($authUser))
-						@if ($authUserId == data_get($post, 'user_id'))
+					@if (auth()->check())
+						@if (auth()->user()->id == data_get($post, 'user_id'))
 							<a href="{{ \App\Helpers\UrlGen::editPost($post) }}" class="btn btn-default btn-block">
 								<i class="fa-regular fa-pen-to-square"></i> {{ t('Update the details') }}
 							</a>
@@ -86,14 +82,14 @@
 								</a>
 							@endif
 						@else
-							@if ($authUserTypeId == 2)
+							@if (in_array(auth()->user()->user_type_id, [2]))
 								{!! genEmailContactBtn($post, true) !!}
 							@endif
 							{!! genPhoneNumberBtn($post, true) !!}
 						@endif
 						@php
 							try {
-								if (doesUserHavePermission($authUser, \App\Models\Permission::getStaffPermissions())) {
+								if (auth()->user()->can(\App\Models\Permission::getStaffPermissions())) {
 									$btnUrl = admin_url('blacklists/add') . '?';
 									$btnQs = (!empty(data_get($post, 'email'))) ? 'email=' . data_get($post, 'email') : '';
 									$btnQs = (!empty($btnQs)) ? $btnQs . '&' : $btnQs;

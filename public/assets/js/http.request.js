@@ -1,17 +1,4 @@
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 /**
  * Make an HTTP request
@@ -62,12 +49,7 @@ async function httpRequest(method, url = "", data = {}, headers = {}) {
 		credentials: 'same-origin', // include, *same-origin, omit
 		headers: headers,
 		redirect: 'follow', // manual, *follow, error
-		/*
-		 * Possible values:
-		 * no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin,
-		 * same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-		 */
-		referrerPolicy: 'no-referrer',
+		referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 		body: !isEmpty(data) ? JSON.stringify(data) : {}, // body data type must match "Content-Type" header
 	};
 	
@@ -82,23 +64,21 @@ async function httpRequest(method, url = "", data = {}, headers = {}) {
 		const json = await response.json();
 		
 		if (!response.ok) {
-			const defaultMessage = "Network response was not OK";
-			const message = json.message ?? response.statusText ?? defaultMessage;
-			const errorData = {
-				success: response.ok,
-				message: message,
-				status: response.status ?? 500,
-			};
-			if (json.error) {
-				errorData['error'] = json.error;
-			}
-			const error = new Error(message);
-			error.response = errorData;
-			throw error;
+			let defaultMessage = "Network response was not OK";
+			let message = getErrorMessageFromJson(json, defaultMessage);
+			throwError(new Error(message));
 		}
 		
 		return json;
 	} catch (error) {
-		throw error; // re-throw the error unchanged
+		throwError(error); // re-throw the error unchanged
 	}
+}
+
+/**
+ * Stop the code execution with "new Error(errorMessage)" by throwing the error message
+ * @param error
+ */
+function throwError(error) {
+	throw error;
 }

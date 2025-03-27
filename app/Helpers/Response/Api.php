@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Helpers\Response;
 
@@ -20,7 +7,6 @@ use App\Http\Resources\EmptyResource;
 use App\Http\Resources\EmptyCollection;
 use Error;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -30,32 +16,26 @@ class Api
 {
 	/**
 	 * Return generic json response with the given data.
-	 * https://laracasts.com/discuss/channels/laravel/pagination-data-missing-from-api-resource
 	 *
 	 * @param array $data
-	 * @param int $status
+	 * @param int $statusCode
 	 * @param array $headers
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function json(array $data = [], int $status = 200, array $headers = []): JsonResponse
+	public function json(array $data = [], int $statusCode = 200, array $headers = []): \Illuminate\Http\JsonResponse
 	{
-		// Parse the given data
-		$result = $this->parseGivenData($data, $status, $headers);
+		// https://laracasts.com/discuss/channels/laravel/pagination-data-missing-from-api-resource
 		
-		// Get formatted data for Laravel JSON response arguments
-		$data = $result['formattedData'];
-		$status = $result['status'];
-		$headers = $result['headers'];
+		$result = $this->parseGivenData($data, $statusCode, $headers);
+		$result['headers'] = addContentTypeHeader('application/json', $result['headers']);
 		
 		try {
-			
-			$headers = addContentTypeHeader('application/json', $headers);
-			$statusText = getHttpStatusMessage($status);
-			
-			return response()
-				->json($data, $status, $headers, JSON_UNESCAPED_UNICODE)
-				->setStatusCode($status, $statusText);
-			
+			return response()->json(
+				$result['content'],
+				$result['statusCode'],
+				$result['headers'],
+				JSON_UNESCAPED_UNICODE
+			);
 		} catch (\Throwable $e) {
 			return $this->internalError($e->getMessage());
 		}
@@ -63,39 +43,38 @@ class Api
 	
 	/**
 	 * @param array $data
-	 * @param int $status
+	 * @param int $statusCode
 	 * @param array $headers
 	 * @return array
 	 */
-	private function parseGivenData(array $data = [], int $status = 200, array $headers = []): array
+	private function parseGivenData(array $data = [], int $statusCode = 200, array $headers = []): array
 	{
-		$formattedData = [
+		$responseStructure = [
 			'success' => $data['success'],
 			'message' => $data['message'] ?? null,
 			'result'  => $data['result'] ?? null,
 		];
 		
 		if (isset($data['extra'])) {
-			$formattedData['extra'] = $data['extra'];
+			$responseStructure['extra'] = $data['extra'];
 		}
 		
 		if (isset($data['errors'])) {
-			$formattedData['errors'] = $data['errors'];
+			$responseStructure['errors'] = $data['errors'];
 		}
 		
-		// Get status code
-		$requestedStatus = $data['status'] ?? $status;
-		$status = isValidHttpStatus($requestedStatus) ? $requestedStatus : $status;
-		$status = isValidHttpStatus($status) ? $status : 200;
+		if (isset($data['status'])) {
+			$statusCode = $data['status'];
+		}
 		
 		// NOTE: 'bootstrap-fileinput' need 'error' (text) element & the optional 'errorkeys' (array) element
 		if (isset($data['error'])) {
-			$formattedData['error'] = $data['error'];
+			$responseStructure['error'] = $data['error'];
 		}
 		
 		if (isset($data['exception']) && ($data['exception'] instanceof Error || $data['exception'] instanceof Exception)) {
 			if (config('app.env') !== 'production') {
-				$formattedData['exception'] = [
+				$responseStructure['exception'] = [
 					'message' => $data['exception']->getMessage(),
 					'file'    => $data['exception']->getFile(),
 					'line'    => $data['exception']->getLine(),
@@ -104,27 +83,35 @@ class Api
 				];
 			}
 			
-			if ($status === 200) {
-				$status = 500;
+			if ($statusCode === 200) {
+				$statusCode = 500;
 			}
 		}
 		
-		return ['formattedData' => $formattedData, 'status' => $status, 'headers' => $headers];
+		if ($data['success'] === false) {
+			if (isset($data['error_code'])) {
+				$responseStructure['error_code'] = $data['error_code'];
+			} else {
+				$responseStructure['error_code'] = 1;
+			}
+		}
+		
+		return ['content' => $responseStructure, 'statusCode' => $statusCode, 'headers' => $headers];
 	}
 	
 	/**
 	 * @param \Illuminate\Http\Resources\Json\JsonResource $resource
 	 * @param string|null $message
-	 * @param int $status
+	 * @param int $statusCode
 	 * @param array $headers
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function withResource(
 		JsonResource $resource,
 		?string      $message = null,
-		int          $status = 200,
+		int          $statusCode = 200,
 		array        $headers = []
-	): JsonResponse
+	): \Illuminate\Http\JsonResponse
 	{
 		// https://laracasts.com/discuss/channels/laravel/pagination-data-missing-from-api-resource
 		
@@ -132,22 +119,22 @@ class Api
 			'success' => true,
 			'result'  => $resource,
 			'message' => $message,
-		], $status, $headers);
+		], $statusCode, $headers);
 	}
 	
 	/**
 	 * @param \Illuminate\Http\Resources\Json\ResourceCollection $resourceCollection
 	 * @param string|null $message
-	 * @param int $status
+	 * @param int $statusCode
 	 * @param array $headers
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function withCollection(
 		ResourceCollection $resourceCollection,
 		?string            $message = null,
-		int                $status = 200,
+		int                $statusCode = 200,
 		array              $headers = []
-	): JsonResponse
+	): \Illuminate\Http\JsonResponse
 	{
 		// https://laracasts.com/discuss/channels/laravel/pagination-data-missing-from-api-resource
 		
@@ -155,7 +142,7 @@ class Api
 			'success' => true,
 			'result'  => $resourceCollection->response()->getData(),
 			'message' => $message,
-		], $status, $headers);
+		], $statusCode, $headers);
 	}
 	
 	/**
@@ -164,7 +151,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function success(?string $message = ''): JsonResponse
+	public function success(?string $message = ''): \Illuminate\Http\JsonResponse
 	{
 		return $this->json(['success' => true, 'message' => $message]);
 	}
@@ -173,17 +160,24 @@ class Api
 	 * Respond with error.
 	 *
 	 * @param $message
-	 * @param int $status
+	 * @param int $statusCode
 	 * @param \Exception|null $exception
+	 * @param int $error_code
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function error($message, int $status = 400, Exception $exception = null): JsonResponse
+	public function error(
+		$message,
+		int $statusCode = 400,
+		Exception $exception = null,
+		int $error_code = 1
+	): \Illuminate\Http\JsonResponse
 	{
 		return $this->json([
-			'success'   => false,
-			'message'   => $message ?? 'There was an internal error, Pls try again later',
-			'exception' => $exception,
-		], $status);
+			'success'    => false,
+			'message'    => $message ?? 'There was an internal error, Pls try again later',
+			'exception'  => $exception,
+			'error_code' => $error_code,
+		], $statusCode);
 	}
 	
 	/**
@@ -192,7 +186,7 @@ class Api
 	 * @param $data
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function created($data): JsonResponse
+	public function created($data): \Illuminate\Http\JsonResponse
 	{
 		return $this->json($data, Response::HTTP_CREATED);
 	}
@@ -203,7 +197,7 @@ class Api
 	 * @param $data
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function updated($data): JsonResponse
+	public function updated($data): \Illuminate\Http\JsonResponse
 	{
 		return $this->json($data, 200);
 	}
@@ -214,7 +208,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function noContent(?string $message = 'No Content Found'): JsonResponse
+	public function noContent(?string $message = 'No Content Found'): \Illuminate\Http\JsonResponse
 	{
 		return $this->json(['success' => false, 'message' => $message], 200);
 	}
@@ -225,7 +219,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function noContentResource(?string $message = 'No Content Found'): JsonResponse
+	public function noContentResource(?string $message = 'No Content Found'): \Illuminate\Http\JsonResponse
 	{
 		return $this->withResource(new EmptyResource([]), $message);
 	}
@@ -236,7 +230,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function noContentCollection(?string $message = 'No Content Found'): JsonResponse
+	public function noContentCollection(?string $message = 'No Content Found'): \Illuminate\Http\JsonResponse
 	{
 		return $this->withCollection(new EmptyCollection([]), $message);
 	}
@@ -247,7 +241,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function unauthorized(?string $message = 'Unauthorized'): JsonResponse
+	public function unauthorized(?string $message = 'Unauthorized'): \Illuminate\Http\JsonResponse
 	{
 		return $this->error($message, Response::HTTP_UNAUTHORIZED);
 	}
@@ -258,7 +252,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function forbidden(?string $message = 'Forbidden'): JsonResponse
+	public function forbidden(?string $message = 'Forbidden'): \Illuminate\Http\JsonResponse
 	{
 		return $this->error($message, Response::HTTP_FORBIDDEN);
 	}
@@ -269,7 +263,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function notFound(?string $message = 'Not Found'): JsonResponse
+	public function notFound(?string $message = 'Not Found'): \Illuminate\Http\JsonResponse
 	{
 		return $this->error($message, 404);
 	}
@@ -280,7 +274,7 @@ class Api
 	 * @param string|null $message
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function internalError(?string $message = 'Internal Error'): JsonResponse
+	public function internalError(?string $message = 'Internal Error'): \Illuminate\Http\JsonResponse
 	{
 		return $this->error($message, 500);
 	}
@@ -289,7 +283,7 @@ class Api
 	 * @param \Illuminate\Validation\ValidationException $exception
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function validationErrors(ValidationException $exception): JsonResponse
+	public function validationErrors(ValidationException $exception): \Illuminate\Http\JsonResponse
 	{
 		return $this->json([
 			'success' => false,

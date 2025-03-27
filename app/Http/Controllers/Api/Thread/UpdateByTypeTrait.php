@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Api\Thread;
 
@@ -193,9 +180,9 @@ trait UpdateByTypeTrait
 	public function markAllAsRead($user): \Illuminate\Http\JsonResponse
 	{
 		// Get all Threads with New Messages
-		$threadsWithNewMessage = Thread::query()
-			->whereHas('post', fn ($query) => $query->inCountry())
-			->forUserWithNewMessages($user->id);
+		$threadsWithNewMessage = Thread::whereHas('post', function ($query) {
+			$query->inCountry();
+		})->forUserWithNewMessages($user->id);
 		
 		// Count all Threads
 		$countThreadsWithNewMessage = $threadsWithNewMessage->count();

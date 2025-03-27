@@ -32,7 +32,7 @@
 @push('crud_list_scripts')
 	{{-- include select2 js--}}
 	<script>
-		onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			$('#text-filter-{{ $filterSlug }}').on('change', function(e) {
 				
 				var parameter = '{{ $filter->name }}';

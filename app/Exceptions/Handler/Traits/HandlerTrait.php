@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Exceptions\Handler\Traits;
 
@@ -38,13 +25,12 @@ trait HandlerTrait
 		
 		// Get error message
 		$message = !empty($message) ? $message : $e->getMessage();
-		$message = !empty($message) ? $message : getHttpStatusMessage($status);
+		$message = !empty($message) ? $message : getHttpErrorMessage($status);
 		
 		if (isFromApi($request) || isFromAjax($request)) {
 			$data = [
 				'success'   => false,
 				'message'   => strip_tags($message),
-				'status'    => $status,
 				'exception' => $this,
 			];
 			
@@ -86,13 +72,12 @@ trait HandlerTrait
 			$message = !empty($e->getLine()) ? $message . ' Line: ' . $e->getLine() : $message;
 			$message = !empty($e->getFile()) ? $message . ' in file: ' . $e->getFile() : $message;
 		} else {
-			$message = getHttpStatusMessage($status);
+			$message = getHttpErrorMessage($status);
 		}
 		
 		$data = [
 			'success'   => false,
 			'message'   => $message,
-			'status'    => $status,
 			'exception' => $e,
 		];
 		

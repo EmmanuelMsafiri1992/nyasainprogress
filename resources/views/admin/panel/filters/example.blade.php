@@ -39,7 +39,7 @@ END OF FILTER JAVSCRIPT CHECKLIST --}}
 
 @push('crud_list_scripts')
     <script>
-	    onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			$("li[filter-name={{ $filter->name }}] a").click(function(e) {
 				e.preventDefault();
 

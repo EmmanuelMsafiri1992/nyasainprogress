@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Install\Traits\Install;
 
@@ -21,8 +8,9 @@ use App\Helpers\DBTool;
 use App\Http\Controllers\Web\Install\Traits\Install\Db\MigrationsTrait;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 trait DbTrait
 {
@@ -31,116 +19,91 @@ trait DbTrait
 	/**
 	 * STEP 4 - Database Import Submission
 	 *
-	 * @param array $siteInfo
-	 * @param array $databaseInfo
-	 * @return void
+	 * @param $siteInfo
+	 * @param $database
+	 * @return \Illuminate\Http\RedirectResponse|void
 	 * @throws \App\Exceptions\Custom\CustomException
 	 */
-	private function submitDatabaseImport(array $siteInfo = [], array $databaseInfo = []): void
+	private function submitDatabaseImport($siteInfo, $database)
 	{
-		// Get site & database info
-		$siteInfo = !empty($siteInfo) ? $siteInfo : (array)session('siteInfo');
-		$databaseInfo = !empty($databaseInfo) ? $databaseInfo : (array)session('databaseInfo');
-		
 		// Get PDO connexion
-		$pdo = $this->getPdoConnectionWithEnvCheck($databaseInfo);
+		$pdo = DBTool::getPDOConnexion($database);
 		
-		// Get database info as variables
-		$databaseName = $databaseInfo['database'];
-		$overwriteTables = $databaseInfo['overwrite_tables'] ?? '0';
-		$tablesPrefix = $databaseInfo['prefix'] ?? '';
+		// Get database tables prefix
+		$tablesPrefix = trim($database['prefix'] ?? '');
 		$tablesPrefix = !empty($tablesPrefix) ? $tablesPrefix : null;
 		
-		// Is table overwriting enabled?
-		$isTablesOverwritingEnabled = ($overwriteTables == '1');
-		
-		/*
-		 * Get the database tables (related to the given prefix),
-		 * to check if the database is empty or not.
-		 *
-		 * NOTE:
-		 * - When $tablesPrefix is empty, all the database tables are taken in $tables,
-		 *   (even these tables are previously prefixed or not).
-		 * - When $tablesPrefix is filled, only tables with that prefix are taken.
-		 */
-		$tables = DBTool::getRawDatabaseTables($pdo, $databaseName, $tablesPrefix);
+		// Check if the database is not empty
+		$rules = [];
+		$tables = DBTool::getRawDatabaseTables($pdo, $database['database'], $tablesPrefix);
 		if (!empty($tables)) {
-			// The database has tables
-			if ($isTablesOverwritingEnabled) {
-				// Table overwriting enabled
-				// Drop all old tables
+			if (!empty($tablesPrefix)) {
+				// 1. Drop all old tables
 				$this->dropExistingTables($pdo, $tables);
 				
-				// Check if all tables are dropped (Check if database's tables still exist)
+				// 2. Check if all tables are dropped (Check if database's tables still exist)
 				$tablesExist = false;
-				$tables = DBTool::getRawDatabaseTables($pdo, $databaseName, $tablesPrefix);
+				$tables = DBTool::getRawDatabaseTables($pdo, $database['database'], $tablesPrefix);
 				if (!empty($tables)) {
 					$tablesExist = true;
 				}
 				
-				// Some tables still exist. Invalidate the request
 				if ($tablesExist) {
-					// Deleting all the database tables required
-					$message = trans('messages.database_tables_dropping_failed');
-					throw new CustomException($message);
+					$rules['can_not_empty_database'] = 'required';
 				}
 			} else {
-				// Table overwriting is disabled
-				if (!empty($tablesPrefix)) {
-					// Table prefix filled. Invalidate the request (With th right error message)
-					// No existing tables must have the same prefix as the one filled
-					$message = trans('messages.database_tables_with_same_prefix_exist', [
-						'database'        => $databaseName,
-						'prefix'          => $tablesPrefix,
-						'databaseInfoUrl' => $this->stepUrl['databaseInfo'],
-					]);
-				} else {
-					// Table prefix is empty. Invalidate the request (With th right error message)
-					// Having an empty database is required
-					$message = trans('messages.database_not_empty_and_prefix_not_filled', [
-						'database'        => $databaseName,
-						'databaseInfoUrl' => $this->stepUrl['databaseInfo'],
-					]);
+				// 1. Invalidate the request
+				$rules['database_not_empty'] = 'required';
+			}
+			
+			// 3. (or 2.) Validation
+			if (!empty($rules)) {
+				$validator = Validator::make(request()->all(), $rules);
+				if ($validator->fails()) {
+					return redirect()->back()->withErrors($validator)->send();
 				}
-				throw new CustomException($message);
 			}
 		}
 		
-		// Create the database structure
-		// Import database schema (Migration)
+		// 4. 1. Import database schema (Migration)
 		$this->runMigrations();
 		
-		// Check if database tables are created
+		// 4. 2. Check if database tables are created
 		if (!$this->isAllModelsTablesExist($pdo, $tablesPrefix)) {
-			// Creating all the database tables is required
-			$message = trans('messages.database_tables_creation_failed');
-			throw new CustomException($message);
+			$rules['can_not_create_database_tables'] = 'required';
+			
+			$validator = Validator::make(request()->all(), $rules);
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->send();
+			}
 		}
 		
-		// Insert the required initial data
-		// Import required data (Seeding)
+		// 5. 1. Import required data (Seeding)
 		$this->runSeeders();
 		
-		// Insert site info & related data
-		$this->runSiteInfoSeeder($siteInfo);
+		// 5. 2. Import Geonames Default country database
+		$this->importGeonamesSql($pdo, $tablesPrefix, $siteInfo['default_country']);
 		
-		// Check if all required data are imported
-		$countryCode = data_get($siteInfo, 'settings.localization.default_country_code');
-		$countryCode = getAsStringOrNull($countryCode);
+		// 5. 3. Check if all required data are imported
 		$countCountries = $countCities = 0;
 		try {
 			$countCountries = DB::table((new Country())->getTable())->count(); // Latest seeder run
-			$countCities = DB::table((new City())->getTable())->where('country_code', $countryCode)->count();
-		} catch (\Throwable $e) {
-		}
+			$countCities = DB::table((new City())->getTable())->where('country_code', $siteInfo['default_country'])->count();
+		} catch (\Throwable $e) {}
 		if ($countCountries <= 0 || $countCities <= 0) {
-			// Importing the database data is required
-			$message = trans('messages.database_data_import_failed');
-			throw new CustomException($message);
+			$rules['can_not_import_database_data'] = 'required';
+			
+			$validator = Validator::make(request()->all(), $rules);
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->send();
+			}
 		}
 		
+		// 6. Insert & Update the Site Information
+		$this->runSiteInfoSeeder($siteInfo);
+		
 		// Close PDO connexion
-		DBTool::closePdoConnection($pdo);
+		DBTool::closePDOConnexion($pdo);
 	}
 	
 	/**
@@ -153,7 +116,9 @@ trait DbTrait
 	 */
 	private function dropExistingTables(\PDO $pdo, ?array $tables): void
 	{
-		if (empty($tables)) return;
+		if (empty($tables)) {
+			return;
+		}
 		
 		// Try 4 times
 		$try = 5;
@@ -217,6 +182,25 @@ trait DbTrait
 	}
 	
 	/**
+	 * Import the Default Country Data from the Geonames SQL Files
+	 *
+	 * @param \PDO $pdo
+	 * @param $tablesPrefix
+	 * @param $defaultCountryCode
+	 * @return void
+	 * @throws \App\Exceptions\Custom\CustomException
+	 */
+	private function importGeonamesSql(\PDO $pdo, $tablesPrefix, $defaultCountryCode): void
+	{
+		// Default Country SQL file
+		$filename = 'database/geonames/countries/' . strtolower($defaultCountryCode) . '.sql';
+		$filePath = storage_path($filename);
+		
+		// Import the SQL file
+		DBTool::importSqlFile($pdo, $filePath, $tablesPrefix);
+	}
+	
+	/**
 	 * Check if all models' tables exist
 	 *
 	 * @param $pdo
@@ -251,29 +235,13 @@ trait DbTrait
 	}
 	
 	/**
-	 * Get PDO connexion
-	 * By ensuring that the .env file exists first
-	 *
-	 * @param array $databaseInfo
-	 * @return \PDO
-	 * @throws \App\Exceptions\Custom\CustomException
+	 * Setup ACL system
 	 */
-	private function getPdoConnectionWithEnvCheck(array $databaseInfo = []): \PDO
+	private function setupAclSystem(): void
 	{
-		// The .env file is supposed to have been created at this stage
-		// So check if it exists
-		if (!File::exists(base_path('.env'))) {
-			session()->forget('databaseImported');
-			session()->forget('cronJobsInfoSeen');
-			
-			$message = trans('messages.database_env_file_required');
-			throw new CustomException($message);
+		// Check & Fix the default Permissions
+		if (!Permission::checkDefaultPermissions()) {
+			Permission::resetDefaultPermissions();
 		}
-		
-		// Get the database info
-		$databaseInfo = !empty($databaseInfo) ? $databaseInfo : (array)session('databaseInfo');
-		
-		// Get PDO connexion
-		return DBTool::getPdoConnection($databaseInfo);
 	}
 }

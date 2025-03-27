@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Requests\Traits;
 
@@ -36,7 +23,7 @@ trait ErrorOutputFormat
 		
 		// Get errors (as string)
 		if (is_array($errors) && count($errors) > 0) {
-			$errorsTxt = '<h5><strong>' . t('validation_errors_title') . '</strong></h5>';
+			$errorsTxt = '<h5><strong>' . t('oops_an_error_has_occurred') . '</strong></h5>';
 			$errorsTxt .= '<ul class="list list-check">';
 			foreach ($errors as $value) {
 				if (is_array($value)) {

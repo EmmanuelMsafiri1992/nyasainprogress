@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -260,21 +247,9 @@ class ListingsListSetting
 				'value' => trans('admin.dates_title'),
 			],
 			[
-				'name'              => 'hide_date',
-				'label'             => trans('admin.hide_date_label'),
-				'type'              => 'checkbox_switch',
-				'hint'              => trans('admin.listing_hide_date_hint'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-6',
-				],
-			],
-			[
 				'name'  => 'php_specific_date_format',
 				'type'  => 'custom_html',
 				'value' => trans('admin.php_specific_date_format_info'),
-				'wrapperAttributes' => [
-					'class' => 'col-md-12 date-field',
-				],
 			],
 			[
 				'name'              => 'date_from_now',
@@ -286,7 +261,7 @@ class ListingsListSetting
 					'languagesUrl' => admin_url('languages'),
 				]),
 				'wrapperAttributes' => [
-					'class' => 'col-md-12 date-field',
+					'class' => 'col-md-12',
 				],
 			],
 			
@@ -305,6 +280,15 @@ class ListingsListSetting
 				'label'             => trans('admin.hide_post_type_label'),
 				'type'              => 'checkbox_switch',
 				'hint'              => trans('admin.hide_post_type_hint'),
+				'wrapperAttributes' => [
+					'class' => 'col-md-6',
+				],
+			],
+			[
+				'name'              => 'hide_date',
+				'label'             => trans('admin.hide_date_label'),
+				'type'              => 'checkbox_switch',
+				'hint'              => trans('admin.listing_hide_date_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
 				],
@@ -355,6 +339,10 @@ class ListingsListSetting
 				'name'              => 'cities_extended_searches',
 				'label'             => trans('admin.cities_extended_searches_label'),
 				'type'              => 'checkbox_switch',
+				'attributes'        => [
+					'id'      => 'extendedSearches',
+					'onclick' => 'getExtendedSearchesFields(this)',
+				],
 				'hint'              => trans('admin.cities_extended_searches_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-12',
@@ -367,7 +355,7 @@ class ListingsListSetting
 				'options'           => self::distanceCalculationFormula(),
 				'hint'              => trans('admin.distance_calculation_formula_hint'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 extended-searches',
+					'class' => 'col-md-6 extended',
 				],
 			],
 			[
@@ -385,7 +373,7 @@ class ListingsListSetting
 				],
 				'hint'              => trans('admin.Default search radius distance'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 extended-searches',
+					'class' => 'col-md-6 extended',
 				],
 			],
 			[
@@ -393,7 +381,7 @@ class ListingsListSetting
 				'type'              => 'custom_html',
 				'value'             => '<div style="clear: both;"></div>',
 				'wrapperAttributes' => [
-					'class' => 'col-md-12 extended-searches',
+					'class' => 'col-md-12 extended',
 				],
 			],
 			[
@@ -416,7 +404,7 @@ class ListingsListSetting
 				],
 				'hint'              => trans('admin.Max search radius distance'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 extended-searches',
+					'class' => 'col-md-6 extended',
 				],
 			],
 			[
@@ -435,7 +423,7 @@ class ListingsListSetting
 				],
 				'hint'              => trans('admin.The interval between filter distances'),
 				'wrapperAttributes' => [
-					'class' => 'col-md-6 extended-searches',
+					'class' => 'col-md-6 extended',
 				],
 			],
 			
@@ -495,9 +483,25 @@ class ListingsListSetting
 					'class' => 'col-md-12',
 				],
 			],
+			
+			[
+				'name'  => 'javascript',
+				'type'  => 'custom_html',
+				'value' => '<script>
+onDocumentReady((event) => {
+	let extendedSearchesEl = document.querySelector("#extendedSearches");
+	getExtendedSearchesFields(extendedSearchesEl);
+});
+
+function getExtendedSearchesFields(extendedSearchesEl) {
+	let action = extendedSearchesEl.checked ? "show" : "hide";
+	setElementsVisibility(action, ".extended");
+}
+</script>',
+			],
 		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields);
+		return $fields;
 	}
 	
 	/**

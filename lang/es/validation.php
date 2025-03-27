@@ -92,6 +92,12 @@ return [
     'username_is_valid_rule' => 'The :attribute field must be an alphanumeric string.',
     'username_is_allowed_rule' => 'The :attribute is not allowed.',
     'custom' => [
+        'database_connection' => [
+            'required' => 'No se puede conectar al servidor MySQL',
+        ],
+        'database_not_empty' => [
+            'required' => 'La base de datos no está vacía. Vacíe la base de datos o especifique <a href="./database">otra base de datos</a>.',
+        ],
         'promo_code_not_valid' => [
             'required' => 'El código promocional no es válido',
         ],
@@ -116,23 +122,29 @@ return [
         'php_bin_path_invalid' => [
             'required' => 'Ejecutable PHP no válido. Por favor revise de nuevo.',
         ],
+        'can_not_empty_database' => [
+            'required' => 'No puede eliminar determinadas tablas. Por favor, limpie su base de datos y vuelva a intentarlo.',
+        ],
+        'can_not_create_database_tables' => [
+            'required' => 'Cannot create certain tables. Please make sure you have full privileges on the database and try again.',
+        ],
+        'can_not_import_database_data' => [
+            'required' => 'Cannot import all the app required data. Please try again.',
+        ],
         'recaptcha_invalid' => [
             'required' => 'Comprobación reCAPTCHA no válida.',
         ],
         'payment_method_not_valid' => [
             'required' => 'Algo salió mal con la configuración del método de pago. Por favor revise de nuevo.',
         ],
+        'attribute-name' => [
+            'rule-name' => 'custom-message',
+        ],
         'listings_limit' => [
             'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Listing Form → Listings Limit per User".',
         ],
         'expiration_time' => [
             'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Cron → Activated Listings Expiration".',
-        ],
-        'pictures_limit' => [
-            'gte' => 'The package\'s :attribute must be greater than or equal to :value which represents the website\'s global :attribute value set in the "Admin panel → Settings → General → Listing Form → Pictures Limit per Listing".',
-        ],
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
         ],
     ],
     'attributes' => [
@@ -235,8 +247,6 @@ return [
     'sluggable_rule' => 'The :attribute field contains invalid characters only.',
     'uniqueness_of_post_rule' => 'Ya ha publicado este anuncio. No se puede duplicar.',
     'uniqueness_of_unverified_post_rule' => 'Ya ha publicado este anuncio. Verifique su dirección de correo electrónico o SMS para seguir las instrucciones de validación.',
-    'purchase_code_rule' => 'The :attribute field is not valid.',
-    'no_spaces_rule' => 'The :attribute must not contain any spaces.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',
     'current_password' => 'La contraseña es incorrecta.',
     'declined' => 'The :attribute must be declined.',
@@ -307,6 +317,4 @@ return [
     'hex_color' => 'The :attribute field must be a valid hexadecimal color.',
     'list' => 'The :attribute field must be a list.',
     'required_if_declined' => 'The :attribute field is required when :other is declined.',
-    'alphabetic_plus_rule' => 'The :attribute field may only contain letters and the following additional characters: :additionalChars',
-    'alphabetic_only_rule' => 'The :attribute field may only contain letters.',
 ];

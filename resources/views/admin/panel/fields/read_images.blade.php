@@ -53,7 +53,7 @@
 @if ($xPanel->checkIfFieldIsFirstOfItsType($field, $fields))
     @push('crud_fields_scripts')
     <script>
-	    onDocumentReady((event) => {
+		$(document).ready(function() {
 			$("[data-button-type=delete]").click(function (e) {
 				e.preventDefault(); /* does not go through with the link. */
 				

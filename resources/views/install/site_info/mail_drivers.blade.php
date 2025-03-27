@@ -1,34 +1,35 @@
 @php
 	$siteInfo ??= [];
+	$rules ??= [];
 	$mailDrivers ??= [];
 	$mailDriversSelectorsJson ??= '[]';
+	$mailDriversRules ??= [];
 @endphp
 <hr class="border-0 bg-secondary">
 
 <h3 class="title-3">
-	<i class="bi bi-envelope"></i> {{ trans('messages.mail_sending_configuration') }}
+	<i class="fa-solid fa-envelope"></i> {{ trans('messages.system_email_configuration') }}
 </h3>
 
 <div class="row row-cols-2">
 	<div class="col">
 		@include('install.helpers.form_control', [
-			'label'    => trans('messages.mail_driver'),
-			'type'     => 'select',
-			'name'     => 'settings[mail][driver]',
-			'value'    => data_get($siteInfo, 'settings.mail.driver'),
-			'options'  => $mailDrivers,
-			'required' => false,
+			'type'    => 'select',
+			'name'    => 'driver',
+			'label'   => trans('messages.mail_driver'),
+			'value'   => $siteInfo['driver'] ?? '',
+			'options' => $mailDrivers,
+			'rules'   => $rules,
 		])
 	</div>
 	<div class="col">
 		@include('install.helpers.form_control', [
-			'label'    => trans('messages.mail_driver_test'),
-			'type'     => 'checkbox_switch',
-			'name'     => 'settings[mail][driver_test]',
-			'value'    => '1',
-			'checked'  => (data_get($siteInfo, 'settings.mail.driver_test') == '1'),
-			'hint'     => trans('admin.mail_driver_test_hint'),
-			'required' => false,
+			'type'    => 'checkbox',
+			'name'    => 'driver_test',
+			'label'   => trans('messages.driver_test_label'),
+			'value'   => $siteInfo['driver_test'] ?? '0',
+			'hint'    => trans('admin.mail_driver_test_hint'),
+			'rules'   => $rules,
 		])
 	</div>
 </div>
@@ -73,11 +74,6 @@
 		@include('install.site_info.mail_drivers.mailersend')
 	@endif
 @endif
-@if (array_key_exists('brevo', $mailDrivers))
-	@if (view()->exists('install.site_info.mail_drivers.brevo'))
-		@include('install.site_info.mail_drivers.brevo')
-	@endif
-@endif
 
 @section('after_scripts')
 	@parent
@@ -86,54 +82,40 @@
 		let mailDriversSelectorsList = Object.values(mailDriversSelectors);
 		
 		onDocumentReady((event) => {
-			let driverEl = document.querySelector('select[name="settings[mail][driver]"]');
-			let driverTestEl = document.querySelector('input[type=checkbox][name="settings[mail][driver_test]"]');
-			if (!driverEl || !driverTestEl) return;
+			const driverElSelector = 'select[name="driver"]';
+			const driverTestElSelector = 'input[name="driver_test"]';
 			
+			/* Driver Selection (select2) */
+			let driverEl = document.querySelector(driverElSelector);
+			let driverTestEl = document.querySelector(driverTestElSelector);
 			getDriverFields(driverEl, driverTestEl);
+			/* Vanilla JS is not used since the select2 plugin is built with jQuery */
+			$(driverElSelector).on("change", (event) => {
+				getDriverFields(event.target, driverTestEl);
+			});
 			
-			/* On driver element (select2) change|select */
-			$(driverEl).on('change', e => getDriverFields(e.target, driverTestEl));
-			
-			/* On driver test element (checkbox) check */
-			driverTestEl.addEventListener('change', e => getDriverFields(driverEl, e.target));
-			
-			let driverTestParentEl = driverTestEl.closest('div.form-check');
-			if (driverTestParentEl) {
-				driverTestParentEl.addEventListener('click', e => toggleDriverTestEl(e.target));
-			}
-		});
+			/* Driver Test Checking (checkbox) */
+			driverTestEl.addEventListener("change", (event) => {
+				getDriverFields(driverEl, event.target);
+			});
+		}, true);
 		
 		function getDriverFields(driverEl, driverTestEl) {
 			/* Hide all drivers fields */
-			setElementsVisibility('hide', mailDriversSelectorsList);
+			setElementsVisibility("hide", mailDriversSelectorsList);
 			
 			/* Show the selected driver fields */
 			let driverElValue = driverEl.value;
 			let selectedDriverFieldElSelector = mailDriversSelectors[driverElValue] ?? "";
 			
-			if (driverElValue === 'sendmail') {
+			if (driverElValue === "sendmail") {
 				/* Show the 'sendmail' driver fields only when the driver validation is enabled */
 				/* That allows to use default sendmail parameters if validation is not required */
 				if (isElDefined(driverTestEl) && driverTestEl.checked) {
-					setElementsVisibility('show', selectedDriverFieldElSelector);
+					setElementsVisibility("show", selectedDriverFieldElSelector);
 				}
 			} else {
-				setElementsVisibility('show', selectedDriverFieldElSelector);
-			}
-		}
-		
-		function toggleDriverTestEl(el) {
-			if (!el) return;
-			if (el.tagName.toLowerCase() === 'input') return;
-			if (el.tagName.toLowerCase() !== 'div' || !el.classList.contains('form-check')) {
-				el = el.closest('div.form-check');
-			}
-			
-			el = el.querySelector('input[type=checkbox]');
-			if (el.tagName.toLowerCase() === 'input') {
-				el.checked = !el.checked;
-				el.dispatchEvent(new Event('change'));
+				setElementsVisibility("show", selectedDriverFieldElSelector);
 			}
 		}
 	</script>

@@ -14,12 +14,7 @@ if (is_array($value)) {
 
 ?>
 <div data-video @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder" for="{{ $field['name'] }}_link">
-        {!! $field['label'] !!}
-        @if (isset($field['required']) && $field['required'])
-            <span class="text-danger">*</span>
-        @endif
-    </label>
+    <label class="form-label fw-bolder" for="{{ $field['name'] }}_link">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
     <input class="video-json" type="hidden" name="{{ $field['name'] }}" value="{{ $value }}">
     <div class="input-group">
@@ -90,10 +85,12 @@ if (is_array($value)) {
     @push('crud_fields_scripts')
         {{-- YOUR JS HERE --}}
         <script>
-            onDocumentReady((event) => {
-                var tryYouTube = function (link) {
+            jQuery(document).ready(function($) {
+
+                var tryYouTube = function( link ){
+
                     var id = null;
-                    
+
                     // RegExps for YouTube link forms
                 	var youtubeStandardExpr = /^https?:\/\/(www\.)?youtube.com\/watch\?v=([^?&]+)/i; // Group 2 is video ID
                 	var youtubeAlternateExpr = /^https?:\/\/(www\.)?youtube.com\/v\/([^\/\?]+)/i; // Group 2 is video ID

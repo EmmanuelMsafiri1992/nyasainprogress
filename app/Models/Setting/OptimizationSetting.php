@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Models\Setting;
 
@@ -148,6 +135,10 @@ class OptimizationSetting
 				'label'             => trans('admin.cache_driver_label'),
 				'type'              => 'select2_from_array',
 				'options'           => $cacheDrivers,
+				'attributes'        => [
+					'id'       => 'cacheDriver',
+					'onchange' => 'getDriverFields(this)',
+				],
 				'hint'              => trans('admin.cache_driver_hint'),
 				'wrapperAttributes' => [
 					'class' => 'col-md-6',
@@ -284,8 +275,26 @@ class OptimizationSetting
 					'class' => 'col-md-6',
 				],
 			],
+			
+			[
+				'name'  => 'javascript',
+				'type'  => 'custom_html',
+				'value' => '<script>
+onDocumentReady((event) => {
+	let driverEl = document.querySelector("#cacheDriver");
+	getDriverFields(driverEl);
+});
+
+function getDriverFields(driverEl) {
+	setElementsVisibility("hide", ".memcached");
+	if (driverEl.value === "memcached") {
+		setElementsVisibility("show", ".memcached");
+	}
+}
+</script>',
+			],
 		];
 		
-		return addOptionsGroupJavaScript(__NAMESPACE__, __CLASS__, $fields);
+		return $fields;
 	}
 }

@@ -1,8 +1,4 @@
 @php
-	$authUser = auth()->check() ? auth()->user() : null;
-	$authUserId = !empty($authUser) ? $authUser->getAuthIdentifier() : 0;
-	$authUserTypeId = (!empty($authUser) && !empty($authUser->user_type_id)) ? $authUser->user_type_id : 0;
-	
 	$post ??= [];
 @endphp
 <div class="items-details">
@@ -129,20 +125,22 @@
 						</li>
 					@endif
 					
-					@if (empty($authUserId) || ($authUserId != data_get($post, 'user_id')))
+					@if (
+						!auth()->check()
+						|| (auth()->check() && auth()->id() != data_get($post, 'user_id'))
+					)
 						@if (isVerifiedPost($post))
 							<li id="{{ data_get($post, 'id') }}">
 								<a class="make-favorite" href="javascript:void(0)">
-									@if (!empty($authUser))
-										@if ($authUserTypeId == 2)
-											@if (!empty(data_get($post, 'savedByLoggedUser')))
-												<i class="fa-solid fa-bookmark"></i> {{ t('Saved Job') }}
-											@else
-												<i class="fa-regular fa-bookmark"></i> {{ t('Save Job') }}
-											@endif
-										@endif
-									@else
+									@if (!auth()->check())
 										<i class="fa-regular fa-bookmark"></i> {{ t('Save Job') }}
+									@endif
+									@if (auth()->check() && in_array(auth()->user()->user_type_id, [2]))
+										@if (!empty(data_get($post, 'savedByLoggedUser')))
+											<i class="fa-solid fa-bookmark"></i> {{ t('Saved Job') }}
+										@else
+											<i class="fa-regular fa-bookmark"></i> {{ t('Save Job') }}
+										@endif
 									@endif
 								</a>
 							</li>
@@ -159,13 +157,13 @@
 	</div>
 	
 	<div class="content-footer text-start">
-		@if (!empty($authUser))
-			@if ($authUserId == data_get($post, 'user_id'))
+		@if (auth()->check())
+			@if (auth()->user()->id == data_get($post, 'user_id'))
 				<a class="btn btn-default" href="{{ \App\Helpers\UrlGen::editPost($post) }}">
 					<i class="fa-regular fa-pen-to-square"></i> {{ t('Edit') }}
 				</a>
 			@else
-				@if ($authUserTypeId == 2)
+				@if (in_array(auth()->user()->user_type_id, [2]))
 					{!! genEmailContactBtn($post) !!}
 				@endif
 			@endif

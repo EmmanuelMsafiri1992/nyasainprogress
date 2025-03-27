@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Api;
 
@@ -236,7 +223,7 @@ class SavedSearchController extends BaseController
 		];
 		
 		// Get the 'url' field
-		$queryUrl = $request->input('search_url');
+		$queryUrl = $request->input('url');
 		if (empty($queryUrl)) {
 			$data['message'] = 'The "url" field need to be filled.';
 			
@@ -249,10 +236,10 @@ class SavedSearchController extends BaseController
 		parse_str($query, $tab);
 		$keyword = $tab['q'];
 		
-		// Get the 'results_count' field
-		$resultsCount = $request->input('results_count');
+		// Get the 'count_posts' field
+		$countPosts = $request->input('count_posts');
 		if ($keyword == '') {
-			$data['message'] = 'The "results_count" field need to be filled.';
+			$data['message'] = 'The "count_posts" field need to be filled.';
 			
 			return apiResponse()->json($data, 400);
 		}
@@ -277,7 +264,7 @@ class SavedSearchController extends BaseController
 				'user_id'      => $authUser->getAuthIdentifier(),
 				'keyword'      => $keyword,
 				'query'        => $query,
-				'count'        => $resultsCount,
+				'count'        => $countPosts,
 			];
 			$savedSearch = new SavedSearch($savedSearchArray);
 			$savedSearch->save();

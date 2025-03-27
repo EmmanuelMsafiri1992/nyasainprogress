@@ -10,12 +10,7 @@
 @endphp
 
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-	<label class="form-label fw-bolder">
-		{!! $field['label'] !!}
-		@if (isset($field['required']) && $field['required'])
-			<span class="text-danger">*</span>
-		@endif
-	</label>
+	<label class="form-label fw-bolder">{!! $field['label'] !!}</label>
 	@include('admin.panel.fields.inc.translatable_icon')
 	<select
 			name="{{ $field['name'] }}[]"
@@ -68,7 +63,7 @@
 {{-- include field specific select2 js--}}
 @push('crud_fields_scripts')
 <script>
-	onDocumentReady((event) => {
+	jQuery(document).ready(function($) {
 		// trigger select2 for each untriggered select2 box
 		$("#select2_ajax_multiple_{{ $field['name'] }}").each(function (i, obj) {
 			if (!$(obj).hasClass("select2-hidden-accessible"))

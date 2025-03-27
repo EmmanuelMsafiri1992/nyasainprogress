@@ -1003,6 +1003,7 @@ e.g. With MAMP (on Mac OS) we can done it like that: <code>DB_DUMP_BINARY_PATH=/
     'eg_languages_field' => 'eg. en,de,fr,it',
     'find_my_purchase_code' => 'Get your purchase code <a href=":purchaseCodeFindingUrl" target="_blank">here</a>.',
     'purchase_code_placeholder' => 'Enter the plugin\'s purchase code',
+    'plugin_invalid_code' => 'There was a problem checking the purchase code related to the ":plugin_name" plugin.',
     'Cannot delete the current country when the Domain Mapping plugin is installed' => 'Cannot delete the current country when the Domain Mapping plugin is installed.',
     'Number of cities to display by default' => 'Number of cities to display by default.',
     'Cities Columns' => 'Cities Columns',
@@ -1084,8 +1085,8 @@ e.g. With MAMP (on Mac OS) we can done it like that: <code>DB_DUMP_BINARY_PATH=/
     'publication_form_type_hint' => 'By selecting the "Single Step Form", the picture field can be mandatory or not.',
     'picture_mandatory_label' => 'Make the picture field mandatory',
     'picture_mandatory_hint' => 'By enabling this option, at least one picture in the pictures field will be mandatory.',
-    'social_auth_enabled_label' => 'Enable Social Login',
-    'social_auth_enabled_hint' => 'Allow users to connect via social networks. NOTE: After enabling a social network, its API parameters are required to display it to users.',
+    'social_login_activation_label' => 'Enable Social Login',
+    'social_login_activation_hint' => 'Allow users to connect via social networks. NOTE: Let empty the fields of a social network to disable it (him alone).',
     'facebook_title' => '<h3>Facebook</h3>',
     'facebook_oauth_info' => 'Create a Facebook App <a href="https://developers.facebook.com/" target="_blank">here</a>. The "OAuth redirect URI" is: <code>:baseUrl/auth/facebook/callback</code>',
     'facebook_oauth_domainmapping' => ', but as the "Domain Mapping" plugin is installed, the valid base URL address are those linked to each country. i.e. for Switzerland: (<code>http://</code> or <code>https://</code>) <code>ch.domain.tld/auth/facebook/callback</code> or <code>domain.ch/auth/facebook/callback</code>',
@@ -2074,54 +2075,4 @@ WARNING: Before changing this option, it is important to note that restrictions 
     'card_light_warning' => '<div class="card bg-light-warning text-dark rounded mb-0"><div class="card-body">:content</div></div>',
     'card_info' => '<div class="card bg-info text-white rounded mb-0"><div class="card-body">:content</div></div>',
     'card_warning' => '<div class="card bg-warning text-white rounded mb-0"><div class="card-body">:content</div></div>',
-    'driver_resend_title' => '<h3>Resend</h3>',
-    'driver_resend_info' => 'Get a Resend Account <a href="https://resend.com/" target="_blank">here</a>.',
-    'mail_resend_api_key_label' => 'Resend API Key',
-    'mail_resend_api_key_hint' => 'Your Resend API Key.',
-    'driver_brevo_title' => '<h3>Brevo</h3>',
-    'driver_brevo_info' => 'Get a Brevo Account <a href="https://www.brevo.com/" target="_blank">here</a>.',
-    'mail_brevo_api_key_label' => 'Brevo API Key',
-    'mail_brevo_api_key_hint' => 'Your Brevo API Key.',
-    'driver_test_title' => '<h3>Test the driver\'s parameters</h3>',
-    'mail_driver_test_info' => '<ul>
-<li>If this option is enabled, by saving the form the system will try to send an email example to validate the filled parameters.</li>
-<li>And all future emails sent by the app will be sent to the email address filled in the <span class="fw-bold">:alwaysTo</span> field.</li>
-<li>If no errors occur, and you don\'t receive the example email, inspect your spams and if you don\'t have it in your spams, this means that the mails are successfully sent by the app but not delivered, so you should contact the mail sending provider (or your hosting provider) for more information about that.</li>
-<li>To save this form regardless of the validity of the filled parameters, you have to uncheck this field.</li>
-<li><span class="fw-bold text-danger">IMPORTANT: As soon as the parameters are validated and the test mail has been received, you have to disable this option to allow the app to send next mails to recipients.</span></li>
-</ul>',
-    'email_always_to_label' => 'Always Send Mails To',
-    'email_always_to_hint' => 'Receive all the mails sent from the app to this email address. To back to the normal way to let the app send the mails to their real recipients, you have to disable the <span class="fw-bold">:option</span> option.',
-    'email_always_to_activated' => 'Mail driver test mode will be activated and the system will try to send a test e-mail after submitting the form. Eventual future e-mails will also no longer send to recipients... They will be sent to: ${alwaysToValue} as long as mail driver test mode is activated.',
-    'email_to_admin_activated' => 'Mail driver test mode will be activated and the system will try to send a test e-mail after submitting the form. This e-mail will be sent to the website\'s email address filled in the Admin panel → Settings → General → Application, if not, it will be sent to the admin user.',
-    'email_always_to_disabled' => 'The mail driver test mode will be disabled after submitting the form. Everything will back to normal. Future e-mails will be sent to their respective recipients.',
-    'sms_driver_test_info' => '<ul>
-<li>By saving this form the system will try to send a SMS example to validate the filled parameters.</li>
-<li>If no errors occur, and you don\'t receive the example SMS, inspect your logs on the SMS sending provider website, and in the worst case you should contact the provider for more information about that.</li>
-<li>To save this form regardless of the validity of the filled parameters, you have to uncheck this field.</li>
-</ul>',
-    'sms_to_label' => 'Send this test SMS to',
-    'sms_to_hint' => 'Receive the test SMS to this mobile phone number. <br>Note: The transactional SMSs will continue to be sent to their recipients.',
-    'sms_to_activated' => 'SMS driver test mode will be activated and the system will try to send a test SMS after submitting the form. This SMS will be sent to: ${smsToValue}.',
-    'sms_to_admin_activated' => 'SMS driver test mode will be activated and the system will try to send a test SMS after submitting the form. This SMS will be sent to the website\'s phone number filled in the Admin panel → Settings → General → Application, if not, it will be sent to the admin user phone number. So you have to make sure that admin user(s) has/have their phone number filled.',
-    'sms_to_disabled' => 'The SMS driver test mode will be disabled after submitting the form.',
-    'listing_id_hashing_title' => '<h3>Listings\' ID Hashing</h3>',
-    'facebook_enabled_label' => 'Enable Facebook',
-    'facebook_enabled_hint' => 'Allow users to log in with Facebook',
-    'linkedin_enabled_label' => 'Enable LinkedIn',
-    'linkedin_enabled_hint' => 'Allow users to log in with LinkedIn',
-    'twitter_oauth_2_enabled_label' => 'Enable X/Twitter (Oauth2)',
-    'twitter_oauth_2_enabled_hint' => 'Allow users to log in with X/Twitter (Oauth2)',
-    'twitter_oauth_1_enabled_label' => 'Enable X/Twitter (Oauth1)',
-    'twitter_oauth_1_enabled_hint' => 'Allow users to log in with X/Twitter (Oauth1)',
-    'google_enabled_label' => 'Enable Google',
-    'google_enabled_hint' => 'Allow users to log in with Google',
-    'phone_validator_label' => 'Phone Validator',
-    'phone_validator_hint' => 'When the <code>:enable_phone_as_auth_field_label</code> option is activated, the phone number entered by users need to be mobile phone number to allow them to receive SMS, unlike a fixed-line number which cannot receive SMS. So the system uses a tool (based on the Google\'s <code>libphonenumber</code> library) that can validate users phone numbers. However, in some regions (e.g. the USA), it is impossible to distinguish between fixed-line and mobile numbers by looking at the phone number itself. And some mobile numbers in some countries may be identified as fixed-line numbers. You can therefore select the validation rule that you find most suitable for your website.
-	<br><br><span>IMPORTANT:</span> When phone numbers validation is disabled or when phone numbers are not properly validated to be sure they are mobile numbers, errors can be occurred during SMS sending (and some SMS will not be delivered) due to the fact that some phone numbers will be not mobile numbers.',
-    'phone_validator_op_0' => 'None (Not Recommended)',
-    'phone_validator_op_1' => 'Accept only valid mobile number (Strict)',
-    'phone_validator_op_2' => 'Accept possible mobile number (Recommended)',
-    'phone_validator_op_3' => 'Accept valid phone number (Mobile or Fixed-Line)',
-    'phone_validator_op_4' => 'Accept possible phone number (Mobile or Fixed-Line)',
 ];

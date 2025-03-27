@@ -1,17 +1,4 @@
-{{--
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
---}}
+
 <!DOCTYPE html>
 <html lang="{{ getLangTag(config('app.locale', 'en')) }}">
 <head>
@@ -29,12 +16,12 @@
 	@yield('after_styles')
 	
 	@include('common.js.document')
-	
+
     <!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	<![endif]-->
-	
+
 	<script>
 		paceOptions = {
 			elements: true
@@ -44,50 +31,37 @@
 </head>
 <body>
 <div id="wrapper">
-	
+
 	@section('header')
 		@include('install.layouts.inc.header')
 	@show
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-12">
+				<h1 class="text-center title-1 fw-bold mt-5 mb-3" style="text-transform: none;">
+					{{ trans('messages.installer') }}
+				</h1>
 	
-	<div class="main-container">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 col-md-12 col-xl-12">
-					<h1 class="text-center title-1 fw-bold mt-5 mb-3" style="text-transform: none;">
-						{{ trans('messages.installer') }}
-					</h1>
-					
-					@include('install.layouts.inc._steps')
-				</div>
+				@include('install.layouts.inc._steps')
 				
-				@include('common.spacer')
-				
-				@if (isset($errors) && $errors->any())
-					<div class="col-xl-12">
-						<div class="alert alert-danger">
-							<h5><strong>{{ t('validation_errors_title') }}</strong></h5>
-							<ul class="list list-check">
-								@foreach ($errors->all() as $error)
-									<li>{!! $error !!}</li>
-								@endforeach
-							</ul>
-						</div>
+				@if (isset($errors) and $errors->any())
+					<div class="alert alert-danger mt-4">
+						<ul class="list list-check">
+							@foreach ($errors->all() as $error)
+								<li>{!! $error !!}</li>
+							@endforeach
+						</ul>
 					</div>
-				@endif
-				
-				@if (session()->has('flash_notification'))
-					<div class="col-xl-12">
-						<div class="row">
-							<div class="col-xl-12">
-								@include('flash::message')
-							</div>
-						</div>
-					</div>
+					<?php $paddingTopExists = true; ?>
 				@endif
 			</div>
 		</div>
-		
-		<div class="container" style="min-height: 150px;">
+	</div>
+	
+	@include('common.spacer')
+	<div class="main-container" style="min-height: 150px;">
+		<div class="container">
 			<div class="row">
 				<div class="col-sm-12 col-md-12 col-xl-12">
 					<div class="inner-box">
@@ -101,7 +75,7 @@
 	@section('footer')
 		@include('install.layouts.inc.footer')
 	@show
-	
+
 </div>
 
 @yield('before_scripts')
@@ -122,17 +96,14 @@
 </script>
 
 <script src="{{ url(mix('dist/public/scripts.js')) }}"></script>
-@php
-	$select2LangFilePath = 'assets/plugins/select2/js/i18n/' . config('app.locale') . '.js';
-@endphp
-@if (file_exists(public_path($select2LangFilePath)))
-	<script src="{{ url($select2LangFilePath) }}"></script>
+@if (file_exists(public_path() . '/assets/plugins/select2/js/i18n/'.config('app.locale').'.js'))
+	<script src="{{ url('assets/plugins/select2/js/i18n/'.config('app.locale').'.js') }}"></script>
 @endif
 
 <script>
-	onDocumentReady((event) => {
-		{{-- Select Boxes --}}
-		$('.selecter').select2({
+	$(document).ready(function () {
+		/* Select Boxes */
+		$(".selecter").select2({
 			language: '{{ config('app.locale', 'en') }}',
 			dropdownAutoWidth: 'true'
 		});

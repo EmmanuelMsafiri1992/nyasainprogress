@@ -1,18 +1,3 @@
-@php
-	// Get the App's Logo
-	$logoImgStyle = 'width:auto; height:40px; margin:0 5px 0 0;';
-	$logoImg = '<img src="' . url('images/logo.png') . '" style="' . $logoImgStyle . '" class="img-responsive"/>';
-	try {
-		if (is_link(public_path('storage'))) {
-			$disk = \App\Helpers\Files\Storage\StorageDisk::getDisk();
-			$defaultLogo = config('larapen.media.logo');
-			if (!empty($defaultLogo) && $disk->exists($defaultLogo)) {
-				$logoUrl = $disk->url($defaultLogo);
-				$logoImg = '<img src="' . $logoUrl . '" style="' . $logoImgStyle . '" class="img-responsive"/>';
-			}
-		}
-	} catch (\Throwable $e) {}
-@endphp
 <!DOCTYPE html>
 <html lang="{{ getLangTag(config('app.locale', 'en')) }}">
 <head>
@@ -73,6 +58,18 @@
 	</style>
 </head>
 <body>
+@php
+	$logoImgStyle = 'width:auto; height:40px; margin:0 5px 0 0;';
+	$logoImg = '<img src="' . url('images/logo.png') . '" style="' . $logoImgStyle . '" class="img-responsive"/>';
+	try {
+		if (is_link(public_path('storage'))) {
+			if (\Storage::disk('public')->exists(config('larapen.media.logo'))) {
+				$logoUrl = \Storage::disk('public')->url(config('larapen.media.logo'));
+				$logoImg = '<img src="' . $logoUrl . '" style="' . $logoImgStyle . '" class="img-responsive"/>';
+			}
+		}
+	} catch (\Throwable $e) {}
+@endphp
 <div class="container">
 	{!! $logoImg !!}
 	<form class="panel" action="{{ url('upgrade/run') }}" method="post">

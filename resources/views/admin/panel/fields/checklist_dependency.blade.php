@@ -204,8 +204,8 @@
     @push('crud_fields_scripts')
     {{-- include checklist_dependency js--}}
     <script>
-    onDocumentReady((event) => {
-        
+      jQuery(document).ready(function($) {
+
         $('.checklist_dependency').each(function(index, item) {
 
           var unique_name = $(this).data('entity');

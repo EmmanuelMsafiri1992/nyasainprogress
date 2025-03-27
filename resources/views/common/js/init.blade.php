@@ -87,32 +87,6 @@
 				query = `<strong>${query}</strong>`;
 				return `{{ t('no_results_for') }}`
 			},
-		},
-		payment: {
-			submitBtnLabel: {
-				pay: "{{ t('Pay') }}",
-				submit: "{{ t('submit') }}",
-			},
-		},
-	};
-	
-	const formValidateOptions = {
-		formErrorMessage: "{{ t('formValidation.formErrorMessage') }}",
-		defaultErrors: {
-			required: "{{ t('formValidation.defaultErrors.required') }}",
-			validator: "{{ t('formValidation.defaultErrors.validator') }}",
-		},
-		errors: {
-			alphanumeric: "{{ t('formValidation.errors.alphanumeric') }}",
-			numeric: "{{ t('formValidation.errors.numeric') }}",
-			email: "{{ t('formValidation.errors.email') }}",
-			url: "{{ t('formValidation.errors.url') }}",
-			username: "{{ t('formValidation.errors.username') }}",
-			password: "{{ t('formValidation.errors.password') }}",
-			date: "{{ t('formValidation.errors.date') }}",
-			time: "{{ t('formValidation.errors.time') }}",
-			cardExpiry: "{{ t('formValidation.errors.cardExpiry') }}",
-			cardCvc: "{{ t('formValidation.errors.cardCvc') }}",
-		},
+		}
 	};
 </script>

@@ -8,12 +8,7 @@
 	$fieldValue = old($field['name'], $fieldValue);
 @endphp
 <div @include('admin.panel.inc.field_wrapper_attributes') >
-    <label class="form-label fw-bolder">
-	    {!! $field['label'] !!}
-	    @if (isset($field['required']) && $field['required'])
-		    <span class="text-danger">*</span>
-	    @endif
-    </label>
+    <label class="form-label fw-bolder">{!! $field['label'] !!}</label>
     @include('admin.panel.fields.inc.translatable_icon')
     <select name="{{ $field['name'] }}[]" style="width: 100%" multiple
             @include('admin.panel.inc.field_attributes', ['default_class' =>  'form-select select2_multiple'])
@@ -53,7 +48,7 @@
     {{-- include select2 js--}}
     <script src="{{ asset('assets/plugins/select2/js/select2.js') }}"></script>
     <script>
-	    onDocumentReady((event) => {
+		jQuery(document).ready(function($) {
 			// trigger select2 for each untriggered select2_multiple box
 			$('.select2_multiple').each(function (i, obj) {
 				if (!$(obj).hasClass("select2-hidden-accessible"))

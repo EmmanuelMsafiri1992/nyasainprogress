@@ -1,18 +1,5 @@
 <?php
-/*
- * JobClass - Job Board Web Application
- * Copyright (c) BeDigit. All Rights Reserved
- *
- * Website: https://laraclassifier.com/jobclass
- * Author: BeDigit | https://bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from CodeCanyon,
- * Please read the full License from here - https://codecanyon.net/licenses/standard
- */
+
 
 namespace App\Http\Controllers\Web\Public\Ajax;
 
@@ -29,14 +16,13 @@ class UserController extends FrontController
 	public function setDarkMode(Request $request): \Illuminate\Http\JsonResponse
 	{
 		$darkMode = $request->integer('dark_mode');
-		$userId = $request->input('user_id');
 		
 		$status = 200;
 		$message = null;
 		
 		if (auth()->check()) {
 			// Call API endpoint
-			$endpoint = '/users/' . $userId . '/dark-mode';
+			$endpoint = '/users/' . $request->input('user_id') . '/dark-mode';
 			$data = makeApiRequest('put', $endpoint, $request->all(), [], true);
 			
 			// Parsing the API response

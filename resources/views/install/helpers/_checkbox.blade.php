@@ -3,17 +3,14 @@
 	$classes ??= '';
 	$class ??= '';
 	$isInvalidClass ??= '';
-	$default ??= null;
-	$value ??= '';
-	$checked ??= false;
+	
 	$disabled ??= false;
+	$value ??= '';
 	
-	$checkedAttr = (!(isset($errors) && $errors->any()) && $default == '1') ? ' checked' : '';
-	$checkedAttr = $checked ? ' checked' : $checkedAttr;
-	
-	$disabledAttr = $disabled ? ' disabled="disabled"' : '';
+	$checkedAttr = (old($name, $value) == '1') ? ' checked' : '';
+	$disabledAttr = (isset($disabled) && $disabled) ? ' disabled="disabled"' : '';
 @endphp
-<div class="form-check mt-4 mb-3">
+<div class="mb-3 form-check" style="margin-top: 30px;">
 	<input type="checkbox"
 		id="{{ $name }}"
 		name="{{ $name }}"
